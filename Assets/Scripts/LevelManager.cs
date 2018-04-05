@@ -9,8 +9,14 @@ public class LevelManager : MonoBehaviour
     public Transform cannonballs;
     public Transform ships;
     public Text scoreText;
+    public Text levelOverText;
+
+    public GameObject cannonball; // Prefab for Cannonball
+    public GameObject sloop; // Prefab for Sloop
+    public GameObject broken; // Prefab for Broken Ship
 
     private int playerScore;
+    private const int OFFSCREEN = 14;
 
     void Awake()
     {
@@ -31,6 +37,8 @@ public class LevelManager : MonoBehaviour
 
         // Holds the ship objects
         ships = new GameObject("Ships").transform;
+        GameObject s = Instantiate(sloop, new Vector3(12, 0), Quaternion.identity); // TODO Not here
+        s.transform.SetParent(ships);
         // Holds all the cannonballs created
         cannonballs = new GameObject("Cannonballs").transform;
 
@@ -50,5 +58,12 @@ public class LevelManager : MonoBehaviour
     {
         playerScore += score;
         scoreText.text = "Score: " + playerScore;
+    }
+
+    public void EndGame()
+    {
+        Destroy(ships.gameObject);
+        Destroy(cannonballs.gameObject);
+        levelOverText.text = "Game Over";
     }
 }

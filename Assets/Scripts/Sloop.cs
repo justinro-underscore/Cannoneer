@@ -16,27 +16,16 @@ public class Sloop : Ship
 
 	void FixedUpdate()
     {
-        if (timeSinceLastCannonUp != 0) // We'll just be using timeSinceLastCannonUp so that we don't have to create a new variable
-            timeSinceLastCannonUp--;
-        CheckForShoot();
+        //if (timeSinceLastCannonUp != 0) // We'll just be using timeSinceLastCannonUp so that we don't have to create a new variable
+        //    timeSinceLastCannonUp--;
+        //CheckForShoot();
+        base.CheckIfOffScreen();
+        base.ShootCannonBall(true);
     }
 
     void CheckForShoot()
     {
         temp.text = "" + timeSinceLastCannonUp + "  " + timeToFire;
-        ShootCannonBall(true);
-    }
-
-    void ShootCannonBall(bool dirUp)
-    {
-        if (timeSinceLastCannonUp == 0)
-        {
-            GameObject ball = Instantiate(cannonball, transform.position, Quaternion.identity);
-            (ball.GetComponent<Cannonball>() as Cannonball).SetParams(false, dirUp, rb2d.velocity.x);
-            ball.transform.SetParent(LevelManager.instance.cannonballs);
-            Debug.Log("Keep going");
-
-            timeSinceLastCannonUp = 200;
-        }
+        //ShootCannonBall(true);
     }
 }

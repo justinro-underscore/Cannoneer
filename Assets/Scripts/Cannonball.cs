@@ -27,7 +27,7 @@ public class Cannonball : MonoBehaviour
         Vector3 viewPos = Camera.main.WorldToViewportPoint(transform.position);
         if (viewPos.y > 1 || viewPos.y < 0 || viewPos.x > 1 || viewPos.x < 0)
         {
-            //LevelManager.instance.RemCannonball(this);
+            Destroy(gameObject, 0.5f);
         }
 
         Move();

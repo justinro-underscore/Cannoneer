@@ -11,6 +11,7 @@ TextureImporter:
     21300008: RockSmall
     21300010: Sloop
     21300012: Cannonball
+    21300014: BrokenShip
   externalObjects: {}
   serializedVersion: 4
   mipmaps:
@@ -178,6 +179,20 @@ TextureImporter:
         y: 52
         width: 80
         height: 80
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: BrokenShip
+      rect:
+        serializedVersion: 2
+        x: 630
+        y: 43
+        width: 160
+        height: 160
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
