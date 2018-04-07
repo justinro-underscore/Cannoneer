@@ -18,6 +18,9 @@ public class LevelManager : MonoBehaviour
     private int playerScore; // Player's current score
     private const int OFFSCREEN = 14; // The number that indicates when something goes offscreen
 
+    /**
+     * Starts the level, runs at the start
+     */
     void Awake()
     {
         //Check if instance already exists
@@ -42,28 +45,38 @@ public class LevelManager : MonoBehaviour
         // Holds all the cannonballs created
         cannonballs = new GameObject("Cannonballs").transform;
 
-        playerScore = 0;
+        playerScore = 0; // Initializes the player score
         scoreText.text = "Score: " + playerScore;
 
         //Call the InitGame function to initialize the first level 
         InitLevel();
     }
 
+    /**
+     * Initializes the level
+     */
     void InitLevel()
     {
 
     }
 
+    /**
+     * Increases player score
+     * @param score The amount to increase score by
+     */
     public void IncreaseScore(int score)
     {
         playerScore += score;
         scoreText.text = "Score: " + playerScore;
     }
 
+    /**
+     * Ends the game
+     */
     public void EndGame()
     {
-        Destroy(ships.gameObject);
-        Destroy(cannonballs.gameObject);
+        Destroy(ships.gameObject); // Destroys all ships
+        Destroy(cannonballs.gameObject); // Destroys all cannonballs
         levelOverText.text = "Game Over";
     }
 }

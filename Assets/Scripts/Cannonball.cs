@@ -4,30 +4,42 @@ using UnityEngine;
 
 public class Cannonball : MonoBehaviour
 {
-    private bool shotByPlayer;
-    private bool up;
-    private float xSpeed;
-    private Rigidbody2D rb2d;
+    private bool shotByPlayer; // Whether or not the player fired the cannonball (so the player ship won't be destroyed when player fires)
+    private bool up; // Direction that the cannonball goes
+    private float xSpeed; // Speed of the cannonball in x direction (y direction is constant)
+    private Rigidbody2D rb2d; // Reference to the Rigidbody
 
+    /**
+     * Initializes the cannonball
+     */
     void Start()
     {
         rb2d = GetComponent<Rigidbody2D>();
     }
 
+    /**
+     * Sets the parameters of the cannonball (because initialize doesn't let you use a constructor)
+     * @param shotByPlayer
+     * @param up
+     * @param xSpeed
+     */
     public void SetParams(bool shotByPlayer, bool up, float xSpeed)
     {
         this.shotByPlayer = shotByPlayer;
         this.up = up;
-        this.xSpeed = xSpeed * 0.25f; // So that they don't go flying forward
+        this.xSpeed = xSpeed * 0.25f; // Decrease by 4 so that they don't go flying forward
     }
 
-    // Update is called once per frame
+    /**
+     * Updates each frame
+     */
     void Update ()
     {
+        // Check to see if it has gone offscreen
         Vector3 viewPos = Camera.main.WorldToViewportPoint(transform.position);
         if (viewPos.y > 1 || viewPos.y < 0 || viewPos.x > 1 || viewPos.x < 0)
         {
-            Destroy(gameObject, 0.5f);
+            Destroy(gameObject, 0.5f); // Wait half a second before destroying so that it doesn't disappear as soon as it touches the edge
         }
 
         Move();
@@ -35,12 +47,18 @@ public class Cannonball : MonoBehaviour
         transform.Rotate(new Vector3(0, 0, 45) * Time.deltaTime);
     }
 
+    /**
+     * Moves the cannonball
+     */
     void Move()
     {
-        Vector2 move = new Vector2(xSpeed, up ? 2f : -2f);
+        Vector2 move = new Vector2(xSpeed, up ? 2f : -2f); // Speed in y-axis is constant
         rb2d.velocity = move;
     }
 
+    /**
+     * @return whether or not the player fired the cannonball
+     */
     public bool getShotByPlayer()
     {
         return shotByPlayer;

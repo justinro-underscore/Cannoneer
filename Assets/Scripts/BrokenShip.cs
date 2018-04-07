@@ -4,28 +4,20 @@ using UnityEngine;
 
 public class BrokenShip : Ship
 {
-    // Use this for initialization
+    /**
+     * Initializes the ship
+     */
     void Start()
     {
         base.Instantiate();
-        speed = 2;
+        rb2d.velocity = new Vector2(-2f, 0); // Set move function, Sloop goes at constant velocity
     }
 
-    // Update is called once per frame
+    /**
+     * Check to see if it has gone offscreen
+     */
     void FixedUpdate()
     {
-        Move();
         CheckIfOffScreen();
-    }
-
-    void Move()
-    {
-        Vector2 move = new Vector2(-1, 0);
-        rb2d.velocity = move * speed;
-    }
-
-    protected new void OnTriggerEnter2D(Collider2D other)
-    {
-        // No collisions
     }
 }

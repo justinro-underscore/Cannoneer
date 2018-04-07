@@ -5,27 +5,26 @@ using UnityEngine.UI;
 
 public class Sloop : Ship
 {
-    public Text temp;
-
-	// Use this for initialization
+    /**
+     * Initializes the ship
+     */
 	void Start ()
     {
         base.Instantiate();
-        rb2d.velocity = new Vector2(-2f, 0); // Set move function
+        rb2d.velocity = new Vector2(-2f, 0); // Set move function, Sloop goes at constant velocity
     }
 
+    /**
+     * Check to see if it should shoot
+     */
 	void FixedUpdate()
     {
-        //if (timeSinceLastCannonUp != 0) // We'll just be using timeSinceLastCannonUp so that we don't have to create a new variable
-        //    timeSinceLastCannonUp--;
-        //CheckForShoot();
         base.CheckIfOffScreen();
         base.ShootCannonBall(true);
     }
 
     void CheckForShoot()
     {
-        temp.text = "" + timeSinceLastCannonUp + "  " + timeToFire;
-        //ShootCannonBall(true);
+        // TODO Add AI to check to shoot
     }
 }
