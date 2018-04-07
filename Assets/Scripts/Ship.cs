@@ -7,6 +7,7 @@ public class Ship : Character
     protected Transform target; // Ships know where Player is
     protected int score; // Amt of points Player gets for destroying the ship
     protected bool canShoot; // If the ship can shoot now
+    protected bool canSink; // Whether or not the ship can sink
 
     /**
      * Instantiates the ship
@@ -18,6 +19,7 @@ public class Ship : Character
         //Find the Player GameObject using it's tag and store a reference to its transform component.
         target = GameObject.FindGameObjectWithTag("Player").transform;
         canShoot = true;
+        canSink = true;
     }
 
     /**
@@ -40,7 +42,7 @@ public class Ship : Character
     {
         if (other.gameObject.CompareTag("Cannonball") && (other.GetComponent<Cannonball>() as Cannonball).getShotByPlayer())
         {
-            Destroy(other.gameObject, 0.1f); // Destroy the cannonball
+            Destroy(other.gameObject, 0.25f); // Destroy the cannonball
             DestroyShip(); // Destroy the ship
         }
     }
@@ -50,14 +52,18 @@ public class Ship : Character
      */
     void DestroyShip()
     {
-        LevelManager.instance.IncreaseScore(score); // Increase the score
-        if (!(this is BrokenShip)) // If the ship isn't a broken ship...
+        if (canSink)
         {
-            // Turn it into a ship
-            GameObject broken = Instantiate(LevelManager.instance.broken, transform.position, Quaternion.identity);
-            broken.transform.SetParent(LevelManager.instance.ships);
+            // TODO Show explosion animation
+            LevelManager.instance.IncreaseScore(score); // Increase the score
+            if (!(this is BrokenShip)) // If the ship isn't a broken ship...
+            {
+                // Turn it into a ship
+                GameObject broken = Instantiate(LevelManager.instance.broken, transform.position, Quaternion.identity);
+                broken.transform.SetParent(LevelManager.instance.ships);
+            }
+            Destroy(gameObject); // Destroy this ship
         }
-        Destroy(gameObject); // Destroy this ship
     }
 
     /**
@@ -81,8 +87,16 @@ public class Ship : Character
     /**
      * Toggles the canShoot variable
      */
-    void ToggleCanShoot()
+    protected void ToggleCanShoot()
     {
         canShoot = !canShoot;
+    }
+
+    /**
+     * Toggles the canSink variable
+     */
+    protected void ToggleCanSink()
+    {
+        canSink = !canSink;
     }
 }

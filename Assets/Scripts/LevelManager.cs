@@ -8,12 +8,17 @@ public class LevelManager : MonoBehaviour
     public static LevelManager instance = null; // So this instance can be used in other classes
     public Transform cannonballs; // Holds cannonballs so the heirarchy does not get cluttered
     public Transform ships; // Holds ships so the heirarchy does not get cluttered
+    public Transform rocks; // Holds rocks so the heirarchy does not get cluttered
+    public Transform treasure; // Holds the treasure so the heirarchy does not get cluttered
     public Text scoreText; // Shows the score of the player
     public Text levelOverText; // Shows game over text
 
     public GameObject cannonball; // Prefab for Cannonball
     public GameObject sloop; // Prefab for Sloop
     public GameObject broken; // Prefab for Broken Ship
+    public GameObject rockSmall; // Prefab for Small Rock
+    public GameObject rockLarge; // Prefab for Large Rock
+    public GameObject treasureChest; // Prefab for Treasure Chest
 
     private int playerScore; // Player's current score
     private const int OFFSCREEN = 14; // The number that indicates when something goes offscreen
@@ -44,6 +49,10 @@ public class LevelManager : MonoBehaviour
         s.transform.SetParent(ships);
         // Holds all the cannonballs created
         cannonballs = new GameObject("Cannonballs").transform;
+        // Holds all the rocks created
+        rocks = new GameObject("Rocks").transform;
+        // Holds all the treasure chests created
+        treasure = new GameObject("Treasure").transform;
 
         playerScore = 0; // Initializes the player score
         scoreText.text = "Score: " + playerScore;
@@ -77,6 +86,8 @@ public class LevelManager : MonoBehaviour
     {
         Destroy(ships.gameObject); // Destroys all ships
         Destroy(cannonballs.gameObject); // Destroys all cannonballs
+        Destroy(rocks.gameObject); // Destroys all rocks
+        Destroy(treasure.gameObject); // Destroys all treasure
         levelOverText.text = "Game Over";
     }
 }

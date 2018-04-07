@@ -10,6 +10,8 @@ public class BrokenShip : Ship
     void Start()
     {
         base.Instantiate();
+        canSink = false;
+        Invoke("ToggleCanSink", 0.25f);
         rb2d.velocity = new Vector2(-2f, 0); // Set move function, Sloop goes at constant velocity
     }
 

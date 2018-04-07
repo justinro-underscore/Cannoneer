@@ -19,8 +19,8 @@ public class Sloop : Ship
      */
 	void FixedUpdate()
     {
-        base.CheckIfOffScreen();
-        base.ShootCannonBall(true);
+        CheckIfOffScreen();
+        ShootCannonBall(true);
     }
 
     void CheckForShoot()

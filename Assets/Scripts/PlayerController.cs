@@ -87,13 +87,15 @@ public class PlayerController : Character
 	}
 
     /**
-     * If player hit cannonball (shot by ship) or hits ship game over
+     * If player hit cannonball (shot by ship) or hits ship or hits rock game over
      * If player touches treasure, increase score
      * @param other The other object it collides with
      */
     void OnTriggerEnter2D(Collider2D other)
     {
-        if (other.gameObject.CompareTag("Ship") || (other.gameObject.CompareTag("Cannonball") && !(other.GetComponent<Cannonball>() as Cannonball).getShotByPlayer()))
+        if (other.gameObject.CompareTag("Ship") ||
+            other.gameObject.CompareTag("Rock") ||
+            (other.gameObject.CompareTag("Cannonball") && !(other.GetComponent<Cannonball>() as Cannonball).getShotByPlayer()))
         {
             GameOver();
         }
