@@ -6,17 +6,17 @@ using UnityEngine.UI;
 public class LevelManager : MonoBehaviour
 {
     public static LevelManager instance = null; // So this instance can be used in other classes
-    public Transform cannonballs;
-    public Transform ships;
-    public Text scoreText;
-    public Text levelOverText;
+    public Transform cannonballs; // Holds cannonballs so the heirarchy does not get cluttered
+    public Transform ships; // Holds ships so the heirarchy does not get cluttered
+    public Text scoreText; // Shows the score of the player
+    public Text levelOverText; // Shows game over text
 
     public GameObject cannonball; // Prefab for Cannonball
     public GameObject sloop; // Prefab for Sloop
     public GameObject broken; // Prefab for Broken Ship
 
-    private int playerScore;
-    private const int OFFSCREEN = 14;
+    private int playerScore; // Player's current score
+    private const int OFFSCREEN = 14; // The number that indicates when something goes offscreen
 
     void Awake()
     {
