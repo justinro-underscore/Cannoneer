@@ -15,7 +15,7 @@ public class SimpleObject : MonoBehaviour
         rb2d = GetComponent<Rigidbody2D>();
         rb2d.velocity = new Vector2(-2f, 0); // Set move function, object goes at constant velocity
         checkCollision = true;
-        //Invoke("StopCheckingCollision", 1f);
+        Invoke("StopCheckingCollision", 1f);
     }
 
     /**
@@ -30,26 +30,32 @@ public class SimpleObject : MonoBehaviour
         }
     }
 
-    ///**
-    // * If object spawns on another object, retry
-    // * @param other The other object it collides with
-    // */
-    //void OnTriggerEnter2D(Collider2D other)
-    //{
-    //    // If object goes into this, destroy and retry
-    //    if (this.gameObject.CompareTag("Rock"))
-    //        LevelManager.instance.CreateRock();
-    //    if (this.gameObject.CompareTag("Treasure"))
-    //        LevelManager.instance.CreateTreasure();
+    /**
+     * If object spawns on another object, retry
+     * @param other The other object it collides with
+     */
+    void OnTriggerEnter2D(Collider2D other)
+    {
+        Debug.Log(other.gameObject);
+        if (checkCollision && (other.gameObject.CompareTag("Ship") ||
+            other.gameObject.CompareTag("Rock") ||
+            other.gameObject.CompareTag("Treasure")))
+        {
+            // If object goes into this, destroy and retry
+            if (this.gameObject.CompareTag("Rock"))
+                LevelManager.instance.CreateRock();
+            if (this.gameObject.CompareTag("Treasure"))
+                LevelManager.instance.CreateTreasure();
 
-    //    Destroy(gameObject);
-    //}
+            Destroy(gameObject);
+        }
+    }
 
-    ///**
-    // * Turn off the checkCollision
-    // */
-    //void StopCheckingCollision()
-    //{
-    //    checkCollision = false;
-    //}
+    /**
+     * Turn off the checkCollision
+     */
+    void StopCheckingCollision()
+    {
+        checkCollision = false;
+    }
 }

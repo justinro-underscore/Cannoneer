@@ -23,12 +23,15 @@ public class Sloop : Ship
         CheckIfOffScreen();
         if (!goOffScreen)
         {
-            ShootCannonBall(true);
+            CheckForShoot();
         }
     }
 
+    /**
+     * Check to see where to shoot
+     */
     void CheckForShoot()
     {
-        // TODO Add AI to check to shoot
+        ShootCannonBall(target.position.y > transform.position.y);
     }
 }
