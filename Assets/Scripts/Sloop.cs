@@ -11,6 +11,7 @@ public class Sloop : Ship
 	void Start ()
     {
         base.Instantiate();
+        score = 150; // Score if destroyed
         rb2d.velocity = new Vector2(-2f, 0); // Set move function, Sloop goes at constant velocity
     }
 
@@ -20,7 +21,10 @@ public class Sloop : Ship
 	void FixedUpdate()
     {
         CheckIfOffScreen();
-        ShootCannonBall(true);
+        if (!goOffScreen)
+        {
+            ShootCannonBall(true);
+        }
     }
 
     void CheckForShoot()

@@ -101,7 +101,7 @@ public class PlayerController : Character
         }
         else if(other.gameObject.CompareTag("Treasure"))
         {
-            LevelManager.instance.IncreaseScore(50);
+            LevelManager.instance.IncreaseScore(100);
             Destroy(other.gameObject);
         }
     }

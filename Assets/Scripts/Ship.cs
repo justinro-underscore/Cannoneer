@@ -8,6 +8,7 @@ public class Ship : Character
     protected int score; // Amt of points Player gets for destroying the ship
     protected bool canShoot; // If the ship can shoot now
     protected bool canSink; // Whether or not the ship can sink
+    protected bool goOffScreen; // When the level ends, the ships should just go offscreen
 
     /**
      * Instantiates the ship
@@ -20,6 +21,7 @@ public class Ship : Character
         target = GameObject.FindGameObjectWithTag("Player").transform;
         canShoot = true;
         canSink = true;
+        goOffScreen = false;
     }
 
     /**
@@ -30,6 +32,7 @@ public class Ship : Character
         Vector3 viewPos = Camera.main.WorldToViewportPoint(transform.position);
         if (viewPos.x < 0) // If it goes too far left, destroy it
         {
+            LevelManager.instance.RemoveShip(false);
             Destroy(gameObject, 1f); // Wait a second before destroying so that it doesn't disappear as soon as it touches the edge
         }
     }
@@ -61,6 +64,7 @@ public class Ship : Character
                 // Turn it into a ship
                 GameObject broken = Instantiate(LevelManager.instance.broken, transform.position, Quaternion.identity);
                 broken.transform.SetParent(LevelManager.instance.ships);
+                LevelManager.instance.RemoveShip(true);
             }
             Destroy(gameObject); // Destroy this ship
         }
@@ -98,5 +102,10 @@ public class Ship : Character
     protected void ToggleCanSink()
     {
         canSink = !canSink;
+    }
+
+    public void MoveOffScreen()
+    {
+        rb2d.velocity = new Vector2(-2f, 0); // Go offscreen at a constant velocity
     }
 }
