@@ -10,17 +10,14 @@ public class LevelManager : MonoBehaviour
     public Transform ships; // Holds ships so the heirarchy does not get cluttered
     public Transform rocks; // Holds rocks so the heirarchy does not get cluttered
     public Transform treasure; // Holds the treasure so the heirarchy does not get cluttered
-    public Text scoreText; // Shows the score of the player
-    public Text levelOverText; // Shows game over text
-
+    
     public GameObject cannonball; // Prefab for Cannonball
     public GameObject sloop; // Prefab for Sloop
     public GameObject broken; // Prefab for Broken Ship
     public GameObject rockSmall; // Prefab for Small Rock
     public GameObject rockLarge; // Prefab for Large Rock
     public GameObject treasureChest; // Prefab for Treasure Chest
-
-    private int playerScore; // Player's current score
+    
     private const int OFFSCREEN_X = 14; // The number that indicates when something goes offscreen in x
     private const int OFFSCREEN_Y = 5; // The number that indicates when something goes offscreen in y
 
@@ -45,7 +42,7 @@ public class LevelManager : MonoBehaviour
         //If instance already exists and it's not this:
         else if (instance != this)
 
-            //Then destroy this. This enforces our singleton pattern, meaning there can only ever be one instance of a GameManager.
+            //Then destroy this. This enforces our singleton pattern, meaning there can only ever be one instance of a LevelManager.
             Destroy(gameObject);
 
         // Holds the ship objects
@@ -57,18 +54,28 @@ public class LevelManager : MonoBehaviour
         // Holds all the treasure chests created
         treasure = new GameObject("Treasure").transform;
 
-        playerScore = 0; // Initializes the player score
-        scoreText.text = "Score: " + playerScore;
+        //Call the InitGame function to initialize the level
+        // The wait is to have time to set the level
+        Invoke("InitLevel", 0.05f);
+    }
 
-        //Call the InitGame function to initialize the first level 
-        InitLevel();
+    /**
+     * Sets the level to the current level
+     * @param level The level to set to
+     */
+    public void SetLevel(int level)
+    {
+        this.level = level;
     }
 
     /**
      * Initializes the level
      */
-    void InitLevel()
+    public void InitLevel()
     {
+        // Reset the player object
+        (GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerController>() as PlayerController).ResetPlayer();
+
         // Initialize the member variables
         numShipsOnScreen = 0;
         numShipsDestroyed = 0;
@@ -108,8 +115,8 @@ public class LevelManager : MonoBehaviour
      */
     public void IncreaseScore(int score)
     {
-        playerScore += score;
-        scoreText.text = "Score: " + playerScore;
+        // TODO Add level-specific score increase
+        GameManager.instance.IncreaseScore(score);
     }
 
     /**
@@ -166,7 +173,7 @@ public class LevelManager : MonoBehaviour
                 r = Instantiate(rockLarge, new Vector3(OFFSCREEN_X, Random.Range(-OFFSCREEN_Y, OFFSCREEN_Y)), Quaternion.identity);
             r.transform.SetParent(rocks);
 
-            float timeTilNextRock = Random.Range(1f, 3f);
+            float timeTilNextRock = Random.Range(1f, 2f);
             Invoke("CreateRock", timeTilNextRock);
         }
     }
@@ -181,8 +188,7 @@ public class LevelManager : MonoBehaviour
         Destroy(cannonballs.gameObject); // Destroys all cannonballs
         Destroy(rocks.gameObject); // Destroys all rocks
         Destroy(treasure.gameObject); // Destroys all treasure
-        levelOverText.text = "Game Over";
-        Invoke("GameManager.instance.GameOver", 2f);
+        GameManager.instance.GameOver();
     }
 
     /**

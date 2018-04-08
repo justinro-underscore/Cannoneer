@@ -1,0 +1,67 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1001 &100100000
+Prefab:
+  m_ObjectHideFlags: 1
+  serializedVersion: 2
+  m_Modification:
+    m_TransformParent: {fileID: 0}
+    m_Modifications: []
+    m_RemovedComponents: []
+  m_ParentPrefab: {fileID: 0}
+  m_RootGameObject: {fileID: 1619949699532780}
+  m_IsPrefabParent: 1
+--- !u!1 &1619949699532780
+GameObject:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  serializedVersion: 5
+  m_Component:
+  - component: {fileID: 4599900798748278}
+  - component: {fileID: 114965387300978076}
+  m_Layer: 0
+  m_Name: LevelManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &4599900798748278
+Transform:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1619949699532780}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: -0.8447467, y: -0.15109852, z: 2.5429688}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &114965387300978076
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1619949699532780}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f7637701635ba4c42ac6dfbfc8c0e5ec, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  cannonballs: {fileID: 0}
+  ships: {fileID: 0}
+  rocks: {fileID: 0}
+  treasure: {fileID: 0}
+  scoreText: {fileID: 0}
+  levelOverText: {fileID: 0}
+  player: {fileID: 1012587315963894, guid: 1a5a74a6497ec074cbd616301363be73, type: 2}
+  cannonball: {fileID: 1782680425431028, guid: 36f9eb3571739114195dbaad865bda27, type: 2}
+  sloop: {fileID: 1475741582535852, guid: 9a51fe3b2e1501246be4b9c1f8b7b294, type: 2}
+  broken: {fileID: 1779743101806160, guid: 328c7511f0fe5b146a2588e435921a28, type: 2}
+  rockSmall: {fileID: 1453698726952074, guid: 08c19caf9fd17764999f5626a556929b, type: 2}
+  rockLarge: {fileID: 1918227069633490, guid: c401eb9f2e3bdf449a9e889814d23493, type: 2}
+  treasureChest: {fileID: 1571516230966536, guid: e42ada657503e3a44a4187aa71cd4a14,
+    type: 2}

@@ -14,22 +14,11 @@ public class GameManager : MonoBehaviour
     private State currState = State.MAIN_MENU;
 
     public static GameManager instance = null; // So this instance can be used in other classes
-    public Transform cannonballs; // Holds cannonballs so the heirarchy does not get cluttered
-    public Transform ships; // Holds ships so the heirarchy does not get cluttered
-    public Transform rocks; // Holds rocks so the heirarchy does not get cluttered
-    public Transform treasure; // Holds the treasure so the heirarchy does not get cluttered
-    public Text scoreText; // Shows the score of the player
-    public Text levelOverText; // Shows game over text
-
-    public GameObject cannonball; // Prefab for Cannonball
-    public GameObject sloop; // Prefab for Sloop
-    public GameObject broken; // Prefab for Broken Ship
-    public GameObject rockSmall; // Prefab for Small Rock
-    public GameObject rockLarge; // Prefab for Large Rock
-    public GameObject treasureChest; // Prefab for Treasure Chest
+    public GameObject levelManager; // The LevelManager prefab
+    public Text scoreText; // Text showing player score
+    public Text levelOverText; // Text showing level over text
 
     private int playerScore; // Player's current score
-
     private int level; // Current level
 
     /**
@@ -52,24 +41,29 @@ public class GameManager : MonoBehaviour
         //Sets this to not be destroyed when reloading scene
         DontDestroyOnLoad(gameObject);
 
-        // Holds the ship objects
-        ships = new GameObject("Ships").transform;
-        // Holds all the cannonballs created
-        cannonballs = new GameObject("Cannonballs").transform;
-        // Holds all the rocks created
-        rocks = new GameObject("Rocks").transform;
-        // Holds all the treasure chests created
-        treasure = new GameObject("Treasure").transform;
-
-        playerScore = 0; // Initializes the player score
-        scoreText.text = "Score: " + playerScore;
+        // Set the starting values
+        playerScore = 0;
+        level = 1;
 
         //Call the InitGame function to initialize the first level 
         //LevelManager.instance.InitLevel();
+        Instantiate(levelManager);
+        LevelManager.instance.SetLevel(level);
+    }
+    
+    /**
+     * Increases player score
+     * @param score The amount to increase score by
+     */
+    public void IncreaseScore(int score)
+    {
+        playerScore += score;
+        scoreText.text = "Score: " + playerScore;
     }
 
     public void GameOver()
     {
-        currState = State.ENDSCREEN;
+        levelOverText.text = "Game Over";
+        //currState = State.ENDSCREEN;
     }
 }

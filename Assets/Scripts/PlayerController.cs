@@ -54,7 +54,7 @@ public class PlayerController : Character
      */
     void Move()
     {
-        Vector2 move = new Vector2(Input.GetAxis("Horizontal"), Input.GetAxis("Vertical"));
+        Vector2 move = new Vector2(Input.GetAxis("Horizontal"), Input.GetAxis("Vertical")); // TODO Make this more reactive
         rb2d.velocity = move * speed;
     }
 
@@ -114,5 +114,13 @@ public class PlayerController : Character
         isDead = true;
         rb2d.velocity = new Vector3(0, 0); // Stop moving
         LevelManager.instance.EndGame(); // End the game
+    }
+
+    /**
+     * Gets the player object ready for reset
+     */
+    public void ResetPlayer()
+    {
+        rb2d.position = new Vector2(-8, 0);
     }
 }
