@@ -31,22 +31,15 @@ public class SimpleObject : MonoBehaviour
     }
 
     /**
-     * If object spawns on another object, retry
+     * If object spawns on another object, remove it
      * @param other The other object it collides with
      */
     void OnTriggerEnter2D(Collider2D other)
     {
-        Debug.Log(other.gameObject);
         if (checkCollision && (other.gameObject.CompareTag("Ship") ||
             other.gameObject.CompareTag("Rock") ||
             other.gameObject.CompareTag("Treasure")))
         {
-            // If object goes into this, destroy and retry
-            if (this.gameObject.CompareTag("Rock"))
-                LevelManager.instance.CreateRock();
-            if (this.gameObject.CompareTag("Treasure"))
-                LevelManager.instance.CreateTreasure();
-
             Destroy(gameObject);
         }
     }

@@ -121,7 +121,7 @@ public class LevelManager : MonoBehaviour
         {
             if (numShipsOnScreen <= 2) // The number of ships on the screen should never go more than 3
             {
-                GameObject s = Instantiate(sloop, new Vector3(OFFSCREEN_X, Random.Range(-OFFSCREEN_Y, OFFSCREEN_Y)), Quaternion.identity);
+                GameObject s = Instantiate(sloop, new Vector3(OFFSCREEN_X, Random.Range(-OFFSCREEN_Y + 0.5f, OFFSCREEN_Y - 0.5f)), Quaternion.identity);
                 s.transform.SetParent(ships);
                 numShipsOnScreen++; // Increase the amount of ships on the screen
 
