@@ -110,6 +110,7 @@ public class Ship : Character
     public void MoveOffScreen()
     {
         rb2d.velocity = new Vector2(-2f, 0); // Go offscreen at a constant velocity
+        goOffScreen = true;
     }
     
     /**

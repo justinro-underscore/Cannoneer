@@ -11,19 +11,21 @@ public class PlayerController : Character
     // TODO: Change to a graphic
     public Text cannonText; // The text showing how much time is left for the cannon
 
-    private bool isDead = false; // Whether or not the player has lost
+    private bool isDead; // Whether or not the player has lost
 
     /**
-     * Initializes the player
+     * Restarts all values to make sure it is ready for playing
      */
-	void Start ()
-	{
+    public void Restart()
+    {
         base.Instantiate(); // Get the Rigidbody
         timeSinceLastCannonUp = 0;
         timeSinceLastCannonDown = 0;
         speed = 4; // The speed at which the ship moves
+        isDead = false;
+        MovePlayer(new Vector2(-8, 0)); // Move to original position
 		SetCannonText (); // TODO Change to a graphic
-	}
+    }
 	
     /**
      * Move & get input
@@ -112,15 +114,16 @@ public class PlayerController : Character
     void GameOver()
     {
         isDead = true;
+        cannonText.text = "";
         rb2d.velocity = new Vector3(0, 0); // Stop moving
         LevelManager.instance.EndGame(); // End the game
     }
 
     /**
-     * Gets the player object ready for reset
+     * Moves the player object to the specified position vector
      */
-    public void ResetPlayer()
+    public void MovePlayer(Vector2 position)
     {
-        rb2d.position = new Vector2(-8, 0);
+        rb2d.position = position;
     }
 }

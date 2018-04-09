@@ -73,9 +73,6 @@ public class LevelManager : MonoBehaviour
      */
     public void InitLevel()
     {
-        // Reset the player object
-        (GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerController>() as PlayerController).ResetPlayer();
-
         // Initialize the member variables
         numShipsOnScreen = 0;
         numShipsDestroyed = 0;
@@ -205,6 +202,7 @@ public class LevelManager : MonoBehaviour
             Destroy(rocks.gameObject); // Destroys all rocks
             Destroy(treasure.gameObject); // Destroys all treasure
             GameManager.instance.GameOver();
+            Destroy(gameObject);
         }
     }
 
@@ -213,7 +211,8 @@ public class LevelManager : MonoBehaviour
      */
     void EndLevel()
     {
-
+        foreach (GameObject obj in GameObject.FindGameObjectsWithTag("Ship"))
+            (obj.GetComponent<Ship>() as Ship).MoveOffScreen();
     }
 
     /**
