@@ -104,8 +104,20 @@ public class Ship : Character
         canSink = !canSink;
     }
 
+    /**
+     * What happens when the level is finished
+     */
     public void MoveOffScreen()
     {
         rb2d.velocity = new Vector2(-2f, 0); // Go offscreen at a constant velocity
+    }
+    
+    /**
+     * Stops the object from moving
+     */
+    public void StopMoving()
+    {
+        rb2d.velocity = new Vector3(0, 0);
+        goOffScreen = true;
     }
 }

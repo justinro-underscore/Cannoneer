@@ -183,12 +183,29 @@ public class LevelManager : MonoBehaviour
      */
     public void EndGame()
     {
-        levelOver = true;
-        Destroy(ships.gameObject); // Destroys all ships
-        Destroy(cannonballs.gameObject); // Destroys all cannonballs
-        Destroy(rocks.gameObject); // Destroys all rocks
-        Destroy(treasure.gameObject); // Destroys all treasure
-        GameManager.instance.GameOver();
+        if (!levelOver) // So we can call the same function with different functionaliy each time
+        {
+            levelOver = true;
+            foreach (GameObject obj in GameObject.FindGameObjectsWithTag("Ship"))
+                (obj.GetComponent<Ship>() as Ship).StopMoving();
+            foreach (GameObject obj in GameObject.FindGameObjectsWithTag("Cannonball"))
+                (obj.GetComponent<Cannonball>() as Cannonball).StopMoving();
+            foreach (GameObject obj in GameObject.FindGameObjectsWithTag("Treasure"))
+                (obj.GetComponent<SimpleObject>() as SimpleObject).StopMoving();
+            foreach (GameObject obj in GameObject.FindGameObjectsWithTag("Rock"))
+                (obj.GetComponent<SimpleObject>() as SimpleObject).StopMoving();
+
+
+            Invoke("EndGame", 2f); // Delete everything 2 seconds later (this is so the player sees how they died)
+        }
+        else
+        {
+            Destroy(ships.gameObject); // Destroys all ships
+            Destroy(cannonballs.gameObject); // Destroys all cannonballs
+            Destroy(rocks.gameObject); // Destroys all rocks
+            Destroy(treasure.gameObject); // Destroys all treasure
+            GameManager.instance.GameOver();
+        }
     }
 
     /**

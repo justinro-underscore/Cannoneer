@@ -51,4 +51,12 @@ public class SimpleObject : MonoBehaviour
     {
         checkCollision = false;
     }
+
+    /**
+     * Stops the object from moving
+     */
+    public void StopMoving()
+    {
+        rb2d.velocity = new Vector3(0, 0);
+    }
 }
