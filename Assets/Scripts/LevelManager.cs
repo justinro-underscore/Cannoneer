@@ -25,8 +25,9 @@ public class LevelManager : MonoBehaviour
 
     private int numShipsToDestroy; // The amount of ships to destroy to end the level
     private int numShipsOnScreen; // The number of ships on screen at one time
-    private int numShipsDestroyed; // The number of ships that have been destroyed
     private bool levelOver; // Whether or not the level has completed
+
+    private int numShipsDestroyed; // The number of ships that have been destroyed
 
     /**
      * Starts the level, runs at the start
@@ -75,13 +76,15 @@ public class LevelManager : MonoBehaviour
     {
         // Initialize the member variables
         numShipsOnScreen = 0;
-        numShipsDestroyed = 0;
         levelOver = false;
+
+        // Reset number of ships
+        numShipsDestroyed = 0;
 
         // TODO Change to a logarithmic function
         // Set the numShipsToDestroy
         if (level == 1)
-            numShipsToDestroy = 10;
+            numShipsToDestroy = 3;
         else if(level == 2)
             numShipsToDestroy = 15;
         else if(level == 3)
@@ -104,16 +107,6 @@ public class LevelManager : MonoBehaviour
 
         float timeTilNextRock = Random.Range(1f, 3f);
         Invoke("CreateRock", timeTilNextRock);
-    }
-
-    /**
-     * Increases player score
-     * @param score The amount to increase score by
-     */
-    public void IncreaseScore(int score)
-    {
-        // TODO Add level-specific score increase
-        GameManager.instance.IncreaseScore(score);
     }
 
     /**
@@ -213,6 +206,16 @@ public class LevelManager : MonoBehaviour
     {
         foreach (GameObject obj in GameObject.FindGameObjectsWithTag("Ship"))
             (obj.GetComponent<Ship>() as Ship).MoveOffScreen();
+
+        Invoke("ShowStats", 12f);
+    }
+
+    /**
+     * Calls GameManager's show level stats function
+     */
+    void ShowStats()
+    {
+        GameManager.instance.ShowLevelStats();
     }
 
     /**
@@ -228,7 +231,7 @@ public class LevelManager : MonoBehaviour
             if (numShipsDestroyed == numShipsToDestroy) // If the game should end
             {
                 levelOver = true;
-                EndLevel();
+                Invoke("EndLevel", 0.25f); // Wait for the last destroyed ship to turn to a broken ship
             }
         }
     }

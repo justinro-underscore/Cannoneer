@@ -21,10 +21,7 @@ public class Sloop : Ship
 	void FixedUpdate()
     {
         CheckIfOffScreen();
-        if (!goOffScreen)
-        {
-            CheckForShoot();
-        }
+        CheckForShoot();
     }
 
     /**

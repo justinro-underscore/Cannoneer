@@ -19,11 +19,11 @@ public class PlayerController : Character
     public void Restart()
     {
         base.Instantiate(); // Get the Rigidbody
+        MovePlayer(new Vector2(-8, 0)); // Move to original position
         timeSinceLastCannonUp = 0;
         timeSinceLastCannonDown = 0;
         speed = 4; // The speed at which the ship moves
         isDead = false;
-        MovePlayer(new Vector2(-8, 0)); // Move to original position
 		SetCannonText (); // TODO Change to a graphic
     }
 	
@@ -103,7 +103,7 @@ public class PlayerController : Character
         }
         else if(other.gameObject.CompareTag("Treasure"))
         {
-            LevelManager.instance.IncreaseScore(100);
+            GameManager.instance.IncreaseScore(100, "treasure");
             Destroy(other.gameObject);
         }
     }
@@ -113,10 +113,18 @@ public class PlayerController : Character
      */
     void GameOver()
     {
-        isDead = true;
+        ToggleIsDead(); // Die
         cannonText.text = "";
-        rb2d.velocity = new Vector3(0, 0); // Stop moving
         LevelManager.instance.EndGame(); // End the game
+    }
+
+    /**
+     * Toggles if the player is dead or not
+     */
+    public void ToggleIsDead()
+    {
+        isDead = !isDead;
+        rb2d.velocity = new Vector3(0, 0); // Stop moving
     }
 
     /**

@@ -58,14 +58,16 @@ public class Ship : Character
         if (canSink)
         {
             // TODO Show explosion animation
-            LevelManager.instance.IncreaseScore(score); // Increase the score
             if (!(this is BrokenShip)) // If the ship isn't a broken ship...
             {
+                GameManager.instance.IncreaseScore(score, "ship"); // Increase the score
                 // Turn it into a ship
                 GameObject broken = Instantiate(LevelManager.instance.broken, transform.position, Quaternion.identity);
                 broken.transform.SetParent(LevelManager.instance.ships);
                 LevelManager.instance.RemoveShip(true);
             }
+            else
+                GameManager.instance.IncreaseScore(score, "obstacle"); // Increase the score as an obstacle
             Destroy(gameObject); // Destroy this ship
         }
     }
@@ -118,7 +120,7 @@ public class Ship : Character
      */
     public void StopMoving()
     {
+        CancelInvoke(); // Stops them from shooting
         rb2d.velocity = new Vector3(0, 0);
-        goOffScreen = true;
     }
 }
