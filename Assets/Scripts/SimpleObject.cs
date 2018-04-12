@@ -24,9 +24,9 @@ public class SimpleObject : MonoBehaviour
     void Update()
     {
         Vector3 viewPos = Camera.main.WorldToViewportPoint(transform.position);
-        if (viewPos.x < 0) // If it goes too far left, destroy it
+        if (viewPos.x < -0.2f) // If it goes too far left, destroy it
         {
-            Destroy(gameObject, 0.5f); // Wait a second before destroying so that it doesn't disappear as soon as it touches the edge
+            Destroy(gameObject); // Destroy the object
         }
     }
 

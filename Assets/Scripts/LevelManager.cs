@@ -116,7 +116,7 @@ public class LevelManager : MonoBehaviour
     {
         if (!levelOver)
         {
-            if (numShipsOnScreen <= 2) // The number of ships on the screen should never go more than 3
+            if (numShipsOnScreen <= 5) // The number of ships on the screen should never go more than 5 TODO Possibly get rid of this?
             {
                 GameObject s = Instantiate(sloop, new Vector3(OFFSCREEN_X, Random.Range(-OFFSCREEN_Y + 0.5f, OFFSCREEN_Y - 0.5f)), Quaternion.identity);
                 s.transform.SetParent(ships);
@@ -190,12 +190,7 @@ public class LevelManager : MonoBehaviour
         }
         else
         {
-            Destroy(ships.gameObject); // Destroys all ships
-            Destroy(cannonballs.gameObject); // Destroys all cannonballs
-            Destroy(rocks.gameObject); // Destroys all rocks
-            Destroy(treasure.gameObject); // Destroys all treasure
             GameManager.instance.GameOver();
-            Destroy(gameObject);
         }
     }
 
@@ -215,7 +210,10 @@ public class LevelManager : MonoBehaviour
      */
     void ShowStats()
     {
-        GameManager.instance.ShowLevelStats();
+        if (numShipsOnScreen != 0) // Make sure we don't end the level while there is a ship onscreen
+            Invoke("ShowStats", 1f);
+        else
+            GameManager.instance.ShowLevelStats();
     }
 
     /**
@@ -234,5 +232,17 @@ public class LevelManager : MonoBehaviour
                 Invoke("EndLevel", 0.25f); // Wait for the last destroyed ship to turn to a broken ship
             }
         }
+    }
+
+    /**
+     * Destroy everything on delete
+     */
+    void OnDestroy()
+    {
+        CancelInvoke(); // Make sure there is no new invokes
+        Destroy(ships.gameObject); // Destroys all ships
+        Destroy(cannonballs.gameObject); // Destroys all cannonballs
+        Destroy(rocks.gameObject); // Destroys all rocks
+        Destroy(treasure.gameObject); // Destroys all treasure
     }
 }

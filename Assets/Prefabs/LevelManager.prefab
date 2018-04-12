@@ -55,9 +55,6 @@ MonoBehaviour:
   ships: {fileID: 0}
   rocks: {fileID: 0}
   treasure: {fileID: 0}
-  scoreText: {fileID: 0}
-  levelOverText: {fileID: 0}
-  player: {fileID: 1012587315963894, guid: 1a5a74a6497ec074cbd616301363be73, type: 2}
   cannonball: {fileID: 1782680425431028, guid: 36f9eb3571739114195dbaad865bda27, type: 2}
   sloop: {fileID: 1475741582535852, guid: 9a51fe3b2e1501246be4b9c1f8b7b294, type: 2}
   broken: {fileID: 1779743101806160, guid: 328c7511f0fe5b146a2588e435921a28, type: 2}

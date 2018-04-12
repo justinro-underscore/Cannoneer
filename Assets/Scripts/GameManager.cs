@@ -118,7 +118,7 @@ public class GameManager : MonoBehaviour
 
         // Set the starting values
         playerScore = 0;
-        level = 1;
+        level = 0;
 
         InitLevel();
     }
@@ -128,6 +128,15 @@ public class GameManager : MonoBehaviour
      */
     void InitLevel()
     {
+        // Reset the stats text
+        levelText.text = "";
+        shipsText.text = "";
+        treasureText.text = "";
+        obstaclesText.text = "";
+
+        level++;
+        ToggleLevelText();
+
         player.SetActive(true);
         (player.GetComponent<PlayerController>() as PlayerController).Restart();
 
@@ -137,9 +146,23 @@ public class GameManager : MonoBehaviour
         obstaclesScore = 0;
         IncreaseScore(0, ""); // Do 0 so we can display the score
 
-        //Call the InitGame function to initialize the first level
+        //Call the InitGame function to initialize the level
         Instantiate(levelManager);
         LevelManager.instance.SetLevel(level);
+    }
+
+    /**
+     * Shows the beginning level text
+     */
+    void ToggleLevelText()
+    {
+        if (levelOverText.text.Equals(""))
+        {
+            levelOverText.text = "Level " + level;
+            Invoke("ToggleLevelText", 2.5f); // Toggle off after 2.5 seconds
+        }
+        else
+            levelOverText.text = "";
     }
     
     /**
@@ -173,6 +196,7 @@ public class GameManager : MonoBehaviour
      */
     public void ShowLevelStats()
     {
+        Destroy(LevelManager.instance.gameObject); // End the level
         (player.GetComponent<PlayerController>() as PlayerController).ToggleIsDead(); // Makes it so that the player cannot move or shoot
         (player.GetComponent<PlayerController>() as PlayerController).MovePlayer(new Vector2(-8, 0)); // Move the player
 
@@ -257,7 +281,7 @@ public class GameManager : MonoBehaviour
         else
         {
             CancelInvoke();
-            // TODO Move on to next level
+            Invoke("InitLevel", 4f); // Move on to next level
         }
     }
 
@@ -270,6 +294,7 @@ public class GameManager : MonoBehaviour
         levelOverText.text = "Game Over";
         scoreText.text = "";
         (player.GetComponent<PlayerController>() as PlayerController).MovePlayer(new Vector2(0, -2)); // Put the player underneath the text
+        Destroy(LevelManager.instance.gameObject); // Get rid of the level manager
         Invoke("ShowLeaderboard", 4f);
     }
 
