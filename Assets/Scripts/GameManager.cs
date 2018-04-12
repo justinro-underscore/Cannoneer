@@ -1,5 +1,8 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
+using System.IO;
+using System.Text;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -65,21 +68,10 @@ public class GameManager : MonoBehaviour
         // Populate the leaderboard
         leaderboardNames = new string[10];
         leaderboardScores = new int[10];
-        PopulateLeaderboard();
+        LoadLeaderboard();
 
         // Show the menu
         ShowMenu();
-    }
-
-    void PopulateLeaderboard()
-    {
-        for(int i = 0; i < 10; i++)
-        {
-            leaderboardNames[i] = "AAA";
-            leaderboardScores[i] = 0;
-        }
-        // TODO Use file I/O to populate this
-        // TODO Figure out how to do onQuit, write to file
     }
 
     /**
@@ -307,10 +299,78 @@ public class GameManager : MonoBehaviour
 
         player.SetActive(false); // Make sure you can't see the user
         levelOverText.text = "Your score: " + playerScore + "\n\n\n\n\n"; // All of the new lines are to format the score
+        int currScore = playerScore;
+        string currName = "JUS";
         for (int i = 0; i < 10; i++)
         {
+            // Update the scoreboard
+            if(currScore > leaderboardScores[i])
+            {
+                int tempScore = leaderboardScores[i];
+                string tempName = leaderboardNames[i];
+                leaderboardScores[i] = currScore;
+                leaderboardNames[i] = currName;
+                currScore = tempScore;
+                currName = tempName;
+            }
             leaderboardText.text += leaderboardNames[i] + "............" + string.Format("{0:000000}", leaderboardScores[i]) + "\n"; // Show other scores
         }
         Invoke("ShowMenu", 10f);
+    }
+
+    /**
+     * When player quits, save the leaderboard
+     */
+    void OnApplicationQuit()
+    {
+        SaveLeaderboard();
+    }
+
+    /**
+     * Save the leaderboard to a text file
+     * Adapted from "https://stackoverflow.com/questions/9907682/create-a-txt-file-
+     *  if-doesnt-exist-and-if-it-does-append-a-new-line?utm_medium=organic&utm_source
+     *  =google_rich_qa&utm_campaign=google_rich_qa"
+     */
+    void SaveLeaderboard()
+    { 
+        string path = "Assets/Leaderboard.txt"; // Path where we'll save our file
+        // If the file already exists, delete it
+        if (File.Exists(path))
+        {
+            File.Delete(path);
+        }
+        // Write to the file
+        using (StreamWriter sw = new StreamWriter(path, true))
+        {
+            for (int i = 0; i < 10; i++)
+            {
+                sw.WriteLine(leaderboardNames[i] + " " + leaderboardScores[i]); // Write the names
+            }
+        }
+    }
+
+    /**
+     * Loads the leaderboard file and saves it
+     */
+    void LoadLeaderboard()
+    {
+        string[] lines = System.IO.File.ReadAllLines("Assets/Leaderboard.txt");
+        if (lines.Length >= 10) // Make sure we have info in our file
+        {
+            for (int i = 0; i < 10; i++)
+            {
+                leaderboardNames[i] = lines[i].Substring(0, lines[i].IndexOf(" "));
+                System.Int32.TryParse(lines[i].Substring(lines[i].IndexOf(" ") + 1), out leaderboardScores[i]);
+            }
+        }
+        else // If not, default to starting leaderboard
+        {
+            for (int i = 0; i < 10; i++)
+            {
+                leaderboardNames[i] = "AAA";
+                leaderboardScores[i] = 0;
+            }
+        }
     }
 }
