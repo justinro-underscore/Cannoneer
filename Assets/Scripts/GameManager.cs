@@ -337,8 +337,8 @@ public class GameManager : MonoBehaviour
             // Update the scoreboard
             if(currScore > leaderboardScores[i])
             {
-                if (isScoreOfPlayer == 0 || isScoreOfPlayer == 1) // This is in place if the player has multiple high scores
-                    isScoreOfPlayer++; // This will only be 1 once, the first time through
+                if (isScoreOfPlayer == 0) // This is in place if the player has multiple high scores
+                    isScoreOfPlayer++; // This will only be 1 once, the first time through this if statement
 
                 int tempScore = leaderboardScores[i];
                 string tempName = leaderboardNames[i];
@@ -352,6 +352,8 @@ public class GameManager : MonoBehaviour
             leaderboardText.text += (isScoreOfPlayer == 1 ? "<b>" : "") + leaderboardNames[i] + (isScoreOfPlayer == 1 ? "</b>" : "");
             leaderboardText.text += "............";
             leaderboardText.text += (isScoreOfPlayer == 1 ? "<b>" : "") + string.Format("{0:000000}", leaderboardScores[i]) + (isScoreOfPlayer == 1 ? "</b>\n" : "\n");
+            if (isScoreOfPlayer == 1) // So this only runs once
+                isScoreOfPlayer++;
         }
         Invoke("ShowMenu", 10f);
     }

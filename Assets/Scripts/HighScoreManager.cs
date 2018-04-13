@@ -171,5 +171,8 @@ public class HighScoreManager : MonoBehaviour
         CancelInvoke();
         highScoreText.text = "";
         initialsText.text = "";
+        initials[0] = 'A'; // Reset initials
+        initials[1] = 'A';
+        initials[2] = 'A';
     }
 }

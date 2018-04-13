@@ -25,7 +25,8 @@ public class LevelManager : MonoBehaviour
 
     private int numShipsToDestroy; // The amount of ships to destroy to end the level
     private int numShipsOnScreen; // The number of ships on screen at one time
-    private bool levelOver; // Whether or not the level has completed
+    private bool levelOver; // Whether or not the level is over
+    private bool levelComplete; // Whether or not the level has completed
 
     private int numShipsDestroyed; // The number of ships that have been destroyed
 
@@ -76,13 +77,15 @@ public class LevelManager : MonoBehaviour
     {
         // Initialize the member variables
         numShipsOnScreen = 0;
+        levelComplete = false;
         levelOver = false;
 
         // Reset number of ships
         numShipsDestroyed = 0;
-        
+
         // Equation to calculate the amount of ships needed to destroy to move on to next level
-        numShipsToDestroy = (int)Mathf.Floor(3.3709f * Mathf.Log(level, 2.7183f) + 7.3771f);
+        //numShipsToDestroy = (int)Mathf.Floor(3.3709f * Mathf.Log(level, 2.7183f) + 7.3771f);
+        numShipsToDestroy = 2;
         
         // Begins to spawn objects
         SpawnObjects();
@@ -109,7 +112,7 @@ public class LevelManager : MonoBehaviour
      */
     public void CreateSloop()
     {
-        if (!levelOver)
+        if (!levelComplete && !levelOver)
         {
             if (numShipsOnScreen <= 5) // The number of ships on the screen should never go more than 5 TODO Possibly get rid of this?
             {
@@ -133,7 +136,7 @@ public class LevelManager : MonoBehaviour
      */
     public void CreateTreasure()
     {
-        if (!levelOver)
+        if (!levelComplete && !levelOver)
         {
             GameObject t = Instantiate(treasureChest, new Vector3(OFFSCREEN_X, Random.Range(-OFFSCREEN_Y, OFFSCREEN_Y)), Quaternion.identity);
             t.transform.SetParent(treasure);
@@ -148,7 +151,7 @@ public class LevelManager : MonoBehaviour
      */
     public void CreateRock()
     {
-        if (!levelOver)
+        if (!levelComplete && !levelOver)
         {
             float rockChoice = Random.value; // Determines which size rock to create
             GameObject r = null;
@@ -223,7 +226,7 @@ public class LevelManager : MonoBehaviour
             numShipsDestroyed++;
             if (numShipsDestroyed == numShipsToDestroy) // If the game should end
             {
-                levelOver = true;
+                levelComplete = true;
                 Invoke("EndLevel", 0.25f); // Wait for the last destroyed ship to turn to a broken ship
             }
         }
