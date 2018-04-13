@@ -14,6 +14,7 @@ public class GameManager : MonoBehaviour
         GAME, // The game, running
         ENDSCREEN, // When the player finishes the level
         ENDGAME, // When the player loses
+        INITIALS, // If the player gets a high score
         LEADERBOARD // The leaderboard after player loses
     }
     private State currState = State.LEADERBOARD; // The current state the game is in (starts in leaderboard so that we can call ShowMenu())
@@ -39,6 +40,7 @@ public class GameManager : MonoBehaviour
     private GameObject player; // So we can enable and disable the player
 
     private int playerScore; // Player's current score
+    private string playerName; // Used for the leaderboard
     private int level; // Current level
 
     /**
@@ -95,6 +97,8 @@ public class GameManager : MonoBehaviour
     {
         if (currState == State.MAIN_MENU && Input.GetKeyDown(KeyCode.Return))
             InitGame();
+        if (currState == State.INITIALS && Input.GetKeyDown(KeyCode.Return))
+            SubmitInitials();
         if (currState == State.LEADERBOARD && Input.GetKeyDown(KeyCode.Return))
             ShowMenu();
     }
@@ -110,6 +114,7 @@ public class GameManager : MonoBehaviour
 
         // Set the starting values
         playerScore = 0;
+        playerName = "AAA";
         level = 0;
 
         InitLevel();
@@ -287,7 +292,32 @@ public class GameManager : MonoBehaviour
         scoreText.text = "";
         (player.GetComponent<PlayerController>() as PlayerController).MovePlayer(new Vector2(0, -2)); // Put the player underneath the text
         Destroy(LevelManager.instance.gameObject); // Get rid of the level manager
-        Invoke("ShowLeaderboard", 4f);
+        Invoke("ShowInitials", 4f);
+    }
+
+    /**
+     * Shows the Enter Initials screen if player got a high score, leaderboard if not
+     */
+    void ShowInitials()
+    {
+        if (playerScore > leaderboardScores[9])
+        {
+            levelOverText.text = "";
+            currState = State.INITIALS;
+            HighScoreManager.instance.ShowHighScore(playerScore); // Change the screen
+        }
+        else
+            ShowLeaderboard();
+    }
+    
+    /**
+     * Runs when the user finishes entering their initials (if they achieve a high score)
+     */
+    void SubmitInitials()
+    {
+        playerName = HighScoreManager.instance.GetInitials(false);
+        HighScoreManager.instance.Reset();
+        Invoke("ShowLeaderboard", 0.1f);
     }
 
     /**
@@ -300,12 +330,16 @@ public class GameManager : MonoBehaviour
         player.SetActive(false); // Make sure you can't see the user
         levelOverText.text = "Your score: " + playerScore + "\n\n\n\n\n"; // All of the new lines are to format the score
         int currScore = playerScore;
-        string currName = "JUS";
+        string currName = playerName;
+        int isScoreOfPlayer = 0; // This is how we know this is the user's score (so we can bold it)
         for (int i = 0; i < 10; i++)
         {
             // Update the scoreboard
             if(currScore > leaderboardScores[i])
             {
+                if (isScoreOfPlayer == 0 || isScoreOfPlayer == 1) // This is in place if the player has multiple high scores
+                    isScoreOfPlayer++; // This will only be 1 once, the first time through
+
                 int tempScore = leaderboardScores[i];
                 string tempName = leaderboardNames[i];
                 leaderboardScores[i] = currScore;
@@ -313,7 +347,11 @@ public class GameManager : MonoBehaviour
                 currScore = tempScore;
                 currName = tempName;
             }
-            leaderboardText.text += leaderboardNames[i] + "............" + string.Format("{0:000000}", leaderboardScores[i]) + "\n"; // Show other scores
+            // Show the scores, make the new high score bold
+            leaderboardText.text += (i != 9 ? " " : "") + (i + 1) + ": "; // Add a space if the index is not 10
+            leaderboardText.text += (isScoreOfPlayer == 1 ? "<b>" : "") + leaderboardNames[i] + (isScoreOfPlayer == 1 ? "</b>" : "");
+            leaderboardText.text += "............";
+            leaderboardText.text += (isScoreOfPlayer == 1 ? "<b>" : "") + string.Format("{0:000000}", leaderboardScores[i]) + (isScoreOfPlayer == 1 ? "</b>\n" : "\n");
         }
         Invoke("ShowMenu", 10f);
     }

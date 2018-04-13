@@ -240,9 +240,13 @@ public class LevelManager : MonoBehaviour
     void OnDestroy()
     {
         CancelInvoke(); // Make sure there is no new invokes
-        Destroy(ships.gameObject); // Destroys all ships
-        Destroy(cannonballs.gameObject); // Destroys all cannonballs
-        Destroy(rocks.gameObject); // Destroys all rocks
-        Destroy(treasure.gameObject); // Destroys all treasure
+        if(ships != null)
+            Destroy(ships.gameObject); // Destroys all ships
+        if (cannonballs != null)
+            Destroy(cannonballs.gameObject); // Destroys all cannonballs
+        if (rocks != null)
+            Destroy(rocks.gameObject); // Destroys all rocks
+        if (treasure != null)
+            Destroy(treasure.gameObject); // Destroys all treasure
     }
 }
