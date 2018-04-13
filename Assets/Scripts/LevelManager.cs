@@ -80,16 +80,11 @@ public class LevelManager : MonoBehaviour
 
         // Reset number of ships
         numShipsDestroyed = 0;
-
-        // TODO Change to a logarithmic function
-        // Set the numShipsToDestroy
-        if (level == 1)
-            numShipsToDestroy = 3;
-        else if(level == 2)
-            numShipsToDestroy = 15;
-        else if(level == 3)
-            numShipsToDestroy = 20;
-
+        
+        // Equation to calculate the amount of ships needed to destroy to move on to next level
+        numShipsToDestroy = (int)Mathf.Floor(3.3709f * Mathf.Log(level, 2.7183f) + 7.3771f);
+        
+        // Begins to spawn objects
         SpawnObjects();
     }
 
