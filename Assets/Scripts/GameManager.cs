@@ -93,6 +93,9 @@ public class GameManager : MonoBehaviour
      */
     void Update()
     {
+        if (Input.GetKeyDown(KeyCode.Escape))
+            Application.Quit();
+
         if (currState == State.MAIN_MENU && Input.GetKeyDown(KeyCode.Return))
             InitGame();
         if (currState == State.INITIALS && Input.GetKeyDown(KeyCode.Return))
