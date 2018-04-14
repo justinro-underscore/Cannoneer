@@ -62,3 +62,5 @@ MonoBehaviour:
   rockLarge: {fileID: 1918227069633490, guid: c401eb9f2e3bdf449a9e889814d23493, type: 2}
   treasureChest: {fileID: 1571516230966536, guid: e42ada657503e3a44a4187aa71cd4a14,
     type: 2}
+  progressBar: {fileID: 114706593247488886, guid: 97212a1730ff5054fb3f15be54c559fb,
+    type: 2}

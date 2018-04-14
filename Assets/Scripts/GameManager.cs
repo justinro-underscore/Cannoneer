@@ -326,7 +326,7 @@ public class GameManager : MonoBehaviour
     void ShowLeaderboard()
     {
         currState = State.LEADERBOARD;
-
+        
         player.SetActive(false); // Make sure you can't see the user
         levelOverText.text = "Your score: " + playerScore + "\n\n\n\n\n"; // All of the new lines are to format the score
         int currScore = playerScore;
