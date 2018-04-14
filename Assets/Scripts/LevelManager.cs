@@ -172,7 +172,7 @@ public class LevelManager : MonoBehaviour
     {
         if (!levelComplete && !levelOver)
         {
-            GameObject t = Instantiate(treasureChest, new Vector3(OFFSCREEN_X, Random.Range(-OFFSCREEN_Y, OFFSCREEN_Y)), Quaternion.identity);
+            GameObject t = Instantiate(treasureChest, new Vector3(OFFSCREEN_X, Random.Range(-OFFSCREEN_Y + 0.5f, OFFSCREEN_Y - 0.5f)), Quaternion.identity);
             t.transform.SetParent(treasure);
 
             float timeTilNextTreasure = Random.Range(5f, 10f);
@@ -190,7 +190,7 @@ public class LevelManager : MonoBehaviour
             float rockChoice = Random.value; // Determines which size rock to create
             GameObject r = null;
             if (rockChoice < 0.8) // Chances of getting a small rock are higher than a large rock
-                r = Instantiate(rockSmall, new Vector3(OFFSCREEN_X, Random.Range(-OFFSCREEN_Y, OFFSCREEN_Y)), Quaternion.identity);
+                r = Instantiate(rockSmall, new Vector3(OFFSCREEN_X, Random.Range(-OFFSCREEN_Y + 0.5f, OFFSCREEN_Y - 0.5f)), Quaternion.identity);
             else
                 r = Instantiate(rockLarge, new Vector3(OFFSCREEN_X, Random.Range(-OFFSCREEN_Y, OFFSCREEN_Y)), Quaternion.identity);
             r.transform.SetParent(rocks);

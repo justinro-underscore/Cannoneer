@@ -81,13 +81,11 @@ public class GameManager : MonoBehaviour
      */
     void ShowMenu()
     {
-        if (currState != State.MAIN_MENU && currState != State.GAME) // Make sure we don't call this after we start the game
-        {
-            currState = State.MAIN_MENU;
+        CancelInvoke();
+        currState = State.MAIN_MENU;
 
-            leaderboardText.text = ""; // Just make sure this is empty
-            levelOverText.text = "Welcome to Cannoneer!\nPress 'Enter' to start!";
-        }
+        leaderboardText.text = ""; // Just make sure this is empty
+        levelOverText.text = "Welcome to Cannoneer!\nPress 'Enter' to start!";
     }
 
     /**
@@ -216,7 +214,7 @@ public class GameManager : MonoBehaviour
         // Set the score
         if (currScore < shipsScore)
         {
-            currScore += 2; // Count up
+            currScore += 5; // Count up
             shipsText.text = "Ships Destroyed..................." + string.Format("{0:00000}", currScore); // TODO TAKE OUT 0s
         }
         else if (shipsScore == 0) // If there was no points received here...
@@ -242,7 +240,7 @@ public class GameManager : MonoBehaviour
             System.Int32.TryParse(treasureText.text.Substring(index), out currScore);
         if (currScore < treasureScore)
         {
-            currScore += 2;
+            currScore += 5;
             treasureText.text = "Treasure Collected................" + string.Format("{0:00000}", currScore);
         }
         else if (treasureScore == 0)
@@ -268,7 +266,7 @@ public class GameManager : MonoBehaviour
             System.Int32.TryParse(obstaclesText.text.Substring(index), out currScore);
         if (currScore < obstaclesScore)
         {
-            currScore += 2;
+            currScore += 5;
             obstaclesText.text = "Obstacles Destroyed..............." + string.Format("{0:00000}", currScore);
         }
         else if (obstaclesScore == 0)
@@ -301,7 +299,7 @@ public class GameManager : MonoBehaviour
      */
     void ShowInitials()
     {
-        if (playerScore > leaderboardScores[9])
+        if (playerScore > leaderboardScores[9]) // If the player gets a higher score than the last high score
         {
             levelOverText.text = "";
             currState = State.INITIALS;
