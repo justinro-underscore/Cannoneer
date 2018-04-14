@@ -27,6 +27,7 @@ public class PlayerController : Character
         speed = 4; // The speed at which the ship moves
         isDead = false;
         godMode = false;
+        gameObject.GetComponent<SpriteRenderer>().color = new Color(1f, 1f, 1f, 1f); // Make player visible
 		SetCannonText (); // TODO Change to a graphic
     }
 	
@@ -35,7 +36,7 @@ public class PlayerController : Character
      */
 	void FixedUpdate ()
 	{
-        if(!isDead) // If player is dead, stop moving
+        if(gameObject.activeSelf && !isDead) // If player is dead, stop moving
         {
             Move();
 

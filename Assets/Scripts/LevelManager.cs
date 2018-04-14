@@ -70,7 +70,7 @@ public class LevelManager : MonoBehaviour
         progressBarRect = progressBarRef.transform as RectTransform;
         progressBarColor = new Color(1, 1, 1);
 
-        //Call the InitGame function to initialize the level
+        // Call the InitGame function to initialize the level
         // The wait is to have time to set the level
         Invoke("InitLevel", 0.05f);
     }

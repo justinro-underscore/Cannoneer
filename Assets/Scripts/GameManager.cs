@@ -134,6 +134,7 @@ public class GameManager : MonoBehaviour
         level++;
         ToggleLevelText();
 
+        // Reset the player
         player.SetActive(true);
         (player.GetComponent<PlayerController>() as PlayerController).Restart();
 
@@ -326,8 +327,11 @@ public class GameManager : MonoBehaviour
     void ShowLeaderboard()
     {
         currState = State.LEADERBOARD;
-        
-        player.SetActive(false); // Make sure you can't see the user
+
+        // Adapted from https://answers.unity.com/questions/958370/how-to-change-alpha-of-a-sprite.html
+        player.GetComponent<SpriteRenderer>().color = new Color(1f, 1f, 1f, 0f); // Make player transparent
+        player.SetActive(false);
+
         levelOverText.text = "Your score: " + playerScore + "\n\n\n\n\n"; // All of the new lines are to format the score
         int currScore = playerScore;
         string currName = playerName;
