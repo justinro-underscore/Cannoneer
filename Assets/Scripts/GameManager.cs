@@ -373,26 +373,26 @@ public class GameManager : MonoBehaviour
 
     /**
      * Save the leaderboard to a text file
-     * Adapted from "https://stackoverflow.com/questions/9907682/create-a-txt-file-
-     *  if-doesnt-exist-and-if-it-does-append-a-new-line?utm_medium=organic&utm_source
-     *  =google_rich_qa&utm_campaign=google_rich_qa"
      */
     void SaveLeaderboard()
     { 
-        string path = "Assets/Leaderboard.txt"; // Path where we'll save our file
+        string path = Application.dataPath + "/Resources/Leaderboard.txt"; // Path where we'll save our file
         // If the file already exists, delete it
         if (File.Exists(path))
         {
             File.Delete(path);
         }
         // Write to the file
-        using (StreamWriter sw = new StreamWriter(path, true))
+        StreamWriter sw = new StreamWriter(path, true);
+        for (int i = 0; i < 10; i++)
         {
-            for (int i = 0; i < 10; i++)
-            {
-                sw.WriteLine(leaderboardNames[i] + " " + leaderboardScores[i]); // Write the names
-            }
+            sw.WriteLine(leaderboardNames[i] + " " + leaderboardScores[i]); // Write the names
         }
+        sw.Close();
+
+        //Re-import the file to update the reference in the editor
+        //AssetDatabase.ImportAsset(path);
+        //TextAsset asset = (TextAsset)Resources.Load("Leaderboard");
     }
 
     /**
@@ -400,16 +400,29 @@ public class GameManager : MonoBehaviour
      */
     void LoadLeaderboard()
     {
-        string[] lines = System.IO.File.ReadAllLines("Assets/Leaderboard.txt");
-        if (lines.Length >= 10) // Make sure we have info in our file
+        string path = Application.dataPath + "/Resources/Leaderboard.txt"; // Path where we'll save our file
+
+        bool defaultLeaderboard = false;
+        // If the file already exists, populate leaderboard
+        if (File.Exists(path))
         {
-            for (int i = 0; i < 10; i++)
+            string[] lines = System.IO.File.ReadAllLines(path);
+            if (lines.Length >= 10) // Make sure we have info in our file
             {
-                leaderboardNames[i] = lines[i].Substring(0, lines[i].IndexOf(" "));
-                System.Int32.TryParse(lines[i].Substring(lines[i].IndexOf(" ") + 1), out leaderboardScores[i]);
+                for (int i = 0; i < 10; i++)
+                {
+                    leaderboardNames[i] = lines[i].Substring(0, lines[i].IndexOf(" "));
+                    System.Int32.TryParse(lines[i].Substring(lines[i].IndexOf(" ") + 1), out leaderboardScores[i]);
+                }
             }
+            else // If not, default to starting leaderboard
+                defaultLeaderboard = true;
         }
         else // If not, default to starting leaderboard
+            defaultLeaderboard = true;
+
+        // Populate the default leaderboard
+        if(defaultLeaderboard)
         {
             for (int i = 0; i < 10; i++)
             {
