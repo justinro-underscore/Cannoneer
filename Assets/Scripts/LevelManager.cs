@@ -87,7 +87,7 @@ public class LevelManager : MonoBehaviour
             if(progressBarRect.sizeDelta.x < progressBarWidth)
                 progressBarRect.sizeDelta = new Vector2(progressBarRect.sizeDelta.x + 3, progressBarRect.sizeDelta.y);
             // If the user has reached the end of the level, fade out progress bar
-            if (progressBarRect.sizeDelta.x == PROGRESS_BAR_FULL_WIDTH && progressBarColor.a > 0)
+            if (progressBarRect.sizeDelta.x >= PROGRESS_BAR_FULL_WIDTH && progressBarColor.a > 0)
             {
                 progressBarColor.a = progressBarColor.a - 0.01f;
                 progressBarRef.color = progressBarColor;

@@ -33,6 +33,7 @@ public class GameManager : MonoBehaviour
     public Text shipsText;
     public Text treasureText;
     public Text obstaclesText;
+    public Text levelCompScoreText; // Shows the score achieved by completing the level
     public int shipsScore; // Amount of points for destroying ships
     public int treasureScore; // Amount of points for collecting treasure
     public int obstaclesScore; // Amount of points for destroying obstacles
@@ -199,6 +200,7 @@ public class GameManager : MonoBehaviour
         (player.GetComponent<PlayerController>() as PlayerController).ToggleIsDead(); // Makes it so that the player cannot move or shoot
         (player.GetComponent<PlayerController>() as PlayerController).MovePlayer(new Vector2(-8, 0)); // Move the player
 
+        IncreaseScore(200 * level, ""); // Level complete score
         levelText.text = "Level " + level + " Complete!";
         InvokeRepeating("ShowShipsScore", 1f, 0.01f); // For the count up
     }
@@ -276,6 +278,27 @@ public class GameManager : MonoBehaviour
         {
             obstaclesText.text = "Obstacles Destroyed..............." + string.Format("{0:00000}", currScore);
             obstaclesScore--;
+        }
+        else
+        {
+            CancelInvoke();
+            InvokeRepeating("ShowLevelCompleteScoreText", 1f, 0.01f);
+        }
+    }
+
+    /**
+     * Shows the amount of points recieved for completing the level
+     */
+    void ShowLevelCompleteScoreText()
+    {
+        int currScore = 0;
+        int index = levelCompScoreText.text.IndexOfAny("123456789".ToCharArray());
+        if (index != -1)
+            System.Int32.TryParse(levelCompScoreText.text.Substring(index), out currScore);
+        if (currScore < level * 200)
+        {
+            currScore += 5;
+            levelCompScoreText.text = "Level Complete...................." + string.Format("{0:00000}", currScore);
         }
         else
         {
