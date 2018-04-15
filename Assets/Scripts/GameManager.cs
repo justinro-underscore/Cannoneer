@@ -132,6 +132,7 @@ public class GameManager : MonoBehaviour
         shipsText.text = "";
         treasureText.text = "";
         obstaclesText.text = "";
+        levelCompScoreText.text = "";
 
         level++;
         ToggleLevelText();
@@ -158,7 +159,7 @@ public class GameManager : MonoBehaviour
     {
         if (levelOverText.text.Equals(""))
         {
-            levelOverText.text = "Level " + level;
+            levelOverText.text = "Stage " + level;
             Invoke("ToggleLevelText", 2.5f); // Toggle off after 2.5 seconds
         }
         else
@@ -202,7 +203,31 @@ public class GameManager : MonoBehaviour
 
         IncreaseScore(200 * level, ""); // Level complete score
         levelText.text = "Level " + level + " Complete!";
-        InvokeRepeating("ShowShipsScore", 1f, 0.01f); // For the count up
+        InvokeRepeating("ShowLevelCompleteScoreText", 1f, 0.01f); // For the count up
+    }
+
+    /**
+     * Shows the amount of points recieved for completing the level
+     */
+    void ShowLevelCompleteScoreText()
+    {
+        // So we don't need a global variable to count up
+        int currScore = 0;
+        int index = levelCompScoreText.text.IndexOfAny("123456789".ToCharArray());
+        if (index != -1)
+            System.Int32.TryParse(levelCompScoreText.text.Substring(index), out currScore);
+
+        // Set the score
+        if (currScore < level * 200)
+        {
+            currScore += 5; // Count up
+            levelCompScoreText.text = "Stage Completed..................." + string.Format("{0:00000}", currScore); // TODO TAKE OUT 0s
+        }
+        else
+        {
+            CancelInvoke(); // Stop counting up
+            InvokeRepeating("ShowShipsScore", 1f, 0.01f); // Start counting the next category
+        }
     }
 
     /**
@@ -210,17 +235,14 @@ public class GameManager : MonoBehaviour
      */
     void ShowShipsScore()
     {
-        // So we don't need a global variable to count up
         int currScore = 0;
         int index = shipsText.text.IndexOfAny("123456789".ToCharArray());
         if(index != -1)
             System.Int32.TryParse(shipsText.text.Substring(index), out currScore);
-
-        // Set the score
         if (currScore < shipsScore)
         {
-            currScore += 5; // Count up
-            shipsText.text = "Ships Destroyed..................." + string.Format("{0:00000}", currScore); // TODO TAKE OUT 0s
+            currScore += 5;
+            shipsText.text = "Ships Destroyed..................." + string.Format("{0:00000}", currScore);
         }
         else if (shipsScore == 0) // If there was no points received here...
         {
@@ -229,8 +251,8 @@ public class GameManager : MonoBehaviour
         }
         else
         {
-            CancelInvoke(); // Stop counting up
-            InvokeRepeating("ShowTreasureScore", 1f, 0.01f); // Start counting the next category
+            CancelInvoke();
+            InvokeRepeating("ShowTreasureScore", 1f, 0.01f);
         }
     }
 
@@ -278,27 +300,6 @@ public class GameManager : MonoBehaviour
         {
             obstaclesText.text = "Obstacles Destroyed..............." + string.Format("{0:00000}", currScore);
             obstaclesScore--;
-        }
-        else
-        {
-            CancelInvoke();
-            InvokeRepeating("ShowLevelCompleteScoreText", 1f, 0.01f);
-        }
-    }
-
-    /**
-     * Shows the amount of points recieved for completing the level
-     */
-    void ShowLevelCompleteScoreText()
-    {
-        int currScore = 0;
-        int index = levelCompScoreText.text.IndexOfAny("123456789".ToCharArray());
-        if (index != -1)
-            System.Int32.TryParse(levelCompScoreText.text.Substring(index), out currScore);
-        if (currScore < level * 200)
-        {
-            currScore += 5;
-            levelCompScoreText.text = "Level Complete...................." + string.Format("{0:00000}", currScore);
         }
         else
         {

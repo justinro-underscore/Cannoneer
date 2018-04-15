@@ -109,6 +109,8 @@ public class PlayerController : Character
         else if(other.gameObject.CompareTag("Treasure"))
         {
             GameManager.instance.IncreaseScore(100, "treasure");
+            LevelManager.instance.ShowScoreIncrease(100, transform.position); // Show how many points the player got
+
             Destroy(other.gameObject);
         }
     }

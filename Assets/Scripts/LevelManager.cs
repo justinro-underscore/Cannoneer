@@ -17,6 +17,7 @@ public class LevelManager : MonoBehaviour
     public GameObject rockSmall; // Prefab for Small Rock
     public GameObject rockLarge; // Prefab for Large Rock
     public GameObject treasureChest; // Prefab for Treasure Chest
+    public GameObject scoreIncreaseText; // Prefab for the score increase text
     public Image progressBar; // Prefab for the Progress Bar
 
     private Image progressBarRef; // Reference to the progress bar
@@ -201,6 +202,15 @@ public class LevelManager : MonoBehaviour
     }
 
     /**
+     * Shows the player how many points they just got
+     */
+    public void ShowScoreIncrease(int score, Vector3 pos)
+    {
+        GameObject scoreIncrease = Instantiate(scoreIncreaseText, GameObject.FindObjectOfType<Canvas>().transform);
+        (scoreIncrease.GetComponent<ScoreIncreaseTextController>() as ScoreIncreaseTextController).SetParams(score, pos);
+    }
+
+    /**
      * Ends the game
      */
     public void EndGame()
@@ -244,7 +254,12 @@ public class LevelManager : MonoBehaviour
         if (numShipsOnScreen != 0) // Make sure we don't end the level while there is a ship onscreen
             Invoke("ShowStats", 1f);
         else
+        {
+            // Show the end level score increase
+            ShowScoreIncrease(200 * level, new Vector3(-8, 0)); // We know the player will be at (-8, 0)
+
             GameManager.instance.ShowLevelStats();
+        }
     }
 
     /**
@@ -285,6 +300,7 @@ public class LevelManager : MonoBehaviour
             Destroy(rocks.gameObject); // Destroys all rocks
         if (treasure != null)
             Destroy(treasure.gameObject); // Destroys all treasure
-        Destroy(GameObject.FindObjectOfType<Image>().gameObject); // Destroy the progress bar
+        if(GameObject.FindObjectOfType<Image>().gameObject != null)
+            Destroy(GameObject.FindObjectOfType<Image>().gameObject); // Destroy the progress bar
     }
 }

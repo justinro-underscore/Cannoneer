@@ -1,9 +1,12 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class Ship : Character
 {
+    public Text scoreIncreaseText;
+
     protected Transform target; // Ships know where Player is
     protected int score; // Amt of points Player gets for destroying the ship
     protected bool canShoot; // If the ship can shoot now
@@ -69,6 +72,8 @@ public class Ship : Character
             }
             else
                 GameManager.instance.IncreaseScore(score, "obstacle"); // Increase the score as an obstacle
+            LevelManager.instance.ShowScoreIncrease(score, transform.position); // Show how many points the player got
+
             Destroy(gameObject); // Destroy this ship
         }
     }
