@@ -70,7 +70,7 @@ public class PlayerController : Character
      */
     void ShootCannonBall(bool dirUp)
 	{
-		if (godMode || dirUp ? timeSinceLastCannonUp == 0 : timeSinceLastCannonDown == 0) // Check to see if it should shoot the cannon
+		if (godMode || (dirUp ? timeSinceLastCannonUp == 0 : timeSinceLastCannonDown == 0)) // Check to see if it should shoot the cannon
 		{
             SoundManager.instance.PlaySingle("cannonFire"); // Sound the cannons!
 
@@ -95,7 +95,7 @@ public class PlayerController : Character
 	}
 
     /**
-     * If player hit cannonball (shot by ship) or hits ship or hits rock game over
+     * If player hit cannonball (shot by ship) or hits ship or hits rock  or hits shark game over
      * If player touches treasure, increase score
      * @param other The other object it collides with
      */
@@ -103,6 +103,7 @@ public class PlayerController : Character
     {
         if (other.gameObject.CompareTag("Ship") ||
             other.gameObject.CompareTag("Rock") ||
+            other.gameObject.CompareTag("Shark") ||
             (other.gameObject.CompareTag("Cannonball") && !(other.GetComponent<Cannonball>() as Cannonball).getShotByPlayer()))
         {
             if(!godMode)

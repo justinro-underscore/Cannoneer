@@ -13,6 +13,9 @@ TextureImporter:
     21300012: Cannonball
     21300014: BrokenShip
     21300016: TreasureChest
+    21300018: Runner
+    21300020: Brigantine
+    21300022: Shark
   externalObjects: {}
   serializedVersion: 4
   mipmaps:
@@ -93,7 +96,7 @@ TextureImporter:
       rect:
         serializedVersion: 2
         x: 0
-        y: 360
+        y: 460
         width: 320
         height: 240
       alignment: 0
@@ -107,7 +110,7 @@ TextureImporter:
       rect:
         serializedVersion: 2
         x: 329
-        y: 360
+        y: 460
         width: 320
         height: 240
       alignment: 0
@@ -121,7 +124,7 @@ TextureImporter:
       rect:
         serializedVersion: 2
         x: 11
-        y: 195
+        y: 295
         width: 320
         height: 160
       alignment: 0
@@ -135,7 +138,7 @@ TextureImporter:
       rect:
         serializedVersion: 2
         x: 367
-        y: 193
+        y: 293
         width: 160
         height: 160
       alignment: 0
@@ -149,7 +152,7 @@ TextureImporter:
       rect:
         serializedVersion: 2
         x: 577
-        y: 251
+        y: 351
         width: 80
         height: 80
       alignment: 0
@@ -163,7 +166,7 @@ TextureImporter:
       rect:
         serializedVersion: 2
         x: 185
-        y: 19
+        y: 119
         width: 240
         height: 160
       alignment: 0
@@ -177,7 +180,7 @@ TextureImporter:
       rect:
         serializedVersion: 2
         x: 521
-        y: 52
+        y: 152
         width: 80
         height: 80
       alignment: 0
@@ -190,8 +193,8 @@ TextureImporter:
       name: BrokenShip
       rect:
         serializedVersion: 2
-        x: 630
-        y: 43
+        x: 626
+        y: 37
         width: 160
         height: 160
       alignment: 0
@@ -205,9 +208,51 @@ TextureImporter:
       rect:
         serializedVersion: 2
         x: 50
-        y: 53
+        y: 153
         width: 80
         height: 80
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: Runner
+      rect:
+        serializedVersion: 2
+        x: 668
+        y: 530
+        width: 320
+        height: 160
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: Brigantine
+      rect:
+        serializedVersion: 2
+        x: 669
+        y: 275
+        width: 320
+        height: 240
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: Shark
+      rect:
+        serializedVersion: 2
+        x: 817
+        y: 61
+        width: 160
+        height: 160
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}

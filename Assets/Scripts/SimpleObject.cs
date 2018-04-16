@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class SimpleObject : MonoBehaviour
 {
-    private Rigidbody2D rb2d; // So we can manipulate the rigidbody
+    protected Rigidbody2D rb2d; // So we can manipulate the rigidbody
     private bool checkCollision;
 
     /**
@@ -15,13 +15,13 @@ public class SimpleObject : MonoBehaviour
         rb2d = GetComponent<Rigidbody2D>();
         rb2d.velocity = new Vector2(-2f, 0); // Set move function, object goes at constant velocity
         checkCollision = true;
-        Invoke("StopCheckingCollision", 1f);
+        Invoke("StopCheckingCollision", 0.75f);
     }
 
     /**
      * Check to see if the object goes offscreen
      */
-    void Update()
+    protected void Update()
     {
         Vector3 viewPos = Camera.main.WorldToViewportPoint(transform.position);
         if (viewPos.x < -0.2f) // If it goes too far left, destroy it
@@ -34,7 +34,7 @@ public class SimpleObject : MonoBehaviour
      * If object spawns on another object, remove it
      * @param other The other object it collides with
      */
-    void OnTriggerEnter2D(Collider2D other)
+    protected void OnTriggerEnter2D(Collider2D other)
     {
         if (checkCollision && (other.gameObject.CompareTag("Ship") ||
             other.gameObject.CompareTag("Rock") ||
@@ -47,7 +47,7 @@ public class SimpleObject : MonoBehaviour
     /**
      * Turn off the checkCollision
      */
-    void StopCheckingCollision()
+    protected void StopCheckingCollision()
     {
         checkCollision = false;
     }

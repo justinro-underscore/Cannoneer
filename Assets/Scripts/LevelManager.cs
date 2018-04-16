@@ -8,7 +8,7 @@ public class LevelManager : MonoBehaviour
     public static LevelManager instance = null; // So this instance can be used in other classes
     public Transform cannonballs; // Holds cannonballs so the heirarchy does not get cluttered
     public Transform ships; // Holds ships so the heirarchy does not get cluttered
-    public Transform rocks; // Holds rocks so the heirarchy does not get cluttered
+    public Transform obstacles; // Holds obstacles so the heirarchy does not get cluttered
     public Transform treasure; // Holds the treasure so the heirarchy does not get cluttered
     
     public GameObject cannonball; // Prefab for Cannonball
@@ -16,6 +16,7 @@ public class LevelManager : MonoBehaviour
     public GameObject broken; // Prefab for Broken Ship
     public GameObject rockSmall; // Prefab for Small Rock
     public GameObject rockLarge; // Prefab for Large Rock
+    public GameObject shark; // Prefab for Shark
     public GameObject treasureChest; // Prefab for Treasure Chest
     public GameObject scoreIncreaseText; // Prefab for the score increase text
     public Image progressBar; // Prefab for the Progress Bar
@@ -60,8 +61,8 @@ public class LevelManager : MonoBehaviour
         ships = new GameObject("Ships").transform;
         // Holds all the cannonballs created
         cannonballs = new GameObject("Cannonballs").transform;
-        // Holds all the rocks created
-        rocks = new GameObject("Rocks").transform;
+        // Holds all the obstacles created
+        obstacles = new GameObject("Obstacles").transform;
         // Holds all the treasure chests created
         treasure = new GameObject("Treasure").transform;
         
@@ -140,6 +141,12 @@ public class LevelManager : MonoBehaviour
 
         float timeTilNextRock = Random.Range(1f, 3f);
         Invoke("CreateRock", timeTilNextRock);
+
+        if(level >= 3)
+        {
+            float timeTilNextShark = Random.Range(6f, 8f);
+            Invoke("CreateShark", timeTilNextShark);
+        }
     }
 
     /**
@@ -194,10 +201,25 @@ public class LevelManager : MonoBehaviour
                 r = Instantiate(rockSmall, new Vector3(OFFSCREEN_X, Random.Range(-OFFSCREEN_Y + 0.5f, OFFSCREEN_Y - 0.5f)), Quaternion.identity);
             else
                 r = Instantiate(rockLarge, new Vector3(OFFSCREEN_X, Random.Range(-OFFSCREEN_Y, OFFSCREEN_Y)), Quaternion.identity);
-            r.transform.SetParent(rocks);
+            r.transform.SetParent(obstacles);
 
             float timeTilNextRock = Random.Range(1f, 2f);
             Invoke("CreateRock", timeTilNextRock);
+        }
+    }
+
+    /**
+     * Creates a shark
+     */
+    public void CreateShark()
+    {
+        if (!levelComplete && !levelOver)
+        {
+            GameObject t = Instantiate(shark, new Vector3(OFFSCREEN_X, Random.Range(-OFFSCREEN_Y + 0.5f, OFFSCREEN_Y - 0.5f)), Quaternion.identity);
+            t.transform.SetParent(obstacles);
+
+            float timeTilNextShark = Random.Range(8f, 12f);
+            Invoke("CreateShark", timeTilNextShark);
         }
     }
 
@@ -226,6 +248,8 @@ public class LevelManager : MonoBehaviour
                 (obj.GetComponent<SimpleObject>() as SimpleObject).StopMoving();
             foreach (GameObject obj in GameObject.FindGameObjectsWithTag("Rock"))
                 (obj.GetComponent<SimpleObject>() as SimpleObject).StopMoving();
+            foreach (GameObject obj in GameObject.FindGameObjectsWithTag("Shark"))
+                (obj.GetComponent<Shark>() as Shark).StopMoving();
 
             SoundManager.instance.SetBackgroundMusic(null); // Turn off music
 
@@ -298,8 +322,8 @@ public class LevelManager : MonoBehaviour
             Destroy(ships.gameObject); // Destroys all ships
         if (cannonballs != null)
             Destroy(cannonballs.gameObject); // Destroys all cannonballs
-        if (rocks != null)
-            Destroy(rocks.gameObject); // Destroys all rocks
+        if (obstacles != null)
+            Destroy(obstacles.gameObject); // Destroys all obstacles
         if (treasure != null)
             Destroy(treasure.gameObject); // Destroys all treasure
         if(GameObject.FindObjectOfType<Image>().gameObject != null)
