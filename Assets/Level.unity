@@ -648,7 +648,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0ffc6f0b4847f7645bd340d7773c5a03, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  gameMusic: {fileID: 0}
+  gameMusic: {fileID: 8300000, guid: 9915e93a57209ce4e818d5be3c100b4d, type: 3}
   levelManager: {fileID: 1619949699532780, guid: 8f655cbafcfcdcc48ae509683afa57ae,
     type: 2}
   scoreText: {fileID: 1622022076}
