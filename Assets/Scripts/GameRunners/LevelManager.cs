@@ -14,6 +14,7 @@ public class LevelManager : MonoBehaviour
     public GameObject cannonball; // Prefab for Cannonball
     public GameObject sloop; // Prefab for Sloop
     public GameObject broken; // Prefab for Broken Ship
+    public GameObject brigantine; // Prefab for Brigantine
     public GameObject rockSmall; // Prefab for Small Rock
     public GameObject rockLarge; // Prefab for Large Rock
     public GameObject shark; // Prefab for Shark
@@ -35,6 +36,7 @@ public class LevelManager : MonoBehaviour
 
     private int numShipsToDestroy; // The amount of ships to destroy to end the level
     private int numShipsOnScreen; // The number of ships on screen at one time
+    private int numBrigantinesOnScreen; // The number of Brigantines on screen
     private bool levelOver; // Whether or not the level is over
     private bool levelComplete; // Whether or not the level has completed
 
@@ -134,7 +136,7 @@ public class LevelManager : MonoBehaviour
     {
         // TODO Add functionality for more ships
         float timeTilNextShip = Random.Range(2f, 4f); // TODO Change with the level
-        Invoke("CreateSloop", timeTilNextShip);
+        Invoke("CreateShip", timeTilNextShip);
 
         float timeTilNextTreasure = Random.Range(5f, 10f);
         Invoke("CreateTreasure", timeTilNextTreasure);
@@ -150,25 +152,34 @@ public class LevelManager : MonoBehaviour
     }
 
     /**
-     * Creates a Sloop ship
+     * Creates a ship
      */
-    public void CreateSloop()
+    public void CreateShip() // TODO Figure out what spawns when
     {
         if (!levelComplete && !levelOver)
         {
             if (numShipsOnScreen <= 5) // The number of ships on the screen should never go more than 5 TODO Possibly get rid of this?
             {
-                GameObject s = Instantiate(sloop, new Vector3(OFFSCREEN_X, Random.Range(-OFFSCREEN_Y + 0.5f, OFFSCREEN_Y - 0.5f)), Quaternion.identity);
+                float shipChoice = Random.value; // Determines which size rock to create
+                GameObject s = null;
+                if (shipChoice > 0.8f && numBrigantinesOnScreen < 2) // Chances of getting a sloop are higher than a brigantine
+                {
+                    numBrigantinesOnScreen++;
+                    s = Instantiate(brigantine, new Vector3(OFFSCREEN_X, Random.Range(-OFFSCREEN_Y + 0.5f, OFFSCREEN_Y - 0.5f)), Quaternion.identity);
+                }
+                else
+                    s = Instantiate(sloop, new Vector3(OFFSCREEN_X, Random.Range(-OFFSCREEN_Y + 0.5f, OFFSCREEN_Y - 0.5f)), Quaternion.identity);
+
                 s.transform.SetParent(ships);
                 numShipsOnScreen++; // Increase the amount of ships on the screen
 
-                float timeTilNextShip = Random.Range(2f, 4f); // TODO Change with the level
-                Invoke("CreateSloop", timeTilNextShip);
+                float timeTilNextShip = Random.Range(3f, 5f); // TODO Change with the level
+                Invoke("CreateShip", timeTilNextShip);
             }
             else // Try again later
             {
                 float timeTilNextShip = Random.Range(2f, 4f); // TODO Change with the level
-                Invoke("CreateSloop", timeTilNextShip);
+                Invoke("CreateShip", timeTilNextShip);
             }
         }
     }
@@ -292,9 +303,18 @@ public class LevelManager : MonoBehaviour
      * Removes a ship from numShipsOnScreen & adds to the amt destroyed
      * @param destroyed Whether or not the player destroyed the ship
      */
-    public void RemoveShip(bool destroyed)
+    public void RemoveShip(bool destroyed, string shipType)
     {
         numShipsOnScreen--;
+        switch(shipType) // Make sure not too many higher level ships are onscreen at once
+        {
+            case "Brigantine(Clone)":
+                numBrigantinesOnScreen--;
+                break;
+            default:
+                break;
+        }
+
         if (destroyed) // If the ship was destroyed...
         {
             progressBarWidth += progressAmt; // Increase desired progress bar width

@@ -35,8 +35,8 @@ public class Ship : Character
         Vector3 viewPos = Camera.main.WorldToViewportPoint(transform.position);
         if (viewPos.x < -0.2f) // If it goes too far left, destroy it
         {
-            if(!(this is BrokenShip))
-                LevelManager.instance.RemoveShip(false);
+            if (!(name.Equals("broken")))
+                LevelManager.instance.RemoveShip(false, name);
             Destroy(gameObject); // Destroy the object
         }
     }
@@ -63,13 +63,13 @@ public class Ship : Character
         {
             // TODO Show explosion animation
             SoundManager.instance.PlaySingle("explosionEnemy");
-            if (!(this is BrokenShip)) // If the ship isn't a broken ship...
+            if (!(name.Equals("broken"))) // If the ship isn't a broken ship...
             {
                 GameManager.instance.IncreaseScore(score, "ship"); // Increase the score
                 // Turn it into a ship
                 GameObject broken = Instantiate(LevelManager.instance.broken, transform.position, Quaternion.identity);
                 broken.transform.SetParent(LevelManager.instance.ships);
-                LevelManager.instance.RemoveShip(true);
+                LevelManager.instance.RemoveShip(true, name);
             }
             else
                 GameManager.instance.IncreaseScore(score, "obstacle"); // Increase the score as an obstacle
@@ -82,14 +82,20 @@ public class Ship : Character
     /**
      * Shoots the cannonball in a direction
      * @param dirUp If it should shoot upwards or downwards
+     * @param targetPlayer Whether or not the ship should target the player with its shot
      */
-    protected void ShootCannonBall(bool dirUp)
+    protected void ShootCannonBall(bool dirUp, bool targetPlayer)
     {
         if (canShoot) // Only shoot if reload time is done
         {
             // Create the cannonball
             GameObject ball = Instantiate(LevelManager.instance.cannonball, transform.position, Quaternion.identity);
-            (ball.GetComponent<Cannonball>() as Cannonball).SetParams(false, dirUp, rb2d.velocity.x); // Set the parameters
+            float xVelocity = 0f;
+            if (targetPlayer)
+                xVelocity = (target.position.x - transform.position.x); // Aim at player
+            else
+                xVelocity = rb2d.velocity.x;
+            (ball.GetComponent<Cannonball>() as Cannonball).SetParams(false, dirUp, xVelocity); // Set the parameters
             ball.transform.SetParent(LevelManager.instance.cannonballs);
             canShoot = false; // Reload
 

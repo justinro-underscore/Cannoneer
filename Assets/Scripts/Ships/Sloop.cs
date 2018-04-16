@@ -29,6 +29,6 @@ public class Sloop : Ship
      */
     void CheckForShoot()
     {
-        ShootCannonBall(target.position.y > transform.position.y);
+        ShootCannonBall(target.position.y > transform.position.y, false);
     }
 }

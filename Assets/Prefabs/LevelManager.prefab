@@ -58,6 +58,7 @@ MonoBehaviour:
   cannonball: {fileID: 1782680425431028, guid: 36f9eb3571739114195dbaad865bda27, type: 2}
   sloop: {fileID: 1475741582535852, guid: 9a51fe3b2e1501246be4b9c1f8b7b294, type: 2}
   broken: {fileID: 1779743101806160, guid: 328c7511f0fe5b146a2588e435921a28, type: 2}
+  brigantine: {fileID: 1068335488814098, guid: daf2d280f10ef0e4fb2cd02d3121b82a, type: 2}
   rockSmall: {fileID: 1453698726952074, guid: 08c19caf9fd17764999f5626a556929b, type: 2}
   rockLarge: {fileID: 1918227069633490, guid: c401eb9f2e3bdf449a9e889814d23493, type: 2}
   shark: {fileID: 1776147594896800, guid: 0ced867e5ad60b44e8fe8313c51af810, type: 2}

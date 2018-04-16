@@ -4,8 +4,7 @@ using UnityEngine;
 
 public class Shark : SimpleObject
 {
-#pragma warning disable CS0108 // I got tired of seeing this dumb warning message IT'S FINE IT WORKS
-
+    #pragma warning disable CS0108 // I got tired of seeing this dumb warning message IT'S FINE IT WORKS
     /**
      * Moves in a cosine wave
      */
@@ -22,7 +21,6 @@ public class Shark : SimpleObject
      */
     void OnTriggerEnter2D(Collider2D other)
     {
-        base.OnTriggerEnter2D(other); // Check for overlap at beginning
         if (other.gameObject.CompareTag("Cannonball") && (other.GetComponent<Cannonball>() as Cannonball).getShotByPlayer())
         {
             GameManager.instance.IncreaseScore(300, "obstacle"); // Increase the score as an obstacle
