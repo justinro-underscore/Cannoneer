@@ -26,7 +26,7 @@ public class PlayerController : Character
         timeSinceLastCannonDown = 0;
         speed = 4; // The speed at which the ship moves
         isDead = false;
-        godMode = false;
+        godMode = true;
         gameObject.GetComponent<SpriteRenderer>().color = new Color(1f, 1f, 1f, 1f); // Make player visible
 		SetCannonText (); // TODO Change to a graphic
     }

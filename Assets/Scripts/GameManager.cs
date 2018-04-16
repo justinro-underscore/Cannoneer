@@ -19,6 +19,8 @@ public class GameManager : MonoBehaviour
     }
     private State currState = State.LEADERBOARD; // The current state the game is in (starts in leaderboard so that we can call ShowMenu())
 
+    public AudioClip gameMusic; // Background music of the game
+
     private string[] leaderboardNames; // Names of the top 10 scorers
     private int[] leaderboardScores; // Scores of the top 10 scorers
 
@@ -119,6 +121,8 @@ public class GameManager : MonoBehaviour
         playerName = "AAA";
         level = 0;
 
+        SoundManager.instance.SetBackgroundMusic(gameMusic);
+
         InitLevel();
     }
 
@@ -202,7 +206,7 @@ public class GameManager : MonoBehaviour
         (player.GetComponent<PlayerController>() as PlayerController).MovePlayer(new Vector2(-8, 0)); // Move the player
 
         IncreaseScore(200 * level, ""); // Level complete score
-        levelText.text = "Level " + level + " Complete!";
+        levelText.text = "Stage " + level + " Complete!";
         InvokeRepeating("ShowLevelCompleteScoreText", 1f, 0.01f); // For the count up
     }
 
