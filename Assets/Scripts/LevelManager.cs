@@ -227,6 +227,8 @@ public class LevelManager : MonoBehaviour
             foreach (GameObject obj in GameObject.FindGameObjectsWithTag("Rock"))
                 (obj.GetComponent<SimpleObject>() as SimpleObject).StopMoving();
 
+            SoundManager.instance.SetBackgroundMusic(null); // Turn off music
+
             Invoke("EndGame", 2f); // Delete everything 2 seconds later (this is so the player sees how they died)
         }
         else

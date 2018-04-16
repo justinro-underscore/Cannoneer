@@ -20,6 +20,7 @@ public class GameManager : MonoBehaviour
     private State currState = State.LEADERBOARD; // The current state the game is in (starts in leaderboard so that we can call ShowMenu())
 
     public AudioClip gameMusic; // Background music of the game
+    public AudioClip menuMusic; // Background music of the menu
 
     private string[] leaderboardNames; // Names of the top 10 scorers
     private int[] leaderboardScores; // Scores of the top 10 scorers
@@ -86,6 +87,8 @@ public class GameManager : MonoBehaviour
     {
         CancelInvoke();
         currState = State.MAIN_MENU;
+
+        SoundManager.instance.SetBackgroundMusic(menuMusic);
 
         leaderboardText.text = ""; // Just make sure this is empty
         levelOverText.text = "Welcome to Cannoneer!\nPress 'Enter' to start!";

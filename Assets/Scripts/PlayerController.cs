@@ -72,6 +72,8 @@ public class PlayerController : Character
 	{
 		if (godMode || dirUp ? timeSinceLastCannonUp == 0 : timeSinceLastCannonDown == 0) // Check to see if it should shoot the cannon
 		{
+            SoundManager.instance.PlaySingle("cannonFire"); // Sound the cannons!
+
             // Create the cannonball
             CreateCannonball(true, dirUp);
 
@@ -121,6 +123,7 @@ public class PlayerController : Character
     void GameOver()
     {
         ToggleIsDead(); // Die
+        SoundManager.instance.PlaySingle("explosionPlayer");
         cannonText.text = "";
         LevelManager.instance.EndGame(); // End the game
     }

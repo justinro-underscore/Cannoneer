@@ -62,6 +62,7 @@ public class Ship : Character
         if (canSink)
         {
             // TODO Show explosion animation
+            SoundManager.instance.PlaySingle("explosionEnemy");
             if (!(this is BrokenShip)) // If the ship isn't a broken ship...
             {
                 GameManager.instance.IncreaseScore(score, "ship"); // Increase the score

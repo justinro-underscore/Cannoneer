@@ -7,8 +7,14 @@ public class SoundManager : MonoBehaviour
     public static SoundManager instance = null; // Creates an instance of the Sound Manager
     public AudioSource efxSource; //Drag a reference to the audio source which will play the sound effects.
     public AudioSource musicSource; //Drag a reference to the audio source which will play the music.
-    public AudioSource switchedMusicSource;
+    public AudioSource switchedMusicSource; // The music to be switched to for background music (used for cross-fade)
     private bool switchedMusicPlaying;
+
+    public AudioClip cannonSound;
+    public AudioClip explosionPlayerSound;
+    public AudioClip explosionEnemySound;
+
+    private Hashtable soundEffects;
 
     /**
      * Creates an instance of the Sound Manager
@@ -31,13 +37,21 @@ public class SoundManager : MonoBehaviour
         DontDestroyOnLoad(gameObject);
 
         switchedMusicPlaying = false;
+
+        soundEffects = new Hashtable();
+        soundEffects.Add("cannonFire", cannonSound);
+        soundEffects.Add("explosionPlayer", explosionPlayerSound);
+        soundEffects.Add("explosionEnemy", explosionEnemySound);
     }
 
     /**
      * Plays a single sound clip
      */
-    public void PlaySingle(AudioClip clip)
+    public void PlaySingle(string clipName)
     {
+        // Get the sound clip
+        AudioClip clip = (AudioClip)soundEffects[clipName]; // If it doesn't exist, we don't really care
+
         //Set the clip of our efxSource audio source to the clip passed in as a parameter.
         efxSource.clip = clip;
 
@@ -50,7 +64,7 @@ public class SoundManager : MonoBehaviour
      */
     public void SetBackgroundMusic(AudioClip music)
     {
-        if(musicSource.isPlaying)
+        if(musicSource.isPlaying) // If the musicSource object is the one currently making sound
         {
             switchedMusicPlaying = false;
 
@@ -59,7 +73,7 @@ public class SoundManager : MonoBehaviour
             switchedMusicSource.volume = 0;
             switchedMusicSource.Play();
 
-            InvokeRepeating("SwitchMusic", 0f, 0.01f);
+            InvokeRepeating("SwitchMusic", 0f, 0.01f); // Begin the cross-fade
         }
         else
         {
@@ -74,19 +88,22 @@ public class SoundManager : MonoBehaviour
         }
     }
 
+    /**
+     * Cross-fades between the two music tracks
+     */
     void SwitchMusic()
     {
-        if (!switchedMusicPlaying)
+        if (!switchedMusicPlaying) // If the musicSource object is the one playing currently
         {
             if (switchedMusicSource.volume < 1)
             {
-                switchedMusicSource.volume = switchedMusicSource.volume + 0.01f;
-                musicSource.volume = musicSource.volume - 0.01f;
+                switchedMusicSource.volume = switchedMusicSource.volume + 0.01f; // Increase switched music volume
+                musicSource.volume = musicSource.volume - 0.01f; // Decrease music source volume
             }
-            else
+            else // If the switched music source is at 1 (and musicSource is muted)
             {
-                CancelInvoke();
-                musicSource.Stop();
+                CancelInvoke(); // Stop repeating
+                musicSource.Stop(); // Stop the music source
             }
         }
         else

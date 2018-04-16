@@ -146,6 +146,10 @@ MonoBehaviour:
   efxSource: {fileID: 212001127}
   musicSource: {fileID: 212001126}
   switchedMusicSource: {fileID: 212001128}
+  cannonSound: {fileID: 8300000, guid: 32c331bbc92ba1747a250e0db87610cd, type: 3}
+  explosionPlayerSound: {fileID: 8300000, guid: 9057a3088a0b5134d8e7ac4d9cf0c2f0,
+    type: 3}
+  explosionEnemySound: {fileID: 8300000, guid: 915919978eac4a24dbe3979e06e9404f, type: 3}
 --- !u!4 &212001125
 Transform:
   m_ObjectHideFlags: 0
@@ -170,7 +174,7 @@ AudioSource:
   OutputAudioMixerGroup: {fileID: 0}
   m_audioClip: {fileID: 8300000, guid: e511834dba428a9479e31483a8beac54, type: 3}
   m_PlayOnAwake: 1
-  m_Volume: 1
+  m_Volume: 0.61
   m_Pitch: 1
   Loop: 1
   Mute: 0
@@ -330,7 +334,7 @@ AudioSource:
   OutputAudioMixerGroup: {fileID: 0}
   m_audioClip: {fileID: 0}
   m_PlayOnAwake: 0
-  m_Volume: 1
+  m_Volume: 0.61
   m_Pitch: 1
   Loop: 1
   Mute: 0
@@ -649,6 +653,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   gameMusic: {fileID: 8300000, guid: 9915e93a57209ce4e818d5be3c100b4d, type: 3}
+  menuMusic: {fileID: 8300000, guid: e511834dba428a9479e31483a8beac54, type: 3}
   levelManager: {fileID: 1619949699532780, guid: 8f655cbafcfcdcc48ae509683afa57ae,
     type: 2}
   scoreText: {fileID: 1622022076}
