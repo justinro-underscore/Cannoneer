@@ -35,7 +35,7 @@ public class Ship : Character
         Vector3 viewPos = Camera.main.WorldToViewportPoint(transform.position);
         if (viewPos.x < -0.2f) // If it goes too far left, destroy it
         {
-            if (!(name.Equals("broken")))
+            if (!(name.Equals("BrokenShip(Clone)")))
                 LevelManager.instance.RemoveShip(false, name);
             Destroy(gameObject); // Destroy the object
         }
@@ -63,7 +63,7 @@ public class Ship : Character
         {
             // TODO Show explosion animation
             SoundManager.instance.PlaySingle("explosionEnemy");
-            if (!(name.Equals("broken"))) // If the ship isn't a broken ship...
+            if (!(name.Equals("BrokenShip(Clone)"))) // If the ship isn't a broken ship...
             {
                 GameManager.instance.IncreaseScore(score, "ship"); // Increase the score
                 // Turn it into a ship
