@@ -13,7 +13,7 @@ public class PlayerController : Character
 
     private bool isDead; // Whether or not the player has lost
 
-    private bool godMode; // If true, you cannot die and can shoot infinitely
+    private bool debugMode; // If true, you are in debug mode
 
     /**
      * Restarts all values to make sure it is ready for playing
@@ -26,7 +26,7 @@ public class PlayerController : Character
         timeSinceLastCannonDown = 0;
         speed = 4; // The speed at which the ship moves
         isDead = false;
-        godMode = true;
+        debugMode = false;
         gameObject.GetComponent<SpriteRenderer>().color = new Color(1f, 1f, 1f, 1f); // Make player visible
 		SetCannonText (); // TODO Change to a graphic
     }
@@ -70,7 +70,7 @@ public class PlayerController : Character
      */
     void ShootCannonBall(bool dirUp)
 	{
-		if (godMode || (dirUp ? timeSinceLastCannonUp == 0 : timeSinceLastCannonDown == 0)) // Check to see if it should shoot the cannon
+		if (debugMode || (dirUp ? timeSinceLastCannonUp == 0 : timeSinceLastCannonDown == 0)) // Check to see if it should shoot the cannon
 		{
             SoundManager.instance.PlaySingle("cannonFire"); // Sound the cannons!
 
@@ -106,7 +106,7 @@ public class PlayerController : Character
             other.gameObject.CompareTag("Shark") ||
             (other.gameObject.CompareTag("Cannonball") && !(other.GetComponent<Cannonball>() as Cannonball).getShotByPlayer()))
         {
-            if(!godMode)
+            if(!debugMode)
                 GameOver();
         }
         else if(other.gameObject.CompareTag("Treasure"))
@@ -144,5 +144,14 @@ public class PlayerController : Character
     public void MovePlayer(Vector2 position)
     {
         rb2d.position = position;
+    }
+
+    /**
+     * Gets the player's debug mode status
+     * @return debugMode Whether or not the player is debugging
+     */
+    public bool GetDebugMode()
+    {
+        return debugMode;
     }
 }

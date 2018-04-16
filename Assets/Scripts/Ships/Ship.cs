@@ -133,7 +133,7 @@ public class Ship : Character
      */
     public void StopMoving()
     {
-        CancelInvoke(); // Stops them from shooting
+        CancelInvoke("ToggleCanShoot"); // Stops them from shooting
         rb2d.velocity = new Vector3(0, 0);
     }
 }

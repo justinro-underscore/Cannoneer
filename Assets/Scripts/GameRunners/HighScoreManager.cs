@@ -92,7 +92,7 @@ public class HighScoreManager : MonoBehaviour
      */
     void SetCursorBlinkTrue()
     {
-        CancelInvoke(); // So we can reset the invoke
+        CancelInvoke("CursorBlinkToggle"); // So we can reset the invoke
         cursorBlink = true;
         InvokeRepeating("CursorBlinkToggle", 0.5f, 0.5f);
     }
@@ -168,7 +168,7 @@ public class HighScoreManager : MonoBehaviour
     public void Reset()
     {
         running = false;
-        CancelInvoke();
+        CancelInvoke("CursorBlinkToggle");
         highScoreText.text = "";
         initialsText.text = "";
     }

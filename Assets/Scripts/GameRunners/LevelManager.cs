@@ -337,8 +337,13 @@ public class LevelManager : MonoBehaviour
      */
     void OnDestroy()
     {
-        CancelInvoke(); // Make sure there is no new invokes
-        if(ships != null)
+        // Make sure there are no new spawns
+        CancelInvoke("CreateShip");
+        CancelInvoke("CreateRock");
+        CancelInvoke("CreateShark");
+        CancelInvoke("CreateTreasure");
+
+        if (ships != null)
             Destroy(ships.gameObject); // Destroys all ships
         if (cannonballs != null)
             Destroy(cannonballs.gameObject); // Destroys all cannonballs

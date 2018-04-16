@@ -85,7 +85,7 @@ public class GameManager : MonoBehaviour
      */
     void ShowMenu()
     {
-        CancelInvoke();
+        CancelInvoke("ShowMenu");
         currState = State.MAIN_MENU;
 
         SoundManager.instance.SetBackgroundMusic(menuMusic);
@@ -122,7 +122,7 @@ public class GameManager : MonoBehaviour
         // Set the starting values
         playerScore = 0;
         playerName = "AAA";
-        level = 2;
+        level = 0;
 
         SoundManager.instance.SetBackgroundMusic(gameMusic);
 
@@ -179,7 +179,8 @@ public class GameManager : MonoBehaviour
      */
     public void IncreaseScore(int score, string objectName)
     {
-        playerScore += score;
+        if(!(player.GetComponent<PlayerController>() as PlayerController).GetDebugMode())
+            playerScore += score;
         scoreText.text = "Score: " + playerScore;
 
         // Adds the score to respecitve category
@@ -232,7 +233,7 @@ public class GameManager : MonoBehaviour
         }
         else
         {
-            CancelInvoke(); // Stop counting up
+            CancelInvoke("ShowLevelCompleteScoreText"); // Stop counting up
             InvokeRepeating("ShowShipsScore", 1f, 0.01f); // Start counting the next category
         }
     }
@@ -258,7 +259,7 @@ public class GameManager : MonoBehaviour
         }
         else
         {
-            CancelInvoke();
+            CancelInvoke("ShowShipsScore");
             InvokeRepeating("ShowTreasureScore", 1f, 0.01f);
         }
     }
@@ -284,7 +285,7 @@ public class GameManager : MonoBehaviour
         }
         else
         {
-            CancelInvoke();
+            CancelInvoke("ShowTreasureScore");
             InvokeRepeating("ShowObstaclesText", 1f, 0.01f);
         }
     }
@@ -310,7 +311,7 @@ public class GameManager : MonoBehaviour
         }
         else
         {
-            CancelInvoke();
+            CancelInvoke("ShowObstaclesText");
             Invoke("InitLevel", 4f); // Move on to next level
         }
     }

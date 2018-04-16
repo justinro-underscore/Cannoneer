@@ -102,7 +102,7 @@ public class SoundManager : MonoBehaviour
             }
             else // If the switched music source is at 1 (and musicSource is muted)
             {
-                CancelInvoke(); // Stop repeating
+                CancelInvoke("SwitchMusic"); // Stop repeating
                 musicSource.Stop(); // Stop the music source
             }
         }
@@ -115,7 +115,7 @@ public class SoundManager : MonoBehaviour
             }
             else
             {
-                CancelInvoke();
+                CancelInvoke("SwitchMusic");
                 switchedMusicSource.Stop();
             }
         }
