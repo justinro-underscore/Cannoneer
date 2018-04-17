@@ -13,6 +13,7 @@ public class BrokenShip : Ship
         canSink = false;
         Invoke("ToggleCanSink", 0.25f);
         score = 50;
+        livesLeft = 1;
         rb2d.velocity = new Vector2(-2f, 0); // Set move function, Sloop goes at constant velocity
     }
 
@@ -22,5 +23,13 @@ public class BrokenShip : Ship
     void FixedUpdate()
     {
         CheckIfOffScreen();
+    }
+
+    /**
+     * Changes the sprite of the ship
+     */
+    protected override void ChangeSprite()
+    {
+        // Do nothing
     }
 }

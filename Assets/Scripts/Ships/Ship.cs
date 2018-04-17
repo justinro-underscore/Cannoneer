@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class Ship : Character
+public abstract class Ship : Character
 {
     public Text scoreIncreaseText;
 
@@ -12,6 +12,7 @@ public class Ship : Character
     protected bool canShoot; // If the ship can shoot now
     protected bool canSink; // Whether or not the ship can sink
     protected bool goOffScreen; // When the level ends, the ships should just go offscreen
+    protected int livesLeft; // The amount of hits the ship can take before being destroyed
 
     /**
      * Instantiates the ship
@@ -47,12 +48,27 @@ public class Ship : Character
      */
     protected void OnTriggerEnter2D(Collider2D other)
     {
-        if (other.gameObject.CompareTag("Cannonball") && (other.GetComponent<Cannonball>() as Cannonball).getShotByPlayer())
+        if (canSink && other.gameObject.CompareTag("Cannonball") && (other.GetComponent<Cannonball>() as Cannonball).getShotByPlayer())
         {
             Destroy(other.gameObject, 0.25f); // Destroy the cannonball
-            DestroyShip(); // Destroy the ship
+            livesLeft--;
+            if (livesLeft == 0) // If the ship is destroyed
+            {
+                DestroyShip(); // Destroy the ship
+            }
+            else
+            {
+                canSink = false;
+                Invoke("ToggleCanSink", 0.25f);
+                ChangeSprite();
+            }
         }
     }
+
+    /**
+     * Changes the sprite of the ship (different for each ship)
+     */
+    protected abstract void ChangeSprite();
 
     /**
      * Destroys the ship

@@ -128,6 +128,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   scoreIncreaseText: {fileID: 0}
+  broken: {fileID: 21300024, guid: 9b5fd3f2a9eb97948adc2fb33a4336c7, type: 3}
 --- !u!212 &212072964969332708
 SpriteRenderer:
   m_ObjectHideFlags: 1

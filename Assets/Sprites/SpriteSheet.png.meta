@@ -16,6 +16,7 @@ TextureImporter:
     21300018: Runner
     21300020: Brigantine
     21300022: Shark
+    21300024: BrigantineBroken
   externalObjects: {}
   serializedVersion: 4
   mipmaps:
@@ -96,7 +97,7 @@ TextureImporter:
       rect:
         serializedVersion: 2
         x: 0
-        y: 460
+        y: 960
         width: 320
         height: 240
       alignment: 0
@@ -110,7 +111,7 @@ TextureImporter:
       rect:
         serializedVersion: 2
         x: 329
-        y: 460
+        y: 960
         width: 320
         height: 240
       alignment: 0
@@ -124,7 +125,7 @@ TextureImporter:
       rect:
         serializedVersion: 2
         x: 11
-        y: 295
+        y: 795
         width: 320
         height: 160
       alignment: 0
@@ -138,7 +139,7 @@ TextureImporter:
       rect:
         serializedVersion: 2
         x: 367
-        y: 293
+        y: 793
         width: 160
         height: 160
       alignment: 0
@@ -152,7 +153,7 @@ TextureImporter:
       rect:
         serializedVersion: 2
         x: 577
-        y: 351
+        y: 851
         width: 80
         height: 80
       alignment: 0
@@ -166,7 +167,7 @@ TextureImporter:
       rect:
         serializedVersion: 2
         x: 185
-        y: 119
+        y: 619
         width: 240
         height: 160
       alignment: 0
@@ -179,8 +180,8 @@ TextureImporter:
       name: Cannonball
       rect:
         serializedVersion: 2
-        x: 521
-        y: 152
+        x: 558
+        y: 750
         width: 80
         height: 80
       alignment: 0
@@ -193,8 +194,8 @@ TextureImporter:
       name: BrokenShip
       rect:
         serializedVersion: 2
-        x: 626
-        y: 37
+        x: 453
+        y: 573
         width: 160
         height: 160
       alignment: 0
@@ -208,7 +209,7 @@ TextureImporter:
       rect:
         serializedVersion: 2
         x: 50
-        y: 153
+        y: 653
         width: 80
         height: 80
       alignment: 0
@@ -222,11 +223,11 @@ TextureImporter:
       rect:
         serializedVersion: 2
         x: 668
-        y: 530
+        y: 1030
         width: 320
         height: 160
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
@@ -236,11 +237,11 @@ TextureImporter:
       rect:
         serializedVersion: 2
         x: 669
-        y: 275
+        y: 775
         width: 320
         height: 240
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
@@ -249,10 +250,24 @@ TextureImporter:
       name: Shark
       rect:
         serializedVersion: 2
-        x: 817
-        y: 61
+        x: 37
+        y: 429
         width: 160
         height: 160
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: BrigantineBroken
+      rect:
+        serializedVersion: 2
+        x: 664
+        y: 520
+        width: 320
+        height: 240
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}

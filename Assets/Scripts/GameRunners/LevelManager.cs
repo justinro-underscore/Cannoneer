@@ -162,10 +162,10 @@ public class LevelManager : MonoBehaviour
             {
                 float shipChoice = Random.value; // Determines which size rock to create
                 GameObject s = null;
-                if (shipChoice > 0.8f && numBrigantinesOnScreen < 2) // Chances of getting a sloop are higher than a brigantine
+                if (level >= 2 && shipChoice > 0.8f && numBrigantinesOnScreen < 2) // Chances of getting a sloop are higher than a brigantine
                 {
                     numBrigantinesOnScreen++;
-                    s = Instantiate(brigantine, new Vector3(OFFSCREEN_X, Random.Range(-OFFSCREEN_Y + 0.5f, OFFSCREEN_Y - 0.5f)), Quaternion.identity);
+                    s = Instantiate(brigantine, new Vector3(OFFSCREEN_X, Random.Range(-OFFSCREEN_Y + 1f, OFFSCREEN_Y - 1f)), Quaternion.identity);
                 }
                 else
                     s = Instantiate(sloop, new Vector3(OFFSCREEN_X, Random.Range(-OFFSCREEN_Y + 0.5f, OFFSCREEN_Y - 0.5f)), Quaternion.identity);
@@ -226,7 +226,7 @@ public class LevelManager : MonoBehaviour
     {
         if (!levelComplete && !levelOver)
         {
-            GameObject t = Instantiate(shark, new Vector3(OFFSCREEN_X, Random.Range(-OFFSCREEN_Y + 0.5f, OFFSCREEN_Y - 0.5f)), Quaternion.identity);
+            GameObject t = Instantiate(shark, new Vector3(OFFSCREEN_X, Random.Range(-OFFSCREEN_Y + 2f, OFFSCREEN_Y - 2f)), Quaternion.identity);
             t.transform.SetParent(obstacles);
 
             float timeTilNextShark = Random.Range(8f, 12f);
