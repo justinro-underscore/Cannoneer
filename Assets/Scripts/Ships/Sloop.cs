@@ -22,14 +22,6 @@ public class Sloop : Ship
     void FixedUpdate()
     {
         CheckIfOffScreen();
-        CheckForShoot();
-    }
-
-    /**
-     * Check to see where to shoot
-     */
-    void CheckForShoot()
-    {
         ShootCannonBall(target.position.y > transform.position.y, false);
     }
 

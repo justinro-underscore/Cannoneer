@@ -50,6 +50,8 @@ public abstract class Ship : Character
     {
         if (canSink && other.gameObject.CompareTag("Cannonball") && (other.GetComponent<Cannonball>() as Cannonball).getShotByPlayer())
         {
+            // TODO Show explosion animation
+            SoundManager.instance.PlaySingle("explosionEnemy");
             Destroy(other.gameObject, 0.25f); // Destroy the cannonball
             livesLeft--;
             if (livesLeft == 0) // If the ship is destroyed
@@ -77,8 +79,6 @@ public abstract class Ship : Character
     {
         if (canSink)
         {
-            // TODO Show explosion animation
-            SoundManager.instance.PlaySingle("explosionEnemy");
             if (!(name.Equals("BrokenShip(Clone)"))) // If the ship isn't a broken ship...
             {
                 GameManager.instance.IncreaseScore(score, "ship"); // Increase the score
@@ -99,8 +99,9 @@ public abstract class Ship : Character
      * Shoots the cannonball in a direction
      * @param dirUp If it should shoot upwards or downwards
      * @param targetPlayer Whether or not the ship should target the player with its shot
+     * @return if the cannonball was shot or not
      */
-    protected void ShootCannonBall(bool dirUp, bool targetPlayer)
+    protected bool ShootCannonBall(bool dirUp, bool targetPlayer)
     {
         if (canShoot) // Only shoot if reload time is done
         {
@@ -114,9 +115,11 @@ public abstract class Ship : Character
             (ball.GetComponent<Cannonball>() as Cannonball).SetParams(false, dirUp, xVelocity); // Set the parameters
             ball.transform.SetParent(LevelManager.instance.cannonballs);
             canShoot = false; // Reload
-
+            
             Invoke("ToggleCanShoot", 2); // Reload for 2 seconds
+            return true;
         }
+        return false;
     }
 
     /**
