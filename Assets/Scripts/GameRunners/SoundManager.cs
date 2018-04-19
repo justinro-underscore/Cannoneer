@@ -45,7 +45,7 @@ public class SoundManager : MonoBehaviour
         soundEffects.Add("cannonFire", cannonSound);
         soundEffects.Add("explosionPlayer", explosionPlayerSound);
         soundEffects.Add("explosionEnemy", explosionEnemySound);
-        soundEffects.Add("startLevel", null); // TODO replace with something
+        soundEffects.Add("gameStart", null); // TODO replace with something
     }
 
     void InitSounds()
@@ -53,7 +53,7 @@ public class SoundManager : MonoBehaviour
         soundEffects["cannonFire"] = cannonSound;
         soundEffects["explosionPlayer"] = explosionPlayerSound;
         soundEffects["explosionEnemy"] = explosionEnemySound;
-        soundEffects["startLevel"] = null; // TODO replace with something
+        soundEffects["gameStart"] = null; // TODO replace with something
     }
 
     /**
@@ -64,8 +64,8 @@ public class SoundManager : MonoBehaviour
         if ((AudioClip)soundEffects["explosionEnemy"] != owenWilsonBoom)
         {
             soundEffects["explosionEnemy"] = owenWilsonBoom;
-            soundEffects["startLevel"] = owenWilsonStart;
-            PlaySingle("startLevel");
+            soundEffects["gameStart"] = owenWilsonStart;
+            PlaySingle("gameStart");
         }
         else
             InitSounds();
@@ -79,7 +79,7 @@ public class SoundManager : MonoBehaviour
         // Get the sound clip
         AudioClip clip = (AudioClip)soundEffects[clipName]; // If it doesn't exist, we don't really care
 
-        if(efxSource.isPlaying) // If primary efxSource is busy
+        if(!efxSource.isPlaying) // If primary efxSource is not busy
         {
             //Set the clip of our efxSource audio source to the clip passed in as a parameter.
             efxSource.clip = clip;

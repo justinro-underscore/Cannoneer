@@ -138,6 +138,7 @@ public class GameManager : MonoBehaviour
         level = 10;
 
         SoundManager.instance.SetBackgroundMusic(gameMusic);
+        SoundManager.instance.PlaySingle("gameStart");
 
         InitLevel();
     }

@@ -139,7 +139,7 @@ public class LevelManager : MonoBehaviour
         // Equation to calculate the amount of ships needed to destroy to move on to next level
         numShipsToDestroy = (int)Mathf.Floor(3.3709f * Mathf.Log(level, 2.7183f) + 7.3771f);
         progressAmt = PROGRESS_BAR_FULL_WIDTH / numShipsToDestroy; // Set the amount each ship destroyed should increase the progress bar
-        
+
         // Begins to spawn objects
         SpawnObjects();
     }
