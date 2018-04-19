@@ -135,7 +135,6 @@ public class LevelManager : MonoBehaviour
             maxNumShipsOnScreen = 3;
 
         levelSpawningRates = GameManager.instance.GetSpawningRates();
-        Debug.Log(levelSpawningRates[0] + " " + levelSpawningRates[1] + " " + levelSpawningRates[2] + " " + levelSpawningRates[3]);
 
         // Equation to calculate the amount of ships needed to destroy to move on to next level
         numShipsToDestroy = (int)Mathf.Floor(3.3709f * Mathf.Log(level, 2.7183f) + 7.3771f);
