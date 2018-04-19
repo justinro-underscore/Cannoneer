@@ -154,4 +154,14 @@ public class PlayerController : Character
     {
         return debugMode;
     }
+
+    /**
+     * Changes the player's debug mode status
+     */
+    public void ToggleDebugMode()
+    {
+        debugMode = !debugMode;
+        if (!debugMode)
+            GameOver();
+    }
 }

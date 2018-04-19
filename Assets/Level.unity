@@ -319,7 +319,8 @@ MonoBehaviour:
   explosionPlayerSound: {fileID: 8300000, guid: 9057a3088a0b5134d8e7ac4d9cf0c2f0,
     type: 3}
   explosionEnemySound: {fileID: 8300000, guid: 915919978eac4a24dbe3979e06e9404f, type: 3}
-  owenWilson: {fileID: 8300000, guid: aa362257b5898314d902be305d0e3421, type: 3}
+  owenWilsonBoom: {fileID: 8300000, guid: aa362257b5898314d902be305d0e3421, type: 3}
+  owenWilsonStart: {fileID: 8300000, guid: 5c6f0db08416b4944961f4162bf1f808, type: 3}
 --- !u!4 &212001125
 Transform:
   m_ObjectHideFlags: 0
@@ -929,6 +930,48 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 5
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &1115288842
+GameObject:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  serializedVersion: 5
+  m_Component:
+  - component: {fileID: 1115288844}
+  - component: {fileID: 1115288843}
+  m_Layer: 0
+  m_Name: CodeManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &1115288843
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1115288842}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fbdc4cbb92cce3040bb190361eb76e9f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  scoreIncreaseText: {fileID: 1239528006753096, guid: 6075d3d29678e70428a76d3f217f6435,
+    type: 2}
+--- !u!4 &1115288844
+Transform:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1115288842}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0.1721783, y: -0.16110057, z: 5.9804688}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 8
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1138691199
 GameObject:

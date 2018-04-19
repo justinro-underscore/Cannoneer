@@ -25,6 +25,17 @@ public class ScoreIncreaseTextController : MonoBehaviour
         this.GetComponent<Text>().text = "+" + score;
         transform.position = pos;
     }
+    
+    /**
+     * Sets the parameters of the text for a cheat code
+     * @param txt The text to be displayed
+     */
+    public void SetParamsForCheat(string txt)
+    {
+        this.GetComponent<Text>().text = txt;
+        this.GetComponent<Text>().fontSize = 90;
+        transform.position = new Vector3(0, 2); // Start near the middle
+    }
 	
     /**
      * Move the text up and make it more transparent

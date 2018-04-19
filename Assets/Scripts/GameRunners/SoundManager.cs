@@ -14,7 +14,8 @@ public class SoundManager : MonoBehaviour
     public AudioClip cannonSound;
     public AudioClip explosionPlayerSound;
     public AudioClip explosionEnemySound;
-    public AudioClip owenWilson;
+    public AudioClip owenWilsonBoom;
+    public AudioClip owenWilsonStart;
 
     private Hashtable soundEffects;
 
@@ -44,6 +45,7 @@ public class SoundManager : MonoBehaviour
         soundEffects.Add("cannonFire", cannonSound);
         soundEffects.Add("explosionPlayer", explosionPlayerSound);
         soundEffects.Add("explosionEnemy", explosionEnemySound);
+        soundEffects.Add("startLevel", null); // TODO replace with something
     }
 
     void InitSounds()
@@ -51,15 +53,20 @@ public class SoundManager : MonoBehaviour
         soundEffects["cannonFire"] = cannonSound;
         soundEffects["explosionPlayer"] = explosionPlayerSound;
         soundEffects["explosionEnemy"] = explosionEnemySound;
+        soundEffects["startLevel"] = null; // TODO replace with something
     }
 
     /**
      * Toggles the sound to Owen Wilson
      */
-    void Wow()
+    public void Wow()
     {
-        if (soundEffects["explosionEnemy"] != owenWilson)
-            soundEffects["explosionEnemy"] = owenWilson;
+        if ((AudioClip)soundEffects["explosionEnemy"] != owenWilsonBoom)
+        {
+            soundEffects["explosionEnemy"] = owenWilsonBoom;
+            soundEffects["startLevel"] = owenWilsonStart;
+            PlaySingle("startLevel");
+        }
         else
             InitSounds();
     }
