@@ -17,6 +17,7 @@ TextureImporter:
     21300020: Brigantine
     21300022: Shark
     21300024: BrigantineBroken
+    21300026: FrigateBroken
   externalObjects: {}
   serializedVersion: 4
   mipmaps:
@@ -266,6 +267,20 @@ TextureImporter:
         serializedVersion: 2
         x: 664
         y: 520
+        width: 320
+        height: 240
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: FrigateBroken
+      rect:
+        serializedVersion: 2
+        x: 226
+        y: 322
         width: 320
         height: 240
       alignment: 0

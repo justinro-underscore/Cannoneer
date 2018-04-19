@@ -15,6 +15,8 @@ public class LevelManager : MonoBehaviour
     public GameObject sloop; // Prefab for Sloop
     public GameObject broken; // Prefab for Broken Ship
     public GameObject brigantine; // Prefab for Brigantine
+    public GameObject frigate; // Prefab for Frigate
+    public GameObject runner; // Prefab for Runner
     public GameObject rockSmall; // Prefab for Small Rock
     public GameObject rockLarge; // Prefab for Large Rock
     public GameObject shark; // Prefab for Shark
@@ -36,7 +38,9 @@ public class LevelManager : MonoBehaviour
 
     private int numShipsToDestroy; // The amount of ships to destroy to end the level
     private int numShipsOnScreen; // The number of ships on screen at one time
+    private int maxNumShipsOnScreen; // The maximum number of ships on screen at once
     private int numBrigantinesOnScreen; // The number of Brigantines on screen
+    private int numFrigatesOnScreen; // The number of Frigates on screen
     private bool levelOver; // Whether or not the level is over
     private bool levelComplete; // Whether or not the level has completed
 
@@ -121,6 +125,11 @@ public class LevelManager : MonoBehaviour
         // Reset number of ships
         numShipsDestroyed = 0;
 
+        if (level <= 3)
+            maxNumShipsOnScreen = 5;
+        else
+            maxNumShipsOnScreen = 4;
+
         // Equation to calculate the amount of ships needed to destroy to move on to next level
         numShipsToDestroy = (int)Mathf.Floor(3.3709f * Mathf.Log(level, 2.7183f) + 7.3771f);
         progressAmt = PROGRESS_BAR_FULL_WIDTH / numShipsToDestroy; // Set the amount each ship destroyed should increase the progress bar
@@ -158,7 +167,7 @@ public class LevelManager : MonoBehaviour
     {
         if (!levelComplete && !levelOver)
         {
-            if (numShipsOnScreen <= 5) // The number of ships on the screen should never go more than 5 TODO Possibly get rid of this?
+            if (numShipsOnScreen <= maxNumShipsOnScreen) // The number of ships on the screen should never go more than the specified number
             {
                 float shipChoice = Random.value; // Determines which size rock to create
                 GameObject s = null;
@@ -166,6 +175,11 @@ public class LevelManager : MonoBehaviour
                 {
                     numBrigantinesOnScreen++;
                     s = Instantiate(brigantine, new Vector3(OFFSCREEN_X, Random.Range(-OFFSCREEN_Y + 1f, OFFSCREEN_Y - 1f)), Quaternion.identity);
+                }
+                else if(level >= 4 && shipChoice > 0.6f && numFrigatesOnScreen < 1)
+                {
+                    numFrigatesOnScreen++;
+                    s = Instantiate(frigate, new Vector3(OFFSCREEN_X, Random.Range(-OFFSCREEN_Y + 1f, OFFSCREEN_Y - 1f)), Quaternion.identity);
                 }
                 else
                     s = Instantiate(sloop, new Vector3(OFFSCREEN_X, Random.Range(-OFFSCREEN_Y + 0.5f, OFFSCREEN_Y - 0.5f)), Quaternion.identity);
@@ -310,6 +324,9 @@ public class LevelManager : MonoBehaviour
         {
             case "Brigantine(Clone)":
                 numBrigantinesOnScreen--;
+                break;
+            case "Frigate(Clone)":
+                numFrigatesOnScreen--;
                 break;
             default:
                 break;

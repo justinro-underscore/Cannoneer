@@ -13,7 +13,7 @@ public class Frigate : Ship
     void Start()
     {
         base.Instantiate();
-        score = 250; // Score if destroyed
+        score = 400; // Score if destroyed
         rb2d.velocity = new Vector2(-2.5f, 0.1f); // Set move function, Brigantine initially goes at constant velocity
         livesLeft = 2;
         shotOnce = false;
@@ -63,7 +63,7 @@ public class Frigate : Ship
             CancelInvoke("TurnHorizontal");
             TurnHorizontal();
         }
-        if(other.name.Equals("Background"))
+        if(other.name.Equals("Background")) // If it hits the edges of the screen it will turn vertically
         {
             CancelInvoke("TurnVertical");
             TurnVertical();
@@ -89,13 +89,13 @@ public class Frigate : Ship
     }
 
     /**
-     * Changes direction
+     * Changes direction vertically
      */
     void TurnVertical()
     {
         if (rb2d.velocity.y != 0) // If the ship has stopped moving
         {
-            rb2d.velocity = new Vector3(rb2d.velocity.x, (rb2d.velocity.y < 0 ? 1f : -1f));
+            rb2d.velocity = new Vector3(rb2d.velocity.x, (rb2d.velocity.y < 0 ? 0.5f : -0.5f));
             
             Invoke("TurnVertical", 1f);
         }

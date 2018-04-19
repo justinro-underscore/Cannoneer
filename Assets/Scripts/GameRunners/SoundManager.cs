@@ -6,13 +6,15 @@ public class SoundManager : MonoBehaviour
 {
     public static SoundManager instance = null; // Creates an instance of the Sound Manager
     public AudioSource efxSource; //Drag a reference to the audio source which will play the sound effects.
+    public AudioSource secondaryEfxSource; // If the primary efxSource is busy
     public AudioSource musicSource; //Drag a reference to the audio source which will play the music.
-    public AudioSource switchedMusicSource; // The music to be switched to for background music (used for cross-fade)
-    private bool switchedMusicPlaying;
+    public AudioSource secondaryMusicSource; // The music to be switched to for background music (used for cross-fade)
+    private bool secondaryMusicPlaying;
 
     public AudioClip cannonSound;
     public AudioClip explosionPlayerSound;
     public AudioClip explosionEnemySound;
+    public AudioClip owenWilson;
 
     private Hashtable soundEffects;
 
@@ -36,12 +38,30 @@ public class SoundManager : MonoBehaviour
         //Sets this to not be destroyed when reloading scene
         DontDestroyOnLoad(gameObject);
 
-        switchedMusicPlaying = false;
+        secondaryMusicPlaying = false;
 
         soundEffects = new Hashtable();
         soundEffects.Add("cannonFire", cannonSound);
         soundEffects.Add("explosionPlayer", explosionPlayerSound);
         soundEffects.Add("explosionEnemy", explosionEnemySound);
+    }
+
+    void InitSounds()
+    {
+        soundEffects["cannonFire"] = cannonSound;
+        soundEffects["explosionPlayer"] = explosionPlayerSound;
+        soundEffects["explosionEnemy"] = explosionEnemySound;
+    }
+
+    /**
+     * Toggles the sound to Owen Wilson
+     */
+    void Wow()
+    {
+        if (soundEffects["explosionEnemy"] != owenWilson)
+            soundEffects["explosionEnemy"] = owenWilson;
+        else
+            InitSounds();
     }
 
     /**
@@ -52,11 +72,22 @@ public class SoundManager : MonoBehaviour
         // Get the sound clip
         AudioClip clip = (AudioClip)soundEffects[clipName]; // If it doesn't exist, we don't really care
 
-        //Set the clip of our efxSource audio source to the clip passed in as a parameter.
-        efxSource.clip = clip;
+        if(efxSource.isPlaying) // If primary efxSource is busy
+        {
+            //Set the clip of our efxSource audio source to the clip passed in as a parameter.
+            efxSource.clip = clip;
 
-        //Play the clip.
-        efxSource.Play();
+            //Play the clip.
+            efxSource.Play();
+        }
+        else
+        {
+            //Set the clip of our efxSource audio source to the clip passed in as a parameter.
+            secondaryEfxSource.clip = clip;
+
+            //Play the clip.
+            secondaryEfxSource.Play();
+        }
     }
 
     /**
@@ -66,18 +97,18 @@ public class SoundManager : MonoBehaviour
     {
         if(musicSource.isPlaying) // If the musicSource object is the one currently making sound
         {
-            switchedMusicPlaying = false;
+            secondaryMusicPlaying = false;
 
             // Set the background music
-            switchedMusicSource.clip = music;
-            switchedMusicSource.volume = 0;
-            switchedMusicSource.Play();
+            secondaryMusicSource.clip = music;
+            secondaryMusicSource.volume = 0;
+            secondaryMusicSource.Play();
 
             InvokeRepeating("SwitchMusic", 0f, 0.01f); // Begin the cross-fade
         }
         else
         {
-            switchedMusicPlaying = true;
+            secondaryMusicPlaying = true;
 
             // Set the background music
             musicSource.clip = music;
@@ -93,11 +124,11 @@ public class SoundManager : MonoBehaviour
      */
     void SwitchMusic()
     {
-        if (!switchedMusicPlaying) // If the musicSource object is the one playing currently
+        if (!secondaryMusicPlaying) // If the musicSource object is the one playing currently
         {
-            if (switchedMusicSource.volume < 1)
+            if (secondaryMusicSource.volume < 1)
             {
-                switchedMusicSource.volume = switchedMusicSource.volume + 0.01f; // Increase switched music volume
+                secondaryMusicSource.volume = secondaryMusicSource.volume + 0.01f; // Increase switched music volume
                 musicSource.volume = musicSource.volume - 0.01f; // Decrease music source volume
             }
             else // If the switched music source is at 1 (and musicSource is muted)
@@ -111,12 +142,12 @@ public class SoundManager : MonoBehaviour
             if (musicSource.volume < 1)
             {
                 musicSource.volume = musicSource.volume + 0.01f;
-                switchedMusicSource.volume = switchedMusicSource.volume - 0.01f;
+                secondaryMusicSource.volume = secondaryMusicSource.volume - 0.01f;
             }
             else
             {
                 CancelInvoke("SwitchMusic");
-                switchedMusicSource.Stop();
+                secondaryMusicSource.Stop();
             }
         }
     }
