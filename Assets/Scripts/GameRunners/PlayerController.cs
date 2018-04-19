@@ -161,7 +161,7 @@ public class PlayerController : Character
     public void ToggleDebugMode()
     {
         debugMode = !debugMode;
-        if (!debugMode)
+        if (!debugMode) // If the player deactivates the mode, game over
             GameOver();
     }
 }
