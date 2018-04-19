@@ -19,6 +19,19 @@ public class GameManager : MonoBehaviour
     }
     private State currState = State.LEADERBOARD; // The current state the game is in (starts in leaderboard so that we can call ShowMenu())
 
+    // The level specific spawning rates of different ships (sloop, brigantine, frigate, runner)
+    private static float[,] levelSpawningRates = new float[10, 4] {
+        { 1f, 0f, 0f, 0f }, // Level 1
+        { 0.9f, 0.1f, 0f, 0f }, // Level 2
+        { 0.8f, 0.2f, 0f, 0f }, // Level 3
+        { 0.7f, 0.2f, 0.1f, 0f }, // Level 4
+        { 0.6f, 0.25f, 0.15f, 0f }, // Level 5
+        { 0.5f, 0.2f, 0.2f, 0.1f }, // Level 6
+        { 0.4f, 0.15f, 0.3f, 0.15f }, // Level 7
+        { 0.3f, 0.15f, 0.35f, 0.2f }, // Level 8
+        { 0.2f, 0.15f, 0.4f, 0.25f }, // Level 9
+        { 0.1f, 0.2f, 0.45f, 0.25f } }; // Level 10 +
+
     public AudioClip gameMusic; // Background music of the game
     public AudioClip menuMusic; // Background music of the menu
 
@@ -122,7 +135,7 @@ public class GameManager : MonoBehaviour
         // Set the starting values
         playerScore = 0;
         playerName = "AAA";
-        level = 5;
+        level = 0;
 
         SoundManager.instance.SetBackgroundMusic(gameMusic);
 
@@ -157,6 +170,24 @@ public class GameManager : MonoBehaviour
         //Call the InitGame function to initialize the level
         Instantiate(levelManager);
         LevelManager.instance.SetLevel(level);
+    }
+
+    /**
+     * Returns the spawning rates for the current level
+     */
+    public float[] GetSpawningRates()
+    {
+        int currLevel = (level < 10 ? level - 1 : 9); // If level 10 or later, juse use level 10's rates
+        float[] result = new float[4];
+        for(int i = 0; i < 4; i++)
+        {
+            result[i] = 0; // Make sure we don't try and access an undefined reference
+            for(int j = 0; j <= i; j++)
+            {
+                result[i] += levelSpawningRates[currLevel, j]; // Copy the values
+            }
+        }
+        return result;
     }
 
     /**

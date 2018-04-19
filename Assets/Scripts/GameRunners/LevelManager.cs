@@ -37,6 +37,7 @@ public class LevelManager : MonoBehaviour
     private int level; // Current level
 
     private int numShipsToDestroy; // The amount of ships to destroy to end the level
+    private int numShipsDestroyed; // The number of ships that have been destroyed
     private int numShipsOnScreen; // The number of ships on screen at one time
     private int maxNumShipsOnScreen; // The maximum number of ships on screen at once
     private int numBrigantinesOnScreen; // The number of Brigantines on screen
@@ -44,7 +45,7 @@ public class LevelManager : MonoBehaviour
     private bool levelOver; // Whether or not the level is over
     private bool levelComplete; // Whether or not the level has completed
 
-    private int numShipsDestroyed; // The number of ships that have been destroyed
+    private float[] levelSpawningRates; // The spawning rates for the current level
 
     /**
      * Starts the level, runs at the start
@@ -125,10 +126,16 @@ public class LevelManager : MonoBehaviour
         // Reset number of ships
         numShipsDestroyed = 0;
 
+        // Set the max number of ships on screen
         if (level <= 3)
             maxNumShipsOnScreen = 5;
-        else
+        else if (level <= 5)
             maxNumShipsOnScreen = 4;
+        else
+            maxNumShipsOnScreen = 3;
+
+        levelSpawningRates = GameManager.instance.GetSpawningRates();
+        Debug.Log(levelSpawningRates[0] + " " + levelSpawningRates[1] + " " + levelSpawningRates[2] + " " + levelSpawningRates[3]);
 
         // Equation to calculate the amount of ships needed to destroy to move on to next level
         numShipsToDestroy = (int)Mathf.Floor(3.3709f * Mathf.Log(level, 2.7183f) + 7.3771f);
@@ -169,19 +176,27 @@ public class LevelManager : MonoBehaviour
         {
             if (numShipsOnScreen <= maxNumShipsOnScreen) // The number of ships on the screen should never go more than the specified number
             {
-                float shipChoice = Random.value; // Determines which size rock to create
+                float shipChoice = Random.value; // Determines which ship to spawn
                 GameObject s = null;
-                if (level >= 2 && shipChoice > 0.8f && numBrigantinesOnScreen < 2) // Chances of getting a sloop are higher than a brigantine
+                if(shipChoice < levelSpawningRates[0]) // Sloop spawn
+                    s = Instantiate(sloop, new Vector3(OFFSCREEN_X, Random.Range(-OFFSCREEN_Y + 0.5f, OFFSCREEN_Y - 0.5f)), Quaternion.identity);
+                else if(shipChoice < levelSpawningRates[1] && numBrigantinesOnScreen < 2) // Brigantine spawn
                 {
                     numBrigantinesOnScreen++;
                     s = Instantiate(brigantine, new Vector3(OFFSCREEN_X, Random.Range(-OFFSCREEN_Y + 1f, OFFSCREEN_Y - 1f)), Quaternion.identity);
                 }
-                else if(level >= 4 && shipChoice > 0.6f && numFrigatesOnScreen < 1)
+                else if(shipChoice < levelSpawningRates[2] && numFrigatesOnScreen < 1) // Frigate spawn
                 {
                     numFrigatesOnScreen++;
                     s = Instantiate(frigate, new Vector3(OFFSCREEN_X, Random.Range(-OFFSCREEN_Y + 1f, OFFSCREEN_Y - 1f)), Quaternion.identity);
                 }
-                else
+                else if(shipChoice < levelSpawningRates[3]) // Runner spawn TODO numRunnersOnScreen < 1
+                {
+                    //numRunnersOnScreen++;
+                    //s = Instantiate(runner, new Vector3(OFFSCREEN_X, Random.Range(-OFFSCREEN_Y + 1f, OFFSCREEN_Y - 1f)), Quaternion.identity);
+                    s = Instantiate(sloop, new Vector3(OFFSCREEN_X, Random.Range(-OFFSCREEN_Y + 0.5f, OFFSCREEN_Y - 0.5f)), Quaternion.identity); // TODO take out
+                }
+                else // Just to make sure we don't make nothing (floating point numbers suck)
                     s = Instantiate(sloop, new Vector3(OFFSCREEN_X, Random.Range(-OFFSCREEN_Y + 0.5f, OFFSCREEN_Y - 0.5f)), Quaternion.identity);
 
                 s.transform.SetParent(ships);
