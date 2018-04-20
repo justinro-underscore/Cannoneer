@@ -135,7 +135,7 @@ public class GameManager : MonoBehaviour
         // Set the starting values
         playerScore = 0;
         playerName = "AAA";
-        level = 10;
+        level = 0;
 
         SoundManager.instance.SetBackgroundMusic(gameMusic);
         SoundManager.instance.PlaySingle("gameStart");

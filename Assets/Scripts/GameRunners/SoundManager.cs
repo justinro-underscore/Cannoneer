@@ -7,6 +7,8 @@ public class SoundManager : MonoBehaviour
     public static SoundManager instance = null; // Creates an instance of the Sound Manager
     public AudioSource efxSource; //Drag a reference to the audio source which will play the sound effects.
     public AudioSource secondaryEfxSource; // If the primary efxSource is busy
+    public AudioSource tertiaryEfxSource; // If the secondary efxSource is busy
+    public AudioSource quaternaryEfxSource; // If the tertiary efxSource is busy
     public AudioSource musicSource; //Drag a reference to the audio source which will play the music.
     public AudioSource secondaryMusicSource; // The music to be switched to for background music (used for cross-fade)
     private bool secondaryMusicPlaying;
@@ -14,8 +16,14 @@ public class SoundManager : MonoBehaviour
     public AudioClip cannonSound;
     public AudioClip explosionPlayerSound;
     public AudioClip explosionEnemySound;
+
     public AudioClip owenWilsonBoom;
     public AudioClip owenWilsonStart;
+
+    public AudioClip philStart;
+    public AudioClip majorDamage;
+    public AudioClip philEndGame;
+    public AudioClip philStartGame;
 
     private Hashtable soundEffects;
 
@@ -48,6 +56,9 @@ public class SoundManager : MonoBehaviour
         soundEffects.Add("gameStart", null); // TODO replace with something
     }
 
+    /**
+     * Resets the sound effects
+     */
     void InitSounds()
     {
         soundEffects["cannonFire"] = cannonSound;
@@ -72,6 +83,24 @@ public class SoundManager : MonoBehaviour
     }
 
     /**
+     * Toggles the sound to Flex Tape
+     */
+    public void Flex()
+    {
+        if ((AudioClip)soundEffects["explosionEnemy"] != majorDamage)
+        {
+            soundEffects["explosionEnemy"] = majorDamage;
+            soundEffects["gameStart"] = philStartGame;
+            soundEffects["explosionPlayer"] = philEndGame;
+
+            efxSource.clip = philStart;
+            efxSource.Play();
+        }
+        else
+            InitSounds();
+    }
+
+    /**
      * Plays a single sound clip
      */
     public void PlaySingle(string clipName)
@@ -87,13 +116,29 @@ public class SoundManager : MonoBehaviour
             //Play the clip.
             efxSource.Play();
         }
-        else
+        else if (!secondaryEfxSource.isPlaying) // If secondary efxSource is not busy
         {
             //Set the clip of our efxSource audio source to the clip passed in as a parameter.
             secondaryEfxSource.clip = clip;
 
             //Play the clip.
             secondaryEfxSource.Play();
+        }
+        else if (!tertiaryEfxSource.isPlaying) // If tertiary efxSource is not busy
+        {
+            //Set the clip of our efxSource audio source to the clip passed in as a parameter.
+            tertiaryEfxSource.clip = clip;
+
+            //Play the clip.
+            tertiaryEfxSource.Play();
+        }
+        else // If nothing else works, just play on quaternary efxSource
+        {
+            //Set the clip of our efxSource audio source to the clip passed in as a parameter.
+            quaternaryEfxSource.clip = clip;
+
+            //Play the clip.
+            quaternaryEfxSource.Play();
         }
     }
 

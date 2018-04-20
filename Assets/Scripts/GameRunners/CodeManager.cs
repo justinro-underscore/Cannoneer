@@ -6,13 +6,17 @@ public class CodeManager : MonoBehaviour
 {
     public GameObject scoreIncreaseText; // Prefab for showing the cheat was activated
 
+    // Activates God Mode
+    private bool konamiMode;
+    private int konamiCode;
+
     // Changes explosion sound effects to Owen Wilson saying "Wow"
     private bool owenMode;
     private int owenCode;
 
-    // Activates God Mode
-    private bool konamiMode;
-    private int konamiCode;
+    // Activates Phil Swift Mode
+    private bool flexTapeMode;
+    private int flexTapeCode;
 
     bool codesAllowed; // Whether or not cheat codes are allowed
 
@@ -22,10 +26,12 @@ public class CodeManager : MonoBehaviour
 	void Start ()
     {
         codesAllowed = true;
-        owenMode = false;
-        owenCode = 0;
         konamiMode = false;
         konamiCode = 0;
+        owenMode = false;
+        owenCode = 0;
+        flexTapeMode = false;
+        flexTapeCode = 0;
 	}
 	
     /**
@@ -47,6 +53,11 @@ public class CodeManager : MonoBehaviour
                     owenCode++;
                 else
                     owenCode = 0;
+
+                if (flexTapeCode == 0 || flexTapeCode == 1 || flexTapeCode == 2 || flexTapeCode == 3)
+                    flexTapeCode++;
+                else
+                    flexTapeCode = 0;
             }
 
             // DOWN
@@ -170,6 +181,21 @@ public class CodeManager : MonoBehaviour
             }
 
             konamiCode = 0;
+        }
+
+        // Phil Swift Mode
+        if (flexTapeCode == 4)
+        {
+            GameObject showCheat = Instantiate(scoreIncreaseText, GameObject.FindObjectOfType<Canvas>().transform);
+            flexTapeMode = !flexTapeMode;
+            if (flexTapeMode)
+                (showCheat.GetComponent<ScoreIncreaseTextController>() as ScoreIncreaseTextController).SetParamsForCheat("Phil Swift Mode Activated!");
+            else
+                (showCheat.GetComponent<ScoreIncreaseTextController>() as ScoreIncreaseTextController).SetParamsForCheat("Phil Swift Mode Deactivated!");
+
+            SoundManager.instance.Flex(); // Activate cheat
+
+            flexTapeCode = 0;
         }
     }
 }
