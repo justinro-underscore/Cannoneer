@@ -18,6 +18,12 @@ public class CodeManager : MonoBehaviour
     private bool flexTapeMode;
     private int flexTapeCode;
 
+    // Activates Galaxy Mode
+    private bool galaxyMode;
+    private int galaxyCode;
+    public Sprite galaxy;
+    public Sprite ocean;
+
     bool codesAllowed; // Whether or not cheat codes are allowed
 
     /**
@@ -32,7 +38,9 @@ public class CodeManager : MonoBehaviour
         owenCode = 0;
         flexTapeMode = false;
         flexTapeCode = 0;
-	}
+        galaxyMode = false;
+        galaxyCode = 0;
+    }
 	
     /**
      * Input the codes
@@ -58,6 +66,11 @@ public class CodeManager : MonoBehaviour
                     flexTapeCode++;
                 else
                     flexTapeCode = 0;
+
+                if (galaxyCode == 0 || galaxyCode == 1 || galaxyCode == 2 || galaxyCode == 3 || galaxyCode == 4)
+                    galaxyCode++;
+                else
+                    galaxyCode = 0;
             }
 
             // DOWN
@@ -74,6 +87,8 @@ public class CodeManager : MonoBehaviour
                     owenCode = 0;
 
                 flexTapeCode = 0;
+
+                galaxyCode = 0;
             }
 
             // LEFT
@@ -87,6 +102,11 @@ public class CodeManager : MonoBehaviour
                 owenCode = 0;
 
                 flexTapeCode = 0;
+
+                if (galaxyCode == 5)
+                    galaxyCode++;
+                else
+                    galaxyCode = 0;
             }
 
             // RIGHT
@@ -100,6 +120,11 @@ public class CodeManager : MonoBehaviour
                 owenCode = 0;
 
                 flexTapeCode = 0;
+
+                if (galaxyCode == 6)
+                    galaxyCode++;
+                else
+                    galaxyCode = 0;
             }
 
             // A BUTTON
@@ -116,6 +141,8 @@ public class CodeManager : MonoBehaviour
                     owenCode = 0;
 
                 flexTapeCode = 0;
+
+                galaxyCode = 0;
             }
 
             // B BUTTON
@@ -132,6 +159,8 @@ public class CodeManager : MonoBehaviour
                     owenCode = 0;
 
                 flexTapeCode = 0;
+
+                galaxyCode = 0;
             }
 
             // ENTER BUTTON
@@ -147,7 +176,15 @@ public class CodeManager : MonoBehaviour
                 else
                     owenCode = 0;
 
-                flexTapeCode = 0;
+                if (flexTapeCode == 4)
+                    flexTapeCode++;
+                else
+                    flexTapeCode = 0;
+
+                if (galaxyCode == 7)
+                    galaxyCode++;
+                else
+                    galaxyCode = 0;
             }
 
             CheckCodeComplete(); // Check if any codes were completed
@@ -200,7 +237,7 @@ public class CodeManager : MonoBehaviour
         }
 
         // Phil Swift Mode
-        if (flexTapeCode == 4)
+        if (flexTapeCode == 5)
         {
             GameObject showCheat = Instantiate(scoreIncreaseText, GameObject.FindObjectOfType<Canvas>().transform);
             flexTapeMode = !flexTapeMode;
@@ -212,6 +249,25 @@ public class CodeManager : MonoBehaviour
             SoundManager.instance.Flex(); // Activate cheat
 
             flexTapeCode = 0;
+        }
+
+        // Galaxy Mode
+        if (galaxyCode == 8)
+        {
+            GameObject showCheat = Instantiate(scoreIncreaseText, GameObject.FindObjectOfType<Canvas>().transform);
+            galaxyMode = !galaxyMode;
+            if (galaxyMode)
+            {
+                (showCheat.GetComponent<ScoreIncreaseTextController>() as ScoreIncreaseTextController).SetParamsForCheat("Galaxy Mode Activated!");
+                GameObject.FindGameObjectWithTag("Background").GetComponent<SpriteRenderer>().sprite = galaxy;
+            }
+            else
+            {
+                (showCheat.GetComponent<ScoreIncreaseTextController>() as ScoreIncreaseTextController).SetParamsForCheat("Galaxy Mode Deactivated!");
+                GameObject.FindGameObjectWithTag("Background").GetComponent<SpriteRenderer>().sprite = ocean;
+            }
+
+            galaxyCode = 0;
         }
     }
 }

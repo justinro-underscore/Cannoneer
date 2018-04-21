@@ -9,6 +9,7 @@ TagManager:
   - Shark
   - Cannonball
   - Treasure
+  - Background
   layers:
   - Default
   - TransparentFX
