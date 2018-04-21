@@ -72,6 +72,8 @@ public class CodeManager : MonoBehaviour
                     owenCode++;
                 else
                     owenCode = 0;
+
+                flexTapeCode = 0;
             }
 
             // LEFT
@@ -81,6 +83,10 @@ public class CodeManager : MonoBehaviour
                     konamiCode++;
                 else
                     konamiCode = 0;
+
+                owenCode = 0;
+
+                flexTapeCode = 0;
             }
 
             // RIGHT
@@ -90,6 +96,10 @@ public class CodeManager : MonoBehaviour
                     konamiCode++;
                 else
                     konamiCode = 0;
+
+                owenCode = 0;
+
+                flexTapeCode = 0;
             }
 
             // A BUTTON
@@ -104,6 +114,8 @@ public class CodeManager : MonoBehaviour
                     owenCode++;
                 else
                     owenCode = 0;
+
+                flexTapeCode = 0;
             }
 
             // B BUTTON
@@ -118,6 +130,8 @@ public class CodeManager : MonoBehaviour
                     owenCode++;
                 else
                     owenCode = 0;
+
+                flexTapeCode = 0;
             }
 
             // ENTER BUTTON
@@ -132,6 +146,8 @@ public class CodeManager : MonoBehaviour
                     owenCode++;
                 else
                     owenCode = 0;
+
+                flexTapeCode = 0;
             }
 
             CheckCodeComplete(); // Check if any codes were completed
@@ -165,7 +181,7 @@ public class CodeManager : MonoBehaviour
             GameObject showCheat = Instantiate(scoreIncreaseText, GameObject.FindObjectOfType<Canvas>().transform);
 
             GameObject player = GameObject.FindGameObjectWithTag("Player");
-            if (player != null) // If the user is currently playing
+            if (GameManager.instance.GetCurrState() == GameManager.State.GAME) // If the user is currently playing
             {
                 konamiMode = !konamiMode;
                 if (konamiMode)

@@ -8,7 +8,7 @@ using UnityEngine.UI;
 
 public class GameManager : MonoBehaviour
 {
-    enum State
+    public enum State
     {
         MAIN_MENU, // The main menu (splash screen)
         GAME, // The game, running
@@ -128,8 +128,6 @@ public class GameManager : MonoBehaviour
      */
     void InitGame()
     {
-        currState = State.GAME;
-
         levelOverText.text = "";
 
         // Set the starting values
@@ -148,6 +146,8 @@ public class GameManager : MonoBehaviour
      */
     void InitLevel()
     {
+        currState = State.GAME;
+
         // Reset the stats text
         levelText.text = "";
         shipsText.text = "";
@@ -237,6 +237,7 @@ public class GameManager : MonoBehaviour
      */
     public void ShowLevelStats()
     {
+        currState = State.ENDSCREEN;
         Destroy(LevelManager.instance.gameObject); // End the level
         (player.GetComponent<PlayerController>() as PlayerController).ToggleIsDead(); // Makes it so that the player cannot move or shoot
         (player.GetComponent<PlayerController>() as PlayerController).MovePlayer(new Vector2(-8, 0)); // Move the player
@@ -494,5 +495,13 @@ public class GameManager : MonoBehaviour
                 leaderboardScores[i] = 0;
             }
         }
+    }
+
+    /**
+     * Returns the current state that the game is in
+     */
+    public State GetCurrState()
+    {
+        return currState;
     }
 }

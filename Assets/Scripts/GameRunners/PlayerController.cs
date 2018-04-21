@@ -162,6 +162,9 @@ public class PlayerController : Character
     {
         debugMode = !debugMode;
         if (!debugMode) // If the player deactivates the mode, game over
+        {
+            Debug.Log("Test");
             GameOver();
+        }
     }
 }
