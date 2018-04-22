@@ -272,32 +272,46 @@ public class LevelManager : MonoBehaviour
     }
 
     /**
+     * Clears the level of all objects
+     * @param gameOver Whether or not the player has run out of lives
+     */
+    public void ClearLevel(bool gameOver)
+    {
+        levelOver = true;
+        foreach (GameObject obj in GameObject.FindGameObjectsWithTag("Ship"))
+            (obj.GetComponent<Ship>() as Ship).StopMoving();
+        foreach (GameObject obj in GameObject.FindGameObjectsWithTag("Cannonball"))
+            (obj.GetComponent<Cannonball>() as Cannonball).StopMoving();
+        foreach (GameObject obj in GameObject.FindGameObjectsWithTag("Treasure"))
+            (obj.GetComponent<SimpleObject>() as SimpleObject).StopMoving();
+        foreach (GameObject obj in GameObject.FindGameObjectsWithTag("Rock"))
+            (obj.GetComponent<SimpleObject>() as SimpleObject).StopMoving();
+        foreach (GameObject obj in GameObject.FindGameObjectsWithTag("Shark"))
+            (obj.GetComponent<Shark>() as Shark).StopMoving();
+
+        SoundManager.instance.SetBackgroundMusic(null); // Turn off music
+
+        if (gameOver)
+            Invoke("EndGame", 2f); // Delete everything 2 seconds later (this is so the player sees how they died)
+        else
+            Invoke("RestartLevel", 2f); // Restart the level 2 seconds later
+    }
+
+    /**
      * Ends the game
      */
-    public void EndGame()
+    void EndGame()
     {
-        if (!levelOver) // So we can call the same function with different functionaliy each time
-        {
-            levelOver = true;
-            foreach (GameObject obj in GameObject.FindGameObjectsWithTag("Ship"))
-                (obj.GetComponent<Ship>() as Ship).StopMoving();
-            foreach (GameObject obj in GameObject.FindGameObjectsWithTag("Cannonball"))
-                (obj.GetComponent<Cannonball>() as Cannonball).StopMoving();
-            foreach (GameObject obj in GameObject.FindGameObjectsWithTag("Treasure"))
-                (obj.GetComponent<SimpleObject>() as SimpleObject).StopMoving();
-            foreach (GameObject obj in GameObject.FindGameObjectsWithTag("Rock"))
-                (obj.GetComponent<SimpleObject>() as SimpleObject).StopMoving();
-            foreach (GameObject obj in GameObject.FindGameObjectsWithTag("Shark"))
-                (obj.GetComponent<Shark>() as Shark).StopMoving();
+        GameManager.instance.GameOver();
+    }
 
-            SoundManager.instance.SetBackgroundMusic(null); // Turn off music
-
-            Invoke("EndGame", 2f); // Delete everything 2 seconds later (this is so the player sees how they died)
-        }
-        else
-        {
-            GameManager.instance.GameOver();
-        }
+    /**
+     * Restarts the level
+     */
+    void RestartLevel()
+    {
+        (GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerController>() as PlayerController).RemoveLife(); // Get rid of one UI ship
+        GameManager.instance.RestartLevel();
     }
 
     /**
@@ -385,8 +399,8 @@ public class LevelManager : MonoBehaviour
             Destroy(obstacles.gameObject); // Destroys all obstacles
         if (treasure != null)
             Destroy(treasure.gameObject); // Destroys all treasure
-        if(GameObject.FindObjectOfType<Image>().gameObject != null)
-            Destroy(GameObject.FindObjectOfType<Image>().gameObject); // Destroy the progress bar
+        if(GameObject.FindGameObjectWithTag("ProgressBar").gameObject != null)
+            Destroy(GameObject.FindGameObjectWithTag("ProgressBar").gameObject); // Destroy the progress bar
     }
 
     /**

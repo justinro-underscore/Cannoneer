@@ -10,6 +10,9 @@ public class PlayerController : Character
 
     // TODO: Change to a graphic
     public Text cannonText; // The text showing how much time is left for the cannon
+    public Image life1;
+    public Image life2; // Closer to the cannonText
+    private int livesLeft = 0;
 
     private bool isDead; // Whether or not the player has lost
 
@@ -29,6 +32,12 @@ public class PlayerController : Character
         debugMode = false;
         gameObject.GetComponent<SpriteRenderer>().color = new Color(1f, 1f, 1f, 1f); // Make player visible
 		SetCannonText (); // TODO Change to a graphic
+        if(livesLeft == 0) // New game
+        {
+            life1.color = new Color(1, 1, 1, 1);
+            life2.color = new Color(1, 1, 1, 1);
+            livesLeft = 3;
+        }
     }
 	
     /**
@@ -126,7 +135,20 @@ public class PlayerController : Character
         ToggleIsDead(); // Die
         SoundManager.instance.PlaySingle("explosionPlayer");
         cannonText.text = "";
-        LevelManager.instance.EndGame(); // End the game
+        livesLeft--;
+
+        LevelManager.instance.ClearLevel(livesLeft == 0);
+    }
+
+    /**
+     * Removes a life from the UI
+     */
+    public void RemoveLife()
+    {
+        if (livesLeft == 2)
+            life1.color = new Color(1, 1, 1, 0);
+        else if (livesLeft == 1)
+            life2.color = new Color(1, 1, 1, 0);
     }
 
     /**
@@ -163,7 +185,6 @@ public class PlayerController : Character
         debugMode = !debugMode;
         if (!debugMode) // If the player deactivates the mode, game over
         {
-            Debug.Log("Test");
             GameOver();
         }
     }

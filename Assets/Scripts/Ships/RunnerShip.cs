@@ -70,7 +70,8 @@ public class RunnerShip : Ship
      */
     public void StopRunner()
     {
-        Destroy(skullRef.gameObject);
+        if(skullRef != null)
+            Destroy(skullRef.gameObject);
         CancelInvoke("Charge");
     }
 }

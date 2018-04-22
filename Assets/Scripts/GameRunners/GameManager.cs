@@ -363,6 +363,17 @@ public class GameManager : MonoBehaviour
     }
 
     /**
+     * Restarts the current level
+     */
+    public void RestartLevel()
+    {
+        Destroy(LevelManager.instance.gameObject); // Get rid of the level manager
+        level--; // Redo level
+        playerScore -= (shipsScore + obstaclesScore + treasureScore); // Get rid of all progress
+        Invoke("InitLevel", 0.05f); // So we don't accidentally delete the level manager again
+    }
+
+    /**
      * Shows the Enter Initials screen if player got a high score, leaderboard if not
      */
     void ShowInitials()
