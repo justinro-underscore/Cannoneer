@@ -140,7 +140,7 @@ public class LevelManager : MonoBehaviour
         levelSpawningRates = GameManager.instance.GetSpawningRates();
 
         // Equation to calculate the amount of ships needed to destroy to move on to next level
-        numShipsToDestroy = (int)Mathf.Floor(3.3709f * Mathf.Log(level, 2.7183f) + 7.3771f); // TODO Might wanna change this
+        numShipsToDestroy = 7; // TODO Might wanna change this to something scaling
         progressAmt = PROGRESS_BAR_FULL_WIDTH / numShipsToDestroy; // Set the amount each ship destroyed should increase the progress bar
 
         // Begins to spawn objects
@@ -164,7 +164,7 @@ public class LevelManager : MonoBehaviour
 
         if(level >= 3)
         {
-            float timeTilNextShark = Random.Range(6f, 8f);
+            float timeTilNextShark = Random.Range(10f, 14f);
             Invoke("CreateShark", timeTilNextShark);
         }
     }
@@ -187,7 +187,7 @@ public class LevelManager : MonoBehaviour
                     numBrigantinesOnScreen++;
                     s = Instantiate(brigantine, new Vector3(OFFSCREEN_X, Random.Range(-OFFSCREEN_Y + 1f, OFFSCREEN_Y - 1f)), Quaternion.identity);
                 }
-                else if(shipChoice < levelSpawningRates[2] && numFrigatesOnScreen < 1) // Frigate spawn
+                else if(shipChoice < levelSpawningRates[2] && numFrigatesOnScreen < 1 && numBrigantinesOnScreen < 1) // Frigate spawn
                 {
                     numFrigatesOnScreen++;
                     s = Instantiate(frigate, new Vector3(OFFSCREEN_X, Random.Range(-OFFSCREEN_Y + 1f, OFFSCREEN_Y - 1f)), Quaternion.identity);
@@ -259,7 +259,7 @@ public class LevelManager : MonoBehaviour
             GameObject t = Instantiate(shark, new Vector3(OFFSCREEN_X, Random.Range(-OFFSCREEN_Y + 2f, OFFSCREEN_Y - 2f)), Quaternion.identity);
             t.transform.SetParent(obstacles);
 
-            float timeTilNextShark = Random.Range(8f, 12f);
+            float timeTilNextShark = Random.Range(12f, 18f);
             Invoke("CreateShark", timeTilNextShark);
         }
     }

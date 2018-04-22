@@ -22,8 +22,12 @@ public class Cannonball : MonoBehaviour
         this.xSpeed = xSpeed; // Decrease by 4 so that they don't go flying forward
         if (shotByPlayer)
             this.xSpeed *= 0.25f;
-        if (this.xSpeed >= 4 || xSpeed <= -4) // TODO Scale this with xSpeed
+        else
+        {
             this.xSpeed *= 0.5f;
+            if (xSpeed >= 4 || xSpeed <= -4)
+                this.xSpeed = (xSpeed > 0 ? 4 : -4);
+        }
 
         rb2d = GetComponent<Rigidbody2D>();
         rb2d.velocity = new Vector2(this.xSpeed, this.up ? 2f : -2f); // Speed in y-axis is constant

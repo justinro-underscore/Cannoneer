@@ -118,7 +118,7 @@ public abstract class Ship : Character
                 xVelocity = (factor != 0 ? (target.position.x - transform.position.x) / Mathf.Abs(factor) : 0f); // Aim at player
             }
             else
-                xVelocity = rb2d.velocity.x * 2;
+                xVelocity = rb2d.velocity.x;
             (ball.GetComponent<Cannonball>() as Cannonball).SetParams(false, dirUp, xVelocity); // Set the parameters
             ball.transform.SetParent(LevelManager.instance.cannonballs);
             canShoot = false; // Reload
