@@ -113,9 +113,14 @@ public abstract class Ship : Character
             GameObject ball = Instantiate(LevelManager.instance.cannonball, transform.position, Quaternion.identity);
             float xVelocity = 0f;
             if (targetPlayer)
-                xVelocity = (target.position.x - transform.position.x); // Aim at player
+            {
+                Debug.Log("Transform: " + transform.position.x);
+                Debug.Log("Target: " + target.position.x);
+                float factor = (target.position.y - transform.position.y) / 2f;
+                xVelocity = (factor != 0 ? (target.position.x - transform.position.x) / Mathf.Abs(factor) : 0f); // Aim at player
+            }
             else
-                xVelocity = rb2d.velocity.x;
+                xVelocity = rb2d.velocity.x * 2;
             (ball.GetComponent<Cannonball>() as Cannonball).SetParams(false, dirUp, xVelocity); // Set the parameters
             ball.transform.SetParent(LevelManager.instance.cannonballs);
             canShoot = false; // Reload

@@ -19,7 +19,11 @@ public class Cannonball : MonoBehaviour
     {
         this.shotByPlayer = shotByPlayer;
         this.up = up;
-        this.xSpeed = xSpeed * 0.25f; // Decrease by 4 so that they don't go flying forward
+        this.xSpeed = xSpeed; // Decrease by 4 so that they don't go flying forward
+        if (shotByPlayer)
+            this.xSpeed *= 0.25f;
+        if (this.xSpeed >= 4 || xSpeed <= -4) // TODO Scale this with xSpeed
+            this.xSpeed *= 0.5f;
 
         rb2d = GetComponent<Rigidbody2D>();
         rb2d.velocity = new Vector2(this.xSpeed, this.up ? 2f : -2f); // Speed in y-axis is constant
@@ -32,9 +36,9 @@ public class Cannonball : MonoBehaviour
     {
         // Check to see if it has gone offscreen
         Vector3 viewPos = Camera.main.WorldToViewportPoint(transform.position);
-        if (viewPos.y > 1 || viewPos.y < 0 || viewPos.x > 1 || viewPos.x < 0)
+        if (viewPos.y > 1.2 || viewPos.y < -0.2 || viewPos.x > 1.2 || viewPos.x < -0.2)
         {
-            Destroy(gameObject, 0.5f); // Wait half a second before destroying so that it doesn't disappear as soon as it touches the edge
+            Destroy(gameObject); // Destroy the object
         }
 
         //Rotate thet transform of the game object this is attached to by 45 degrees, taking into account the time elapsed since last frame.
