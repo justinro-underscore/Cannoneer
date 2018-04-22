@@ -42,6 +42,7 @@ public class LevelManager : MonoBehaviour
     private int maxNumShipsOnScreen; // The maximum number of ships on screen at once
     private int numBrigantinesOnScreen; // The number of Brigantines on screen
     private int numFrigatesOnScreen; // The number of Frigates on screen
+    private int numRunnersOnScreen; // The number of Frigates on screen
     private bool levelOver; // Whether or not the level is over
     private bool levelComplete; // Whether or not the level has completed
 
@@ -137,7 +138,7 @@ public class LevelManager : MonoBehaviour
         levelSpawningRates = GameManager.instance.GetSpawningRates();
 
         // Equation to calculate the amount of ships needed to destroy to move on to next level
-        numShipsToDestroy = (int)Mathf.Floor(3.3709f * Mathf.Log(level, 2.7183f) + 7.3771f);
+        numShipsToDestroy = (int)Mathf.Floor(3.3709f * Mathf.Log(level, 2.7183f) + 7.3771f); // TODO Might wanna change this
         progressAmt = PROGRESS_BAR_FULL_WIDTH / numShipsToDestroy; // Set the amount each ship destroyed should increase the progress bar
 
         // Begins to spawn objects
@@ -189,11 +190,10 @@ public class LevelManager : MonoBehaviour
                     numFrigatesOnScreen++;
                     s = Instantiate(frigate, new Vector3(OFFSCREEN_X, Random.Range(-OFFSCREEN_Y + 1f, OFFSCREEN_Y - 1f)), Quaternion.identity);
                 }
-                else if(shipChoice < levelSpawningRates[3]) // Runner spawn TODO numRunnersOnScreen < 1
+                else if(shipChoice < levelSpawningRates[3] && numRunnersOnScreen < 2) // Runner spawn TODO numRunnersOnScreen < 1
                 {
-                    //numRunnersOnScreen++;
-                    //s = Instantiate(runner, new Vector3(OFFSCREEN_X, Random.Range(-OFFSCREEN_Y + 1f, OFFSCREEN_Y - 1f)), Quaternion.identity);
-                    s = Instantiate(sloop, new Vector3(OFFSCREEN_X, Random.Range(-OFFSCREEN_Y + 0.5f, OFFSCREEN_Y - 0.5f)), Quaternion.identity); // TODO take out
+                    numRunnersOnScreen++;
+                    s = Instantiate(runner, new Vector3(OFFSCREEN_X, Random.Range(-OFFSCREEN_Y + 1f, OFFSCREEN_Y - 1f)), Quaternion.identity);
                 }
                 else // Just to make sure we don't make nothing (floating point numbers suck)
                     s = Instantiate(sloop, new Vector3(OFFSCREEN_X, Random.Range(-OFFSCREEN_Y + 0.5f, OFFSCREEN_Y - 0.5f)), Quaternion.identity);
@@ -342,6 +342,9 @@ public class LevelManager : MonoBehaviour
             case "Frigate(Clone)":
                 numFrigatesOnScreen--;
                 break;
+            case "Runner(Clone)":
+                numRunnersOnScreen--;
+                break;
             default:
                 break;
         }
@@ -384,5 +387,14 @@ public class LevelManager : MonoBehaviour
             Destroy(treasure.gameObject); // Destroys all treasure
         if(GameObject.FindObjectOfType<Image>().gameObject != null)
             Destroy(GameObject.FindObjectOfType<Image>().gameObject); // Destroy the progress bar
+    }
+
+    /**
+     * Returns the current level
+     * @return level The current level
+     */
+    public int GetLevel()
+    {
+        return level;
     }
 }

@@ -17,7 +17,7 @@ public abstract class Ship : Character
     /**
      * Instantiates the ship
      */
-    protected new void Instantiate ()
+    protected new void Instantiate()
     {
         base.Instantiate(); // Calls Character instantiation
 
@@ -115,7 +115,7 @@ public abstract class Ship : Character
             (ball.GetComponent<Cannonball>() as Cannonball).SetParams(false, dirUp, xVelocity); // Set the parameters
             ball.transform.SetParent(LevelManager.instance.cannonballs);
             canShoot = false; // Reload
-            
+
             Invoke("ToggleCanShoot", 2); // Reload for 2 seconds
             return true;
         }
@@ -146,7 +146,7 @@ public abstract class Ship : Character
         rb2d.velocity = new Vector2(-2f, 0); // Go offscreen at a constant velocity
         goOffScreen = true;
     }
-    
+
     /**
      * Stops the object from moving
      */
@@ -154,5 +154,7 @@ public abstract class Ship : Character
     {
         CancelInvoke("ToggleCanShoot"); // Stops them from shooting
         rb2d.velocity = new Vector3(0, 0);
+        if (this is RunnerShip)
+            ((RunnerShip)this).StopRunner();
     }
 }
