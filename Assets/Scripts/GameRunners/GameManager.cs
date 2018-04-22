@@ -133,7 +133,7 @@ public class GameManager : MonoBehaviour
         // Set the starting values
         playerScore = 0;
         playerName = "AAA";
-        level = 10;
+        level = 5;
 
         SoundManager.instance.SetBackgroundMusic(gameMusic);
         SoundManager.instance.PlaySingle("gameStart");
@@ -370,6 +370,7 @@ public class GameManager : MonoBehaviour
         Destroy(LevelManager.instance.gameObject); // Get rid of the level manager
         level--; // Redo level
         playerScore -= (shipsScore + obstaclesScore + treasureScore); // Get rid of all progress
+        SoundManager.instance.SetBackgroundMusic(gameMusic);
         Invoke("InitLevel", 0.05f); // So we don't accidentally delete the level manager again
     }
 

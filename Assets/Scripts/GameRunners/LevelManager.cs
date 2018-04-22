@@ -20,8 +20,10 @@ public class LevelManager : MonoBehaviour
     public GameObject rockSmall; // Prefab for Small Rock
     public GameObject rockLarge; // Prefab for Large Rock
     public GameObject shark; // Prefab for Shark
+    public GameObject flamingBarrel; // Prefab for Flaming Barrel
     public GameObject treasureChest; // Prefab for Treasure Chest
     public GameObject scoreIncreaseText; // Prefab for the score increase text
+    public GameObject explosion; // Prefab for explosion
     public Image progressBar; // Prefab for the Progress Bar
 
     private Image progressBarRef; // Reference to the progress bar
@@ -263,6 +265,29 @@ public class LevelManager : MonoBehaviour
     }
 
     /**
+     * Creates an explosion
+     * @param scale The value which to scale to
+     * @param pos The starting position of the explosion
+     * @param vel The velocity of the explosion
+     */
+    public void Explode(float scale, Vector3 pos, Vector3 vel)
+    {
+        GameObject e = Instantiate(explosion, pos, Quaternion.identity);
+        (e.GetComponent<Explosion>() as Explosion).SetParams(scale, vel);
+        e.transform.SetParent(obstacles);
+    }
+
+    /**
+     * Creates a flaming barrel
+     * @param pos The starting position of the barrel
+     */
+    public void CreateBarrel(Vector3 pos)
+    {
+        GameObject e = Instantiate(flamingBarrel, pos, Quaternion.identity);
+        e.transform.SetParent(obstacles);
+    }
+
+    /**
      * Shows the player how many points they just got
      */
     public void ShowScoreIncrease(int score, Vector3 pos)
@@ -288,6 +313,10 @@ public class LevelManager : MonoBehaviour
             (obj.GetComponent<SimpleObject>() as SimpleObject).StopMoving();
         foreach (GameObject obj in GameObject.FindGameObjectsWithTag("Shark"))
             (obj.GetComponent<Shark>() as Shark).StopMoving();
+        foreach (GameObject obj in GameObject.FindGameObjectsWithTag("Barrel"))
+            (obj.GetComponent<FlamingBarrel>() as FlamingBarrel).StopMoving();
+        foreach (GameObject obj in GameObject.FindGameObjectsWithTag("Explosion"))
+            (obj.GetComponent<Explosion>() as Explosion).StopMoving();
 
         SoundManager.instance.SetBackgroundMusic(null); // Turn off music
 

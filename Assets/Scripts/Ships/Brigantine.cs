@@ -46,6 +46,7 @@ public class Brigantine : Ship
         base.OnTriggerEnter2D(other);
         if (!(other.CompareTag("Cannonball") || // Make sure Brigantine doesn't go through another object
             other.name.Equals("Background") ||
+            other.CompareTag("Explosion") ||
             other.CompareTag("Treasure")))
         {
             CancelInvoke("Turn");

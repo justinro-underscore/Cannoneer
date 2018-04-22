@@ -19,6 +19,10 @@ TextureImporter:
     21300024: BrigantineBroken
     21300026: FrigateBroken
     21300028: ShipLives
+    21300030: FlamingBarrel
+    21300032: Explosion1
+    21300034: Explosion2
+    21300036: Explosion3
   externalObjects: {}
   serializedVersion: 4
   mipmaps:
@@ -298,6 +302,62 @@ TextureImporter:
         y: 333
         width: 80
         height: 80
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: FlamingBarrel
+      rect:
+        serializedVersion: 2
+        x: 572
+        y: 459
+        width: 80
+        height: 80
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: Explosion1
+      rect:
+        serializedVersion: 2
+        x: 26
+        y: 38
+        width: 240
+        height: 240
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: Explosion2
+      rect:
+        serializedVersion: 2
+        x: 276
+        y: 48
+        width: 240
+        height: 240
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: Explosion3
+      rect:
+        serializedVersion: 2
+        x: 568
+        y: 57
+        width: 240
+        height: 240
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}

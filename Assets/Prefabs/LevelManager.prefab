@@ -64,9 +64,12 @@ MonoBehaviour:
   rockSmall: {fileID: 1453698726952074, guid: 08c19caf9fd17764999f5626a556929b, type: 2}
   rockLarge: {fileID: 1918227069633490, guid: c401eb9f2e3bdf449a9e889814d23493, type: 2}
   shark: {fileID: 1776147594896800, guid: 0ced867e5ad60b44e8fe8313c51af810, type: 2}
+  flamingBarrel: {fileID: 1171860662160132, guid: 23ddedf70a2300542991a8a6996aec27,
+    type: 2}
   treasureChest: {fileID: 1571516230966536, guid: e42ada657503e3a44a4187aa71cd4a14,
     type: 2}
   scoreIncreaseText: {fileID: 1239528006753096, guid: 6075d3d29678e70428a76d3f217f6435,
     type: 2}
+  explosion: {fileID: 1725371136029300, guid: db85d22984d103f478033aca57c7711d, type: 2}
   progressBar: {fileID: 114338824859844044, guid: 97212a1730ff5054fb3f15be54c559fb,
     type: 2}

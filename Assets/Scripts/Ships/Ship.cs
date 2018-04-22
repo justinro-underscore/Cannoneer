@@ -5,8 +5,6 @@ using UnityEngine.UI;
 
 public abstract class Ship : Character
 {
-    public Text scoreIncreaseText;
-
     protected Transform target; // Ships know where Player is
     protected int score; // Amt of points Player gets for destroying the ship
     protected bool canShoot; // If the ship can shoot now
@@ -50,8 +48,14 @@ public abstract class Ship : Character
     {
         if (canSink && other.gameObject.CompareTag("Cannonball") && (other.GetComponent<Cannonball>() as Cannonball).getShotByPlayer())
         {
-            // TODO Show explosion animation
-            SoundManager.instance.PlaySingle("explosionEnemy");
+            float scale = 1f;
+            if (this is Sloop || this is BrokenShip)
+                scale = 1f;
+            else if (this is Brigantine || this is RunnerShip)
+                scale = 1.25f;
+            else if (this is Frigate)
+                scale = 1.5f;
+            LevelManager.instance.Explode(scale, transform.position, rb2d.velocity);
             Destroy(other.gameObject, 0.25f); // Destroy the cannonball
             livesLeft--;
             if (livesLeft == 0) // If the ship is destroyed

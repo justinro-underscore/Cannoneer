@@ -12,6 +12,11 @@ public class SimpleObject : MonoBehaviour
      */
     void Start ()
     {
+        Init();
+    }
+
+    protected void Init()
+    {
         rb2d = GetComponent<Rigidbody2D>();
         rb2d.velocity = new Vector2(-2f, 0); // Set move function, object goes at constant velocity
         checkCollision = true;

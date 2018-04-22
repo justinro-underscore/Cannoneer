@@ -7,6 +7,7 @@ public class RunnerShip : Ship
 {
     public Image skull;
     private Image skullRef;
+    private bool droppedBarrel;
 
     /**
      * Initializes the ship
@@ -17,6 +18,7 @@ public class RunnerShip : Ship
         score = 300; // Score if destroyed
         livesLeft = 1;
         rb2d.velocity = new Vector2(0, 0); // Set move function, starts nonmoving
+        droppedBarrel = false;
         Warning();
     }
 
@@ -26,6 +28,11 @@ public class RunnerShip : Ship
     void FixedUpdate()
     {
         CheckIfOffScreen();
+        if (!droppedBarrel && transform.position.x <= 4)
+        {
+            LevelManager.instance.CreateBarrel(transform.position);
+            droppedBarrel = true;
+        }
     }
 
     /**

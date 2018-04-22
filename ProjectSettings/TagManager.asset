@@ -10,8 +10,9 @@ TagManager:
   - Cannonball
   - Treasure
   - Background
-  - Lives
   - ProgressBar
+  - Explosion
+  - Barrel
   layers:
   - Default
   - TransparentFX

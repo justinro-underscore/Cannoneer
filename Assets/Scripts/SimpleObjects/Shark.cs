@@ -25,6 +25,7 @@ public class Shark : SimpleObject
         {
             GameManager.instance.IncreaseScore(300, "obstacle"); // Increase the score as an obstacle
             LevelManager.instance.ShowScoreIncrease(300, transform.position); // Show how many points the player got
+            Destroy(other.gameObject);
             Destroy(gameObject);
         }
     }

@@ -113,6 +113,7 @@ public class PlayerController : Character
         if (other.gameObject.CompareTag("Ship") ||
             other.gameObject.CompareTag("Rock") ||
             other.gameObject.CompareTag("Shark") ||
+            other.gameObject.CompareTag("Explosion") ||
             (other.gameObject.CompareTag("Cannonball") && !(other.GetComponent<Cannonball>() as Cannonball).getShotByPlayer()))
         {
             if(!debugMode)
