@@ -69,7 +69,7 @@ public class PlayerController : Character
      */
     void Move()
     {
-        Vector2 move = new Vector2(Input.GetAxis("Horizontal"), Input.GetAxis("Vertical")); // TODO Make this more reactive
+        Vector2 move = new Vector2(Input.GetAxis("Horizontal"), Input.GetAxis("Vertical"));
         rb2d.velocity = move * speed;
     }
 

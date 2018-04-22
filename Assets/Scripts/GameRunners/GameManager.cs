@@ -43,6 +43,7 @@ public class GameManager : MonoBehaviour
     public Text scoreText; // Text showing player score
     public Text levelOverText; // Text showing level over text
     public Text leaderboardText; // Text showing the leaderboard
+    public Image levelStartImage; // The starting image
 
     // Handles showing stats at the end of the level
     public Text levelText;
@@ -104,7 +105,8 @@ public class GameManager : MonoBehaviour
         SoundManager.instance.SetBackgroundMusic(menuMusic);
 
         leaderboardText.text = ""; // Just make sure this is empty
-        levelOverText.text = "Welcome to Cannoneer!\nPress 'Enter' to start!";
+        levelOverText.text = "";
+        levelStartImage.enabled = true;
     }
 
     /**
@@ -128,7 +130,7 @@ public class GameManager : MonoBehaviour
      */
     void InitGame()
     {
-        levelOverText.text = "";
+        levelStartImage.enabled = false;
 
         // Set the starting values
         playerScore = 0;
@@ -262,7 +264,7 @@ public class GameManager : MonoBehaviour
         if (currScore < level * 200)
         {
             currScore += 5; // Count up
-            levelCompScoreText.text = "Stage Completed..................." + string.Format("{0:00000}", currScore); // TODO TAKE OUT 0s
+            levelCompScoreText.text = "Stage Completed..................." + string.Format("{0:00000}", currScore);
         }
         else
         {

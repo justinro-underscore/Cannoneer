@@ -152,8 +152,7 @@ public class LevelManager : MonoBehaviour
      */
     void SpawnObjects()
     {
-        // TODO Add functionality for more ships
-        float timeTilNextShip = Random.Range(2f, 4f); // TODO Change with the level
+        float timeTilNextShip = Random.Range(2f, 4f);
         Invoke("CreateShip", timeTilNextShip);
 
         float timeTilNextTreasure = Random.Range(5f, 10f);
@@ -172,7 +171,7 @@ public class LevelManager : MonoBehaviour
     /**
      * Creates a ship
      */
-    public void CreateShip() // TODO Figure out what spawns when
+    public void CreateShip()
     {
         if (!levelComplete && !levelOver)
         {
@@ -192,7 +191,7 @@ public class LevelManager : MonoBehaviour
                     numFrigatesOnScreen++;
                     s = Instantiate(frigate, new Vector3(OFFSCREEN_X, Random.Range(-OFFSCREEN_Y + 1f, OFFSCREEN_Y - 1f)), Quaternion.identity);
                 }
-                else if(shipChoice < levelSpawningRates[3] && numRunnersOnScreen < 2) // Runner spawn TODO numRunnersOnScreen < 1
+                else if(shipChoice < levelSpawningRates[3] && numRunnersOnScreen < 2) // Runner spawn
                 {
                     numRunnersOnScreen++;
                     s = Instantiate(runner, new Vector3(OFFSCREEN_X, Random.Range(-OFFSCREEN_Y + 1f, OFFSCREEN_Y - 1f)), Quaternion.identity);
@@ -203,12 +202,12 @@ public class LevelManager : MonoBehaviour
                 s.transform.SetParent(ships);
                 numShipsOnScreen++; // Increase the amount of ships on the screen
 
-                float timeTilNextShip = Random.Range(3f, 5f); // TODO Change with the level
+                float timeTilNextShip = Random.Range(3f, 5f);
                 Invoke("CreateShip", timeTilNextShip);
             }
             else // Try again later
             {
-                float timeTilNextShip = Random.Range(2f, 4f); // TODO Change with the level
+                float timeTilNextShip = Random.Range(2f, 4f);
                 Invoke("CreateShip", timeTilNextShip);
             }
         }
