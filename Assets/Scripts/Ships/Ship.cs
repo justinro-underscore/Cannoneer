@@ -114,8 +114,6 @@ public abstract class Ship : Character
             float xVelocity = 0f;
             if (targetPlayer)
             {
-                Debug.Log("Transform: " + transform.position.x);
-                Debug.Log("Target: " + target.position.x);
                 float factor = (target.position.y - transform.position.y) / 2f;
                 xVelocity = (factor != 0 ? (target.position.x - transform.position.x) / Mathf.Abs(factor) : 0f); // Aim at player
             }
