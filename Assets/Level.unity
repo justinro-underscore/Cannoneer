@@ -911,7 +911,7 @@ MonoBehaviour:
   scoreText: {fileID: 1622022076}
   levelOverText: {fileID: 1844556167}
   leaderboardText: {fileID: 1850441871}
-  levelStartImage: {fileID: 0}
+  levelStartImage: {fileID: 1130224910}
   levelText: {fileID: 1565481850}
   shipsText: {fileID: 1608343466}
   treasureText: {fileID: 1228146633}
@@ -1056,7 +1056,7 @@ GameObject:
   - component: {fileID: 1130224911}
   - component: {fileID: 1130224910}
   m_Layer: 5
-  m_Name: Image
+  m_Name: TitleImage
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
