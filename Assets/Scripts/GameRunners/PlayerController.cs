@@ -4,15 +4,17 @@ using UnityEngine.UI;
 
 public class PlayerController : Character
 {
-    protected int timeSinceLastCannonUp; // The time since the last cannon was shot up
-    protected int timeSinceLastCannonDown; // The time since the last cannon was shot down
-    private const int TIME_TIL_FIRE = 200; // The amt of time to wait between cannon fires
+    private bool canShootUp; // Whether or not the player can shoot upwards
+    private int upIndex; // The current index of the up cannon's sprite
+    private bool canShootDown; // Whether or not the player can shoot downwards
+    private int downIndex; // The current index of the down cannon's sprite
+    public Image cannonUp; // The up cannon UI
+    public Image cannonDown; // The down cannon UI
+    private Sprite[] cannonGraphics; // The sprites that the cannon UIs will change to
 
-    // TODO: Change to a graphic
-    public Text cannonText; // The text showing how much time is left for the cannon
-    public Image life1;
-    public Image life2; // Closer to the cannonText
-    private int livesLeft = 0;
+    public Image life1; // The first life lost
+    public Image life2; // The second life lost
+    private int livesLeft = 0; // The amount of lives the player has left
 
     private bool isDead; // Whether or not the player has lost
 
@@ -25,19 +27,28 @@ public class PlayerController : Character
     {
         base.Instantiate(); // Get the Rigidbody
         MovePlayer(new Vector2(-8, 0)); // Move to original position
-        timeSinceLastCannonUp = 0;
-        timeSinceLastCannonDown = 0;
+        canShootUp = true;
+        canShootDown = true;
         speed = 4; // The speed at which the ship moves
         isDead = false;
         debugMode = false;
         gameObject.GetComponent<SpriteRenderer>().color = new Color(1f, 1f, 1f, 1f); // Make player visible
-		SetCannonText (); // TODO Change to a graphic
+
+        cannonGraphics = Resources.LoadAll<Sprite>("Sprites/CannonSpriteSheet"); // Gets all cannon sprites
+        upIndex = 0;
+        downIndex = 15;
+        cannonUp.sprite = cannonGraphics[14];
+        cannonDown.sprite = cannonGraphics[29];
         if(livesLeft == 0) // New game
         {
+            cannonUp.color = new Color(1, 1, 1, 1);
+            cannonDown.color = new Color(1, 1, 1, 1);
+
             life1.color = new Color(1, 1, 1, 1);
             life2.color = new Color(1, 1, 1, 1);
             livesLeft = 3;
         }
+        InvokeRepeating("SetCannonImage", 0f, 0.2f);
     }
 	
     /**
@@ -48,13 +59,6 @@ public class PlayerController : Character
         if(gameObject.activeSelf && !isDead) // If player is dead, stop moving
         {
             Move();
-
-            // Decrease time to shoot
-            if (timeSinceLastCannonUp != 0)
-			    timeSinceLastCannonUp--;
-		    if(timeSinceLastCannonDown != 0)
-			    timeSinceLastCannonDown--;
-		    SetCannonText ();
 
             // Shoot the cannons
 		    if (Input.GetKeyDown ("o"))
@@ -79,7 +83,7 @@ public class PlayerController : Character
      */
     void ShootCannonBall(bool dirUp)
 	{
-		if (debugMode || (dirUp ? timeSinceLastCannonUp == 0 : timeSinceLastCannonDown == 0)) // Check to see if it should shoot the cannon
+		if (debugMode || (dirUp ? canShootUp : canShootDown)) // Check to see if it should shoot the cannon
 		{
             SoundManager.instance.PlaySingle("cannonFire"); // Sound the cannons!
 
@@ -88,20 +92,49 @@ public class PlayerController : Character
 
             // Reset the cannon reload
             if (dirUp)
-                timeSinceLastCannonUp = TIME_TIL_FIRE;
+                canShootUp = false;
             else
-                timeSinceLastCannonDown = TIME_TIL_FIRE;
+                canShootDown = false;
 		}
-	}
+    }
 
     /**
-     * TODO Switch to graphic
+     * Creates a cannonball object
+     * @param shotByPlayer whether or not the player fired the cannonball
+     * @param dirUp which direction the cannonball should go (true for up, false for down)
+     */
+    void CreateCannonball(bool shotByPlayer, bool dirUp)
+    {
+        // Creates the cannonball
+        GameObject ball = Instantiate(LevelManager.instance.cannonball, transform.position, Quaternion.identity);
+        (ball.GetComponent<Cannonball>() as Cannonball).SetParams(shotByPlayer, dirUp, rb2d.velocity.x); // Sets the parameters
+        ball.transform.SetParent(LevelManager.instance.cannonballs); // Organizes the heirarchy
+    }
+
+    /**
      * Shows the player how long until they can shoot again
      */
-	void SetCannonText()
-	{
-		cannonText.text = string.Format ("Up: {0:000} Down: {1:000}", timeSinceLastCannonUp, timeSinceLastCannonDown);
-	}
+    void SetCannonImage()
+    {
+        if(!canShootUp)
+        {
+            cannonUp.sprite = cannonGraphics[upIndex++];
+            if(upIndex == 15) // 15 is the highest index
+            {
+                upIndex = 0; // Reset
+                canShootUp = true;
+            }
+        }
+        if(!canShootDown)
+        {
+            cannonDown.sprite = cannonGraphics[downIndex++];
+            if (downIndex == 30) // 30 is the highest index
+            {
+                downIndex = 15; // Reset
+                canShootDown = true;
+            }
+        }
+    }
 
     /**
      * If player hit cannonball (shot by ship) or hits ship or hits rock  or hits shark game over
@@ -135,7 +168,7 @@ public class PlayerController : Character
     {
         ToggleIsDead(); // Die
         SoundManager.instance.PlaySingle("explosionPlayer");
-        cannonText.text = "";
+        CancelInvoke("SetCannonImage");
         livesLeft--;
 
         LevelManager.instance.ClearLevel(livesLeft == 0);
@@ -150,6 +183,15 @@ public class PlayerController : Character
             life1.color = new Color(1, 1, 1, 0);
         else if (livesLeft == 1)
             life2.color = new Color(1, 1, 1, 0);
+    }
+
+    /**
+     * Removes the cannon UI
+     */
+    public void CannonHide()
+    {
+        cannonUp.color = new Color(1, 1, 1, 0);
+        cannonDown.color = new Color(1, 1, 1, 0);
     }
 
     /**

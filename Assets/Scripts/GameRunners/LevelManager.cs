@@ -330,6 +330,7 @@ public class LevelManager : MonoBehaviour
      */
     void EndGame()
     {
+        (GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerController>() as PlayerController).CannonHide(); // Hides the cannon UI
         GameManager.instance.GameOver();
     }
 
