@@ -850,14 +850,14 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_Color: {r: 1, g: 1, b: 1, a: 0}
   m_RaycastTarget: 1
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
     m_TypeName: UnityEngine.UI.MaskableGraphic+CullStateChangedEvent, UnityEngine.UI,
       Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
-  m_Sprite: {fileID: 21300058, guid: c8d53635e857b7443bb7fa609cce014b, type: 3}
+  m_Sprite: {fileID: 21300030, guid: c8d53635e857b7443bb7fa609cce014b, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -957,11 +957,11 @@ RectTransform:
   m_Father: {fileID: 1532075026}
   m_RootOrder: 6
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0.5, y: 0.5}
-  m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 404, y: 320}
+  m_AnchorMin: {x: 1, y: 1}
+  m_AnchorMax: {x: 1, y: 1}
+  m_AnchoredPosition: {x: -160, y: -20}
   m_SizeDelta: {x: 50, y: 50}
-  m_Pivot: {x: 0.5, y: 0.5}
+  m_Pivot: {x: 1, y: 1}
 --- !u!114 &920923938
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1679,8 +1679,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c19956c6eee3e3f4f9eb67c0cb2967e2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  cannonUp: {fileID: 0}
-  cannonDown: {fileID: 0}
+  cannonUp: {fileID: 1742701850}
+  cannonDown: {fileID: 637991574}
   life1: {fileID: 1844553133}
   life2: {fileID: 920923938}
 --- !u!1 &1608343464
@@ -1878,14 +1878,14 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_Color: {r: 1, g: 1, b: 1, a: 0}
   m_RaycastTarget: 1
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
     m_TypeName: UnityEngine.UI.MaskableGraphic+CullStateChangedEvent, UnityEngine.UI,
       Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
-  m_Sprite: {fileID: 21300028, guid: c8d53635e857b7443bb7fa609cce014b, type: 3}
+  m_Sprite: {fileID: 21300000, guid: c8d53635e857b7443bb7fa609cce014b, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -2835,6 +2835,16 @@ Prefab:
       propertyPath: life2
       value: 
       objectReference: {fileID: 920923938}
+    - target: {fileID: 114350080092812806, guid: 1a5a74a6497ec074cbd616301363be73,
+        type: 2}
+      propertyPath: cannonUp
+      value: 
+      objectReference: {fileID: 1742701850}
+    - target: {fileID: 114350080092812806, guid: 1a5a74a6497ec074cbd616301363be73,
+        type: 2}
+      propertyPath: cannonDown
+      value: 
+      objectReference: {fileID: 637991574}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 1a5a74a6497ec074cbd616301363be73, type: 2}
   m_IsPrefabParent: 0
@@ -2868,11 +2878,11 @@ RectTransform:
   m_Father: {fileID: 1532075026}
   m_RootOrder: 5
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0.5, y: 0.5}
-  m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 345, y: 320}
+  m_AnchorMin: {x: 1, y: 1}
+  m_AnchorMax: {x: 1, y: 1}
+  m_AnchoredPosition: {x: -160, y: -80}
   m_SizeDelta: {x: 50, y: 50}
-  m_Pivot: {x: 0.5, y: 0.5}
+  m_Pivot: {x: 1, y: 1}
 --- !u!114 &1844553133
 MonoBehaviour:
   m_ObjectHideFlags: 0
