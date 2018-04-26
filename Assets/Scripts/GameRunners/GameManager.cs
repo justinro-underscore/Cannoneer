@@ -264,7 +264,7 @@ public class GameManager : MonoBehaviour
         if (currScore < level * 200)
         {
             currScore += 5; // Count up
-            levelCompScoreText.text = "Stage Completed..................." + string.Format("{0:00000}", currScore);
+            levelCompScoreText.text = "Stage Completed..................." + ("" + currScore).PadLeft(5, '.');
         }
         else
         {
@@ -285,11 +285,11 @@ public class GameManager : MonoBehaviour
         if (currScore < shipsScore)
         {
             currScore += 5;
-            shipsText.text = "Ships Destroyed..................." + string.Format("{0:00000}", currScore);
+            shipsText.text = "Ships Destroyed..................." + ("" + currScore).PadLeft(5, '.');
         }
         else if (shipsScore == 0) // If there was no points received here...
         {
-            shipsText.text = "Ships Destroyed..................." + string.Format("{0:00000}", currScore); // Show the text with 0
+            shipsText.text = "Ships Destroyed..................." + ("" + currScore).PadLeft(5, '.'); // Show the text with 0
             shipsScore--; // So we don't accidentally trigger this a second time (this will be reset at the start of the next level)
         }
         else
@@ -311,11 +311,11 @@ public class GameManager : MonoBehaviour
         if (currScore < treasureScore)
         {
             currScore += 5;
-            treasureText.text = "Treasure Collected................" + string.Format("{0:00000}", currScore);
+            treasureText.text = "Treasure Collected................" + ("" + currScore).PadLeft(5, '.');
         }
         else if (treasureScore == 0)
         {
-            treasureText.text = "Treasure Collected................" + string.Format("{0:00000}", currScore);
+            treasureText.text = "Treasure Collected................" + ("" + currScore).PadLeft(5, '.');
             treasureScore--;
         }
         else
@@ -337,11 +337,11 @@ public class GameManager : MonoBehaviour
         if (currScore < obstaclesScore)
         {
             currScore += 5;
-            obstaclesText.text = "Obstacles Destroyed..............." + string.Format("{0:00000}", currScore);
+            obstaclesText.text = "Obstacles Destroyed..............." + ("" + currScore).PadLeft(5, '.');
         }
         else if (obstaclesScore == 0)
         {
-            obstaclesText.text = "Obstacles Destroyed..............." + string.Format("{0:00000}", currScore);
+            obstaclesText.text = "Obstacles Destroyed..............." + ("" + currScore).PadLeft(5, '.');
             obstaclesScore--;
         }
         else
