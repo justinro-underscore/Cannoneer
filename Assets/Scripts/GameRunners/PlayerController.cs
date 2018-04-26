@@ -167,6 +167,7 @@ public class PlayerController : Character
     void GameOver()
     {
         ToggleIsDead(); // Die
+        SoundManager.instance.StopSounds();
         SoundManager.instance.PlaySingle("explosionPlayer");
         CancelInvoke("SetCannonImage");
         livesLeft--;
@@ -179,9 +180,9 @@ public class PlayerController : Character
      */
     public void RemoveLife()
     {
-        if (livesLeft == 2)
+        if (livesLeft <= 2)
             life1.color = new Color(1, 1, 1, 0);
-        else if (livesLeft == 1)
+        if (livesLeft <= 1)
             life2.color = new Color(1, 1, 1, 0);
     }
 
@@ -228,6 +229,8 @@ public class PlayerController : Character
         debugMode = !debugMode;
         if (!debugMode) // If the player deactivates the mode, game over
         {
+            livesLeft = 1;
+            RemoveLife();
             GameOver();
         }
     }

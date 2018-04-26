@@ -16,6 +16,8 @@ public class SoundManager : MonoBehaviour
     public AudioClip cannonSound;
     public AudioClip explosionPlayerSound;
     public AudioClip explosionEnemySound;
+    public AudioClip levelStartSound;
+    public AudioClip driveBySound;
 
     public AudioClip owenWilsonBoom;
     public AudioClip owenWilsonStart;
@@ -53,7 +55,8 @@ public class SoundManager : MonoBehaviour
         soundEffects.Add("cannonFire", cannonSound);
         soundEffects.Add("explosionPlayer", explosionPlayerSound);
         soundEffects.Add("explosionEnemy", explosionEnemySound);
-        soundEffects.Add("gameStart", null); // TODO replace with something
+        soundEffects.Add("gameStart", levelStartSound);
+        soundEffects.Add("driveBy", driveBySound);
     }
 
     /**
@@ -64,7 +67,8 @@ public class SoundManager : MonoBehaviour
         soundEffects["cannonFire"] = cannonSound;
         soundEffects["explosionPlayer"] = explosionPlayerSound;
         soundEffects["explosionEnemy"] = explosionEnemySound;
-        soundEffects["gameStart"] = null; // TODO replace with something
+        soundEffects["gameStart"] = levelStartSound;
+        soundEffects["driveBy"] = driveBySound;
     }
 
     /**
@@ -140,6 +144,17 @@ public class SoundManager : MonoBehaviour
             //Play the clip.
             quaternaryEfxSource.Play();
         }
+    }
+
+    /**
+     * Stops all sound effects
+     */
+    public void StopSounds()
+    {
+        efxSource.Stop();
+        secondaryEfxSource.Stop();
+        tertiaryEfxSource.Stop();
+        quaternaryEfxSource.Stop();
     }
 
     /**
