@@ -15,7 +15,8 @@ public class GameManager : MonoBehaviour
         ENDSCREEN, // When the player finishes the level
         ENDGAME, // When the player loses
         INITIALS, // If the player gets a high score
-        LEADERBOARD // The leaderboard after player loses
+        LEADERBOARD, // The leaderboard after player loses
+        CREDITS // The credits of the game after the leaderboard
     }
     private State currState = State.LEADERBOARD; // The current state the game is in (starts in leaderboard so that we can call ShowMenu())
 
@@ -44,6 +45,7 @@ public class GameManager : MonoBehaviour
     public Text levelOverText; // Text showing level over text
     public Text leaderboardText; // Text showing the leaderboard
     public Image levelStartImage; // The starting image
+    public Image creditsImage; // The credits image
 
     // Handles showing stats at the end of the level
     public Text levelText;
@@ -99,6 +101,7 @@ public class GameManager : MonoBehaviour
      */
     void ShowMenu()
     {
+        Debug.Log("Menu");
         CancelInvoke("ShowMenu");
         currState = State.MAIN_MENU;
 
@@ -106,6 +109,7 @@ public class GameManager : MonoBehaviour
 
         leaderboardText.text = ""; // Just make sure this is empty
         levelOverText.text = "";
+        creditsImage.enabled = false;
         levelStartImage.enabled = true;
     }
 
@@ -119,9 +123,11 @@ public class GameManager : MonoBehaviour
 
         if (currState == State.MAIN_MENU && Input.GetKeyDown(KeyCode.Return))
             InitGame();
-        if (currState == State.INITIALS && Input.GetKeyDown(KeyCode.Return))
+        else if (currState == State.INITIALS && Input.GetKeyDown(KeyCode.Return))
             SubmitInitials();
-        if (currState == State.LEADERBOARD && Input.GetKeyDown(KeyCode.Return))
+        else if (currState == State.LEADERBOARD && Input.GetKeyDown(KeyCode.Return))
+            ShowCredits();
+        else if (currState == State.CREDITS && Input.GetKeyDown(KeyCode.Return))
             ShowMenu();
     }
 
@@ -435,10 +441,24 @@ public class GameManager : MonoBehaviour
             leaderboardText.text += (i != 9 ? " " : "") + (i + 1) + ": "; // Add a space if the index is not 10
             leaderboardText.text += (isScoreOfPlayer == 1 ? "<b>" : "") + leaderboardNames[i] + (isScoreOfPlayer == 1 ? "</b>" : "");
             leaderboardText.text += "............";
-            leaderboardText.text += (isScoreOfPlayer == 1 ? "<b>" : "") + string.Format("{0:000000}", leaderboardScores[i]) + (isScoreOfPlayer == 1 ? "</b>\n" : "\n");
+            leaderboardText.text += (isScoreOfPlayer == 1 ? "<b>" : "") + ("" + leaderboardScores[i]).PadLeft(6, '.') + (isScoreOfPlayer == 1 ? "</b>\n" : "\n");
             if (isScoreOfPlayer == 1) // So this only runs once
                 isScoreOfPlayer++;
         }
+        Invoke("ShowCredits", 6f);
+    }
+
+    /**
+     * Shows the game credits
+     */
+    void ShowCredits()
+    {
+        CancelInvoke("ShowCredits");
+        currState = State.CREDITS;
+
+        leaderboardText.text = ""; // Just make sure this is empty
+        levelOverText.text = "";
+        creditsImage.enabled = true;
         Invoke("ShowMenu", 10f);
     }
 
