@@ -23,6 +23,8 @@ public class CodeManager : MonoBehaviour
     private int galaxyCode;
     public Sprite galaxy;
     public Sprite ocean;
+    public AudioClip gameMusic; // Background music of the game
+    public AudioClip shootingStarsMusic; // Shooting stars
 
     bool codesAllowed; // Whether or not cheat codes are allowed
 
@@ -85,8 +87,11 @@ public class CodeManager : MonoBehaviour
                     owenCode++;
                 else
                     owenCode = 0;
-
-                flexTapeCode = 0;
+                
+                if (flexTapeCode == 4 || flexTapeCode == 5)
+                    flexTapeCode++;
+                else
+                    flexTapeCode = 0;
 
                 galaxyCode = 0;
             }
@@ -140,7 +145,10 @@ public class CodeManager : MonoBehaviour
                 else
                     owenCode = 0;
 
-                flexTapeCode = 0;
+                if (flexTapeCode == 6)
+                    flexTapeCode++;
+                else
+                    flexTapeCode = 0;
 
                 galaxyCode = 0;
             }
@@ -158,7 +166,10 @@ public class CodeManager : MonoBehaviour
                 else
                     owenCode = 0;
 
-                flexTapeCode = 0;
+                if (flexTapeCode == 7)
+                    flexTapeCode++;
+                else
+                    flexTapeCode = 0;
 
                 galaxyCode = 0;
             }
@@ -176,7 +187,7 @@ public class CodeManager : MonoBehaviour
                 else
                     owenCode = 0;
 
-                if (flexTapeCode == 4)
+                if (flexTapeCode == 8)
                     flexTapeCode++;
                 else
                     flexTapeCode = 0;
@@ -237,7 +248,7 @@ public class CodeManager : MonoBehaviour
         }
 
         // Phil Swift Mode
-        if (flexTapeCode == 5)
+        if (flexTapeCode == 9)
         {
             GameObject showCheat = Instantiate(scoreIncreaseText, GameObject.FindObjectOfType<Canvas>().transform);
             flexTapeMode = !flexTapeMode;
@@ -260,11 +271,13 @@ public class CodeManager : MonoBehaviour
             {
                 (showCheat.GetComponent<ScoreIncreaseTextController>() as ScoreIncreaseTextController).SetParamsForCheat("Galaxy Mode Activated!");
                 GameObject.FindGameObjectWithTag("Background").GetComponent<SpriteRenderer>().sprite = galaxy;
+                SoundManager.instance.SetBackgroundMusic(shootingStarsMusic);
             }
             else
             {
                 (showCheat.GetComponent<ScoreIncreaseTextController>() as ScoreIncreaseTextController).SetParamsForCheat("Galaxy Mode Deactivated!");
                 GameObject.FindGameObjectWithTag("Background").GetComponent<SpriteRenderer>().sprite = ocean;
+                SoundManager.instance.SetBackgroundMusic(gameMusic);
             }
 
             galaxyCode = 0;

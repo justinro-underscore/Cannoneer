@@ -85,7 +85,7 @@ public class PlayerController : Character
 	{
 		if (debugMode || (dirUp ? canShootUp : canShootDown)) // Check to see if it should shoot the cannon
 		{
-            SoundManager.instance.PlaySingle("cannonFire"); // Sound the cannons!
+            SoundManager.instance.PlaySingle("cannonPlayerFire"); // Sound the cannons!
 
             // Create the cannonball
             CreateCannonball(true, dirUp);

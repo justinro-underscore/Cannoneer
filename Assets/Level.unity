@@ -152,7 +152,8 @@ MonoBehaviour:
   quaternaryEfxSource: {fileID: 212001130}
   musicSource: {fileID: 212001126}
   secondaryMusicSource: {fileID: 212001128}
-  cannonSound: {fileID: 8300000, guid: 32c331bbc92ba1747a250e0db87610cd, type: 3}
+  cannonPlayerSound: {fileID: 8300000, guid: 1b1e761bd40722147970cb2de3538515, type: 3}
+  cannonEnemySound: {fileID: 8300000, guid: a6966ae00f24f1d44832d083a19bfdc8, type: 3}
   explosionPlayerSound: {fileID: 8300000, guid: 9057a3088a0b5134d8e7ac4d9cf0c2f0,
     type: 3}
   explosionEnemySound: {fileID: 8300000, guid: 915919978eac4a24dbe3979e06e9404f, type: 3}
@@ -188,7 +189,7 @@ AudioSource:
   OutputAudioMixerGroup: {fileID: 0}
   m_audioClip: {fileID: 8300000, guid: e511834dba428a9479e31483a8beac54, type: 3}
   m_PlayOnAwake: 1
-  m_Volume: 0.61
+  m_Volume: 0.5
   m_Pitch: 1
   Loop: 1
   Mute: 0
@@ -348,7 +349,7 @@ AudioSource:
   OutputAudioMixerGroup: {fileID: 0}
   m_audioClip: {fileID: 0}
   m_PlayOnAwake: 0
-  m_Volume: 0.61
+  m_Volume: 0.5
   m_Pitch: 1
   Loop: 1
   Mute: 0
@@ -1097,6 +1098,8 @@ MonoBehaviour:
     type: 2}
   galaxy: {fileID: 21300000, guid: 994f90ee6ab044c43a2652d678875c94, type: 3}
   ocean: {fileID: 21300000, guid: b92d29dbe3cf90a43a8273669e9ff8a7, type: 3}
+  gameMusic: {fileID: 8300000, guid: 9915e93a57209ce4e818d5be3c100b4d, type: 3}
+  shootingStarsMusic: {fileID: 8300000, guid: 96a08bc7e058edf41915f625ff9537ec, type: 3}
 --- !u!4 &1115288844
 Transform:
   m_ObjectHideFlags: 0

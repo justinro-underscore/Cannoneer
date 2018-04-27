@@ -101,7 +101,6 @@ public class GameManager : MonoBehaviour
      */
     void ShowMenu()
     {
-        Debug.Log("Menu");
         CancelInvoke("ShowMenu");
         currState = State.MAIN_MENU;
 
