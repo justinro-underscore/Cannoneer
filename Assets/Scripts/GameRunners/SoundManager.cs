@@ -13,9 +13,12 @@ public class SoundManager : MonoBehaviour
     public AudioSource secondaryMusicSource; // The music to be switched to for background music (used for cross-fade)
     private bool secondaryMusicPlaying;
 
-    public AudioClip cannonSound;
+    public AudioClip cannonPlayerSound;
+    public AudioClip cannonEnemySound;
     public AudioClip explosionPlayerSound;
     public AudioClip explosionEnemySound;
+    public AudioClip levelStartSound;
+    public AudioClip driveBySound;
 
     public AudioClip owenWilsonBoom;
     public AudioClip owenWilsonStart;
@@ -50,10 +53,12 @@ public class SoundManager : MonoBehaviour
         secondaryMusicPlaying = false;
 
         soundEffects = new Hashtable();
-        soundEffects.Add("cannonFire", cannonSound);
+        soundEffects.Add("cannonPlayerFire", cannonPlayerSound);
+        soundEffects.Add("cannonEnemyFire", cannonEnemySound);
         soundEffects.Add("explosionPlayer", explosionPlayerSound);
         soundEffects.Add("explosionEnemy", explosionEnemySound);
-        soundEffects.Add("gameStart", null); // TODO replace with something
+        soundEffects.Add("gameStart", levelStartSound);
+        soundEffects.Add("driveBy", driveBySound);
     }
 
     /**
@@ -61,10 +66,12 @@ public class SoundManager : MonoBehaviour
      */
     void InitSounds()
     {
-        soundEffects["cannonFire"] = cannonSound;
+        soundEffects["cannonPlayerFire"] = cannonPlayerSound;
+        soundEffects["cannonEnemyFire"] = cannonEnemySound;
         soundEffects["explosionPlayer"] = explosionPlayerSound;
         soundEffects["explosionEnemy"] = explosionEnemySound;
-        soundEffects["gameStart"] = null; // TODO replace with something
+        soundEffects["gameStart"] = levelStartSound;
+        soundEffects["driveBy"] = driveBySound;
     }
 
     /**
@@ -143,6 +150,17 @@ public class SoundManager : MonoBehaviour
     }
 
     /**
+     * Stops all sound effects
+     */
+    public void StopSounds()
+    {
+        efxSource.Stop();
+        secondaryEfxSource.Stop();
+        tertiaryEfxSource.Stop();
+        quaternaryEfxSource.Stop();
+    }
+
+    /**
      * Sets the background music of the game
      */
     public void SetBackgroundMusic(AudioClip music)
@@ -178,7 +196,7 @@ public class SoundManager : MonoBehaviour
     {
         if (!secondaryMusicPlaying) // If the musicSource object is the one playing currently
         {
-            if (secondaryMusicSource.volume < 1)
+            if (secondaryMusicSource.volume < 0.5f)
             {
                 secondaryMusicSource.volume = secondaryMusicSource.volume + 0.01f; // Increase switched music volume
                 musicSource.volume = musicSource.volume - 0.01f; // Decrease music source volume
@@ -191,7 +209,7 @@ public class SoundManager : MonoBehaviour
         }
         else
         {
-            if (musicSource.volume < 1)
+            if (musicSource.volume < 0.5f)
             {
                 musicSource.volume = musicSource.volume + 0.01f;
                 secondaryMusicSource.volume = secondaryMusicSource.volume - 0.01f;

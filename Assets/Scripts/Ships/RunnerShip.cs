@@ -69,6 +69,7 @@ public class RunnerShip : Ship
                 rb2d.velocity = new Vector2(-16f, 0); // Start to charge, go fast
             else
                 rb2d.velocity = new Vector2(-16f, (target.position.y - transform.position.y) * 0.5f); // If later, charge the player
+            SoundManager.instance.PlaySingle("driveBy");
         }
     }
 

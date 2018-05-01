@@ -109,6 +109,7 @@ public abstract class Ship : Character
     {
         if (canShoot) // Only shoot if reload time is done
         {
+            SoundManager.instance.PlaySingle("cannonEnemyFire"); // Sound the cannons!
             // Create the cannonball
             GameObject ball = Instantiate(LevelManager.instance.cannonball, transform.position, Quaternion.identity);
             float xVelocity = 0f;
