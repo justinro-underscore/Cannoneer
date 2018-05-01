@@ -63,6 +63,15 @@ public class GameManager : MonoBehaviour
     private string playerName; // Used for the leaderboard
     private int level; // Current level
 
+    private bool upPressed;
+    private bool downPressed;
+    private bool leftPressed;
+    private bool rightPressed;
+    private bool upHasBeenPressed;
+    private bool downHasBeenPressed;
+    private bool leftHasBeenPressed;
+    private bool rightHasBeenPressed;
+
     /**
      * Starts the game, runs at the start
      */
@@ -120,14 +129,81 @@ public class GameManager : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.Escape))
             Application.Quit();
 
-        if (currState == State.MAIN_MENU && Input.GetKeyDown(KeyCode.Return))
+        if (currState == State.MAIN_MENU && Input.GetKeyDown(KeyCode.JoystickButton2))
             InitGame();
-        else if (currState == State.INITIALS && Input.GetKeyDown(KeyCode.Return))
+        else if (currState == State.INITIALS && Input.GetKeyDown(KeyCode.JoystickButton2))
             SubmitInitials();
-        else if (currState == State.LEADERBOARD && Input.GetKeyDown(KeyCode.Return))
+        else if (currState == State.LEADERBOARD && Input.GetKeyDown(KeyCode.JoystickButton2))
             ShowCredits();
-        else if (currState == State.CREDITS && Input.GetKeyDown(KeyCode.Return))
+        else if (currState == State.CREDITS && Input.GetKeyDown(KeyCode.JoystickButton2))
             ShowMenu();
+
+        UpdateJoystickInput();
+    }
+
+    void UpdateJoystickInput()
+    {
+        upPressed = false;
+        downPressed = false;
+        rightPressed = false;
+        leftPressed = false;
+
+        if (Input.GetAxis("Vertical") > 0)
+        {
+            if (!upHasBeenPressed)
+            {
+                upHasBeenPressed = true;
+                upPressed = true;
+            }
+        }
+        else
+            upHasBeenPressed = false;
+
+        if (Input.GetAxis("Vertical") < 0)
+        {
+            if (!downHasBeenPressed)
+            {
+                downHasBeenPressed = true;
+                downPressed = true;
+            }
+        }
+        else
+            downHasBeenPressed = false;
+
+        if (Input.GetAxis("Horizontal") > 0)
+        {
+            if (!rightHasBeenPressed)
+            {
+                rightHasBeenPressed = true;
+                rightPressed = true;
+            }
+        }
+        else
+            rightHasBeenPressed = false;
+
+        if (Input.GetAxis("Horizontal") < 0)
+        {
+            if (!leftHasBeenPressed)
+            {
+                leftHasBeenPressed = true;
+                leftPressed = true;
+            }
+        }
+        else
+            leftHasBeenPressed = false;
+    }
+
+    public bool GetJoystickInput(String dir)
+    {
+        if (dir == "up")
+            return upPressed;
+        else if (dir == "down")
+            return downPressed;
+        else if (dir == "left")
+            return leftPressed;
+        else if (dir == "right")
+            return rightPressed;
+        return false;
     }
 
     /**

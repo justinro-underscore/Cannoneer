@@ -67,14 +67,14 @@ public class HighScoreManager : MonoBehaviour
             initialsText.text = "Enter Initials: " + GetInitials(true); // Show the text
 
             // Change the initial
-            if (Input.GetKeyDown("up"))
+            if (GameManager.instance.GetJoystickInput("up"))
                 ChangeCharacter(true);
-            else if (Input.GetKeyDown("down"))
+            else if (GameManager.instance.GetJoystickInput("down"))
                 ChangeCharacter(false);
             // Change the current initial selected
-            else if (Input.GetKeyDown("right"))
+            else if (GameManager.instance.GetJoystickInput("right"))
                 MoveCursor(true);
-            else if (Input.GetKeyDown("left"))
+            else if (GameManager.instance.GetJoystickInput("left"))
                 MoveCursor(false);
         }
     }

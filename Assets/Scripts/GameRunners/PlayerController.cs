@@ -61,9 +61,9 @@ public class PlayerController : Character
             Move();
 
             // Shoot the cannons
-		    if (Input.GetKeyDown ("o"))
+		    if (Input.GetKeyDown (KeyCode.JoystickButton1))
 			    ShootCannonBall (true);
-		    else if (Input.GetKeyDown ("l"))
+		    else if (Input.GetKeyDown (KeyCode.JoystickButton0))
 			    ShootCannonBall (false);
         }
 	}

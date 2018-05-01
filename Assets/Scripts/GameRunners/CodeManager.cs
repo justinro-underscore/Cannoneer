@@ -52,7 +52,7 @@ public class CodeManager : MonoBehaviour
         if (codesAllowed)
         {
             // UP
-            if (Input.GetKeyDown("up"))
+            if (GameManager.instance.GetJoystickInput("up"))
             {
                 if (konamiCode == 0 || konamiCode == 1)
                     konamiCode++;
@@ -76,7 +76,7 @@ public class CodeManager : MonoBehaviour
             }
 
             // DOWN
-            if (Input.GetKeyDown("down"))
+            if (GameManager.instance.GetJoystickInput("down"))
             {
                 if (konamiCode == 2 || konamiCode == 3)
                     konamiCode++;
@@ -97,7 +97,7 @@ public class CodeManager : MonoBehaviour
             }
 
             // LEFT
-            if (Input.GetKeyDown("left"))
+            if (GameManager.instance.GetJoystickInput("left"))
             {
                 if (konamiCode == 4 || konamiCode == 6)
                     konamiCode++;
@@ -115,7 +115,7 @@ public class CodeManager : MonoBehaviour
             }
 
             // RIGHT
-            if (Input.GetKeyDown("right"))
+            if (GameManager.instance.GetJoystickInput("right"))
             {
                 if (konamiCode == 5 || konamiCode == 7)
                     konamiCode++;
@@ -133,7 +133,7 @@ public class CodeManager : MonoBehaviour
             }
 
             // A BUTTON
-            if (Input.GetKeyDown("o"))
+            if (Input.GetKeyDown(KeyCode.JoystickButton1))
             {
                 if (konamiCode == 9)
                     konamiCode++;
@@ -154,7 +154,7 @@ public class CodeManager : MonoBehaviour
             }
 
             // B BUTTON
-            if (Input.GetKeyDown("l"))
+            if (Input.GetKeyDown(KeyCode.JoystickButton0))
             {
                 if (konamiCode == 8)
                     konamiCode++;
@@ -175,7 +175,7 @@ public class CodeManager : MonoBehaviour
             }
 
             // ENTER BUTTON
-            if (Input.GetKeyDown("return"))
+            if (Input.GetKeyDown(KeyCode.JoystickButton2))
             {
                 if (konamiCode == 10)
                     konamiCode++;
