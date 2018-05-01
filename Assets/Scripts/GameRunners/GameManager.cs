@@ -141,6 +141,10 @@ public class GameManager : MonoBehaviour
         UpdateJoystickInput();
     }
 
+    /**
+     * Updates the current input value of the joystick
+     * The input value is only registered as true on the first frame it is hit
+     */
     void UpdateJoystickInput()
     {
         upPressed = false;
@@ -148,6 +152,7 @@ public class GameManager : MonoBehaviour
         rightPressed = false;
         leftPressed = false;
 
+        // Check if the player is pressing up
         if (Input.GetAxis("Vertical") > 0)
         {
             if (!upHasBeenPressed)
@@ -159,6 +164,7 @@ public class GameManager : MonoBehaviour
         else
             upHasBeenPressed = false;
 
+        // Check if the player is pressing down
         if (Input.GetAxis("Vertical") < 0)
         {
             if (!downHasBeenPressed)
@@ -170,6 +176,7 @@ public class GameManager : MonoBehaviour
         else
             downHasBeenPressed = false;
 
+        // Check if the player is pressing right
         if (Input.GetAxis("Horizontal") > 0)
         {
             if (!rightHasBeenPressed)
@@ -181,6 +188,7 @@ public class GameManager : MonoBehaviour
         else
             rightHasBeenPressed = false;
 
+        // Check if the player is pressing left
         if (Input.GetAxis("Horizontal") < 0)
         {
             if (!leftHasBeenPressed)
@@ -193,6 +201,12 @@ public class GameManager : MonoBehaviour
             leftHasBeenPressed = false;
     }
 
+    /**
+     * Returns the current status of the direction that the input is in
+     * The input value is only registered as true on the first frame it is hit
+     * @param the specified direction to check
+     * @return Returns the status of the specified direction
+     */
     public bool GetJoystickInput(String dir)
     {
         if (dir == "up")
