@@ -271,13 +271,13 @@ public class CodeManager : MonoBehaviour
             {
                 (showCheat.GetComponent<ScoreIncreaseTextController>() as ScoreIncreaseTextController).SetParamsForCheat("Galaxy Mode Activated!");
                 GameObject.FindGameObjectWithTag("Background").GetComponent<SpriteRenderer>().sprite = galaxy;
-                SoundManager.instance.SetBackgroundMusic(shootingStarsMusic);
+                SoundManager.instance.SetBackgroundMusic(shootingStarsMusic, true);
             }
             else
             {
                 (showCheat.GetComponent<ScoreIncreaseTextController>() as ScoreIncreaseTextController).SetParamsForCheat("Galaxy Mode Deactivated!");
                 GameObject.FindGameObjectWithTag("Background").GetComponent<SpriteRenderer>().sprite = ocean;
-                SoundManager.instance.SetBackgroundMusic(gameMusic);
+                SoundManager.instance.SetBackgroundMusic(gameMusic, true);
             }
 
             galaxyCode = 0;

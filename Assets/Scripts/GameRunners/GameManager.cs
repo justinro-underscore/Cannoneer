@@ -104,7 +104,7 @@ public class GameManager : MonoBehaviour
         CancelInvoke("ShowMenu");
         currState = State.MAIN_MENU;
 
-        SoundManager.instance.SetBackgroundMusic(menuMusic);
+        SoundManager.instance.SetBackgroundMusic(menuMusic, true);
 
         leaderboardText.text = ""; // Just make sure this is empty
         levelOverText.text = "";
@@ -142,8 +142,8 @@ public class GameManager : MonoBehaviour
         playerName = "AAA";
         level = 0;
 
-        SoundManager.instance.SetBackgroundMusic(gameMusic);
-        SoundManager.instance.PlaySingle("gameStart");
+        SoundManager.instance.SetBackgroundMusic(gameMusic, false);
+        //SoundManager.instance.PlaySingle("gameStart");
 
         InitLevel();
     }
@@ -377,7 +377,7 @@ public class GameManager : MonoBehaviour
         Destroy(LevelManager.instance.gameObject); // Get rid of the level manager
         level--; // Redo level
         playerScore -= (shipsScore + obstaclesScore + treasureScore); // Get rid of all progress
-        SoundManager.instance.SetBackgroundMusic(gameMusic);
+        SoundManager.instance.SetBackgroundMusic(gameMusic, false);
         Invoke("InitLevel", 0.05f); // So we don't accidentally delete the level manager again
     }
 

@@ -12,6 +12,7 @@ public class SoundManager : MonoBehaviour
     public AudioSource musicSource; //Drag a reference to the audio source which will play the music.
     public AudioSource secondaryMusicSource; // The music to be switched to for background music (used for cross-fade)
     private bool secondaryMusicPlaying;
+    private bool waitForMusic;
 
     public AudioClip cannonPlayerSound;
     public AudioClip cannonEnemySound;
@@ -162,8 +163,10 @@ public class SoundManager : MonoBehaviour
 
     /**
      * Sets the background music of the game
+     * @param music The music to be switched to
+     * @param crossFade if true, crosssfade the songs. If false, wait for the other music to finish
      */
-    public void SetBackgroundMusic(AudioClip music)
+    public void SetBackgroundMusic(AudioClip music, bool crossfade)
     {
         if(musicSource.isPlaying) // If the musicSource object is the one currently making sound
         {
@@ -171,10 +174,17 @@ public class SoundManager : MonoBehaviour
 
             // Set the background music
             secondaryMusicSource.clip = music;
-            secondaryMusicSource.volume = 0;
-            secondaryMusicSource.Play();
 
-            InvokeRepeating("SwitchMusic", 0f, 0.01f); // Begin the cross-fade
+            if(crossfade)
+            {
+                InvokeRepeating("SwitchMusic", 0f, 0.01f); // Begin the cross-fade
+                secondaryMusicSource.volume = 0;
+                secondaryMusicSource.Play();
+            }
+            else
+            {
+                waitForMusic = true;
+            }
         }
         else
         {
@@ -182,10 +192,45 @@ public class SoundManager : MonoBehaviour
 
             // Set the background music
             musicSource.clip = music;
-            musicSource.volume = 0;
-            musicSource.Play();
 
-            InvokeRepeating("SwitchMusic", 0f, 0.01f);
+            if (crossfade)
+            {
+                InvokeRepeating("SwitchMusic", 0f, 0.01f); // Begin the cross-fade
+                musicSource.volume = 0;
+                musicSource.Play();
+            }
+            else
+            {
+                waitForMusic = true;
+            }
+        }
+    }
+
+    /**
+     * Waits for the current song to end
+     */
+    void Update()
+    {
+        if(waitForMusic) // If the audio source should be waiting for the music to end
+        {
+            (secondaryMusicPlaying ? secondaryMusicSource : musicSource).loop = false; // Stop looping so it can end
+            if(!(secondaryMusicPlaying ? secondaryMusicSource.isPlaying : musicSource.isPlaying)) // If it has stopped
+            {
+                // Start playing
+                if (!secondaryMusicPlaying)
+                {
+                    secondaryMusicSource.volume = 0.5f;
+                    secondaryMusicSource.Play();
+                }
+                else
+                {
+                    musicSource.volume = 0.5f;
+                    musicSource.Play();
+                }
+                
+                waitForMusic = false;
+                (secondaryMusicPlaying ? secondaryMusicSource : musicSource).loop = true; // Set the loop to true for the next song
+            }
         }
     }
 
