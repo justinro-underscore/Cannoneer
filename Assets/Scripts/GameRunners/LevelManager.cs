@@ -30,6 +30,8 @@ public class LevelManager : MonoBehaviour
     private RectTransform progressBarRect; // Reference to the RectTransform (used for easy size manipulation)
     private Color progressBarColor; // Color of the progress bar (NOTE: not a reference)
     private int progressBarWidth; // The desired width of the progress bar
+    private int levelProgressObjective; // The amount of ships to destroy/treasure to collect to end the level
+    private int levelProgress; // The progress that the player has made
     private int progressAmt; // The amount by which the progress bar should increase after each ship destroyed
     private const int PROGRESS_BAR_FULL_WIDTH = 1510; // The size of the full progress bar
 
@@ -37,9 +39,7 @@ public class LevelManager : MonoBehaviour
     private const int OFFSCREEN_Y = 5; // The number that indicates when something goes offscreen in y
 
     private int level; // Current level
-
-    private int numShipsToDestroy; // The amount of ships to destroy to end the level
-    private int numShipsDestroyed; // The number of ships that have been destroyed
+    
     private int numShipsOnScreen; // The number of ships on screen at one time
     private int maxNumShipsOnScreen; // The maximum number of ships on screen at once
     private int numBrigantinesOnScreen; // The number of Brigantines on screen
@@ -126,8 +126,8 @@ public class LevelManager : MonoBehaviour
         levelComplete = false;
         levelOver = false;
 
-        // Reset number of ships
-        numShipsDestroyed = 0;
+        // Reset the level progress
+        levelProgress = 0;
 
         // Set the max number of ships on screen
         if (level <= 3)
@@ -140,8 +140,8 @@ public class LevelManager : MonoBehaviour
         levelSpawningRates = GameManager.instance.GetSpawningRates();
 
         // Equation to calculate the amount of ships needed to destroy to move on to next level
-        numShipsToDestroy = 7; // TODO Might wanna change this to something scaling
-        progressAmt = PROGRESS_BAR_FULL_WIDTH / numShipsToDestroy; // Set the amount each ship destroyed should increase the progress bar
+        levelProgressObjective = 16; // TODO Might wanna change this to something scaling
+        progressAmt = PROGRESS_BAR_FULL_WIDTH / levelProgressObjective; // Set the amount each ship destroyed should increase the progress bar
 
         // Begins to spawn objects
         SpawnObjects();
@@ -393,19 +393,26 @@ public class LevelManager : MonoBehaviour
         }
 
         if (destroyed) // If the ship was destroyed...
-        {
-            progressBarWidth += progressAmt; // Increase desired progress bar width
-            if (progressBarWidth > PROGRESS_BAR_FULL_WIDTH) // Make sure we don't go overboard
-                progressBarWidth = PROGRESS_BAR_FULL_WIDTH; // Also stops progress bar from going over if player destroys ships after level is over
+            IncreaseProgress(2);
+    }
 
-            numShipsDestroyed++;
-            if (numShipsDestroyed == numShipsToDestroy) // If the game should end
-            {
-                if (progressBarWidth != PROGRESS_BAR_FULL_WIDTH) // Fill up the progress bar (if it isn't already)
-                    progressBarWidth = PROGRESS_BAR_FULL_WIDTH;
-                levelComplete = true;
-                Invoke("EndLevel", 0.25f); // Wait for the last destroyed ship to turn to a broken ship
-            }
+    /**
+     * Increases the progress made by the player in the level
+     * @param amt The amount of progress being made (2 for ships, 1 for treasure)
+     */
+    public void IncreaseProgress(int amt)
+    {
+        progressBarWidth += (progressAmt * amt); // Increase desired progress bar width
+        if (progressBarWidth > PROGRESS_BAR_FULL_WIDTH) // Make sure we don't go overboard
+            progressBarWidth = PROGRESS_BAR_FULL_WIDTH; // Also stops progress bar from going over if player destroys ships after level is over
+
+        levelProgress += amt;
+        if (levelProgress >= levelProgressObjective) // If the game should end
+        {
+            if (progressBarWidth != PROGRESS_BAR_FULL_WIDTH) // Fill up the progress bar (if it isn't already)
+                progressBarWidth = PROGRESS_BAR_FULL_WIDTH;
+            levelComplete = true;
+            Invoke("EndLevel", 0.25f); // Wait for the last destroyed ship to turn to a broken ship
         }
     }
 

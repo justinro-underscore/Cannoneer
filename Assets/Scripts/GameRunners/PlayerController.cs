@@ -156,6 +156,7 @@ public class PlayerController : Character
         {
             GameManager.instance.IncreaseScore(100, "treasure");
             LevelManager.instance.ShowScoreIncrease(100, transform.position); // Show how many points the player got
+            LevelManager.instance.IncreaseProgress(1);
 
             Destroy(other.gameObject);
         }
