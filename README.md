@@ -6,4 +6,4 @@ Cannoneer is a horizontal shooter with vertical shooter mechanics. In the game, 
 
 
 
-[ship]: Assets/Sprites/PlayerShip.png
+[ship]: Assets/Resources/Sprites/PlayerShip.png
