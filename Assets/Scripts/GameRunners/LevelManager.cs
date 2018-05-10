@@ -317,7 +317,7 @@ public class LevelManager : MonoBehaviour
         foreach (GameObject obj in GameObject.FindGameObjectsWithTag("Explosion"))
             (obj.GetComponent<Explosion>() as Explosion).StopMoving();
 
-        SoundManager.instance.SetBackgroundMusic(null, true); // Turn off music
+        SoundManager.instance.SetBackgroundMusic(null, false, false); // Turn off music immediately
 
         if (gameOver)
             Invoke("EndGame", 2f); // Delete everything 2 seconds later (this is so the player sees how they died)

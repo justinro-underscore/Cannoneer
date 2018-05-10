@@ -16,7 +16,7 @@ public class SoundManager : MonoBehaviour
 
     public AudioClip cannonPlayerSound;
     public AudioClip cannonEnemySound;
-    public AudioClip explosionPlayerSound;
+    public AudioClip playerDeathSound;
     public AudioClip explosionEnemySound;
     public AudioClip levelStartSound;
     public AudioClip driveBySound;
@@ -56,7 +56,7 @@ public class SoundManager : MonoBehaviour
         soundEffects = new Hashtable();
         soundEffects.Add("cannonPlayerFire", cannonPlayerSound);
         soundEffects.Add("cannonEnemyFire", cannonEnemySound);
-        soundEffects.Add("explosionPlayer", explosionPlayerSound);
+        soundEffects.Add("playerDeath", playerDeathSound);
         soundEffects.Add("explosionEnemy", explosionEnemySound);
         soundEffects.Add("gameStart", levelStartSound);
         soundEffects.Add("driveBy", driveBySound);
@@ -69,7 +69,7 @@ public class SoundManager : MonoBehaviour
     {
         soundEffects["cannonPlayerFire"] = cannonPlayerSound;
         soundEffects["cannonEnemyFire"] = cannonEnemySound;
-        soundEffects["explosionPlayer"] = explosionPlayerSound;
+        soundEffects["playerDeath"] = playerDeathSound;
         soundEffects["explosionEnemy"] = explosionEnemySound;
         soundEffects["gameStart"] = levelStartSound;
         soundEffects["driveBy"] = driveBySound;
@@ -164,9 +164,11 @@ public class SoundManager : MonoBehaviour
     /**
      * Sets the background music of the game
      * @param music The music to be switched to
-     * @param crossFade if true, crosssfade the songs. If false, wait for the other music to finish
+     * @param crossfade if true, crosssfade the songs. If false, wait for the other music to finish
+     * @param shouldWait whether or not the song should wait for the previous song to end before starting
+     *          Only used when crossfade is true
      */
-    public void SetBackgroundMusic(AudioClip music, bool crossfade)
+    public void SetBackgroundMusic(AudioClip music, bool crossfade, bool shouldWait)
     {
         if(musicSource.isPlaying) // If the musicSource object is the one currently making sound
         {
@@ -183,7 +185,13 @@ public class SoundManager : MonoBehaviour
             }
             else
             {
-                waitForMusic = true;
+                if(shouldWait)
+                    waitForMusic = true;
+                else
+                {
+                    musicSource.Stop();
+                    secondaryMusicSource.Play();
+                }
             }
         }
         else
@@ -201,7 +209,13 @@ public class SoundManager : MonoBehaviour
             }
             else
             {
-                waitForMusic = true;
+                if (shouldWait)
+                    waitForMusic = true;
+                else
+                {
+                    secondaryMusicSource.Stop();
+                    musicSource.Play();
+                }
             }
         }
     }
@@ -219,12 +233,12 @@ public class SoundManager : MonoBehaviour
                 // Start playing
                 if (!secondaryMusicPlaying)
                 {
-                    secondaryMusicSource.volume = 0.5f;
+                    secondaryMusicSource.volume = 1f;
                     secondaryMusicSource.Play();
                 }
                 else
                 {
-                    musicSource.volume = 0.5f;
+                    musicSource.volume = 1f;
                     musicSource.Play();
                 }
                 

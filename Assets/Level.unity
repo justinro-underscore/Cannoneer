@@ -154,8 +154,7 @@ MonoBehaviour:
   secondaryMusicSource: {fileID: 212001128}
   cannonPlayerSound: {fileID: 8300000, guid: 1b1e761bd40722147970cb2de3538515, type: 3}
   cannonEnemySound: {fileID: 8300000, guid: a6966ae00f24f1d44832d083a19bfdc8, type: 3}
-  explosionPlayerSound: {fileID: 8300000, guid: 9057a3088a0b5134d8e7ac4d9cf0c2f0,
-    type: 3}
+  playerDeathSound: {fileID: 8300000, guid: 39ec85036175d594e84186bcf221be46, type: 3}
   explosionEnemySound: {fileID: 8300000, guid: 915919978eac4a24dbe3979e06e9404f, type: 3}
   levelStartSound: {fileID: 8300000, guid: d5bbedcb6aa59a14d9bde7ec913b9421, type: 3}
   driveBySound: {fileID: 8300000, guid: e395df669a330634ba71f6be4bb725fa, type: 3}
@@ -860,7 +859,7 @@ MonoBehaviour:
       m_Calls: []
     m_TypeName: UnityEngine.UI.MaskableGraphic+CullStateChangedEvent, UnityEngine.UI,
       Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
-  m_Sprite: {fileID: 21300000, guid: 4b0090baa2a63984591dd731c21afa6d, type: 3}
+  m_Sprite: {fileID: 21300000, guid: fccc74a09b7870d4c8f57d838a0e7bcc, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1

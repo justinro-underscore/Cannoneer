@@ -168,7 +168,7 @@ public class PlayerController : Character
     {
         ToggleIsDead(); // Die
         SoundManager.instance.StopSounds();
-        SoundManager.instance.PlaySingle("explosionPlayer");
+        SoundManager.instance.PlaySingle("playerDeath");
         CancelInvoke("SetCannonImage");
         livesLeft--;
 
