@@ -142,8 +142,8 @@ public class GameManager : MonoBehaviour
         playerName = "AAA";
         level = 0;
 
-        SoundManager.instance.SetBackgroundMusic(gameMusic, false);
-        //SoundManager.instance.PlaySingle("gameStart");
+        SoundManager.instance.SetBackgroundMusic(gameMusic, true);
+        SoundManager.instance.PlaySingle("gameStart");
 
         InitLevel();
     }

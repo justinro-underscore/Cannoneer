@@ -269,7 +269,7 @@ AudioSource:
   OutputAudioMixerGroup: {fileID: 0}
   m_audioClip: {fileID: 0}
   m_PlayOnAwake: 0
-  m_Volume: 1
+  m_Volume: 0.5
   m_Pitch: 1
   Loop: 0
   Mute: 0
@@ -429,7 +429,7 @@ AudioSource:
   OutputAudioMixerGroup: {fileID: 0}
   m_audioClip: {fileID: 0}
   m_PlayOnAwake: 0
-  m_Volume: 1
+  m_Volume: 0.5
   m_Pitch: 1
   Loop: 0
   Mute: 0
@@ -509,7 +509,7 @@ AudioSource:
   OutputAudioMixerGroup: {fileID: 0}
   m_audioClip: {fileID: 0}
   m_PlayOnAwake: 0
-  m_Volume: 1
+  m_Volume: 0.5
   m_Pitch: 1
   Loop: 0
   Mute: 0
@@ -589,7 +589,7 @@ AudioSource:
   OutputAudioMixerGroup: {fileID: 0}
   m_audioClip: {fileID: 0}
   m_PlayOnAwake: 0
-  m_Volume: 1
+  m_Volume: 0.5
   m_Pitch: 1
   Loop: 0
   Mute: 0
@@ -969,8 +969,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0ffc6f0b4847f7645bd340d7773c5a03, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  gameMusic: {fileID: 8300000, guid: 9915e93a57209ce4e818d5be3c100b4d, type: 3}
-  menuMusic: {fileID: 8300000, guid: e511834dba428a9479e31483a8beac54, type: 3}
+  gameMusic: {fileID: 8300000, guid: 92a89c8501ef8b64d9601442ff40b5c9, type: 3}
+  menuMusic: {fileID: 8300000, guid: 92a89c8501ef8b64d9601442ff40b5c9, type: 3}
   levelManager: {fileID: 1619949699532780, guid: 8f655cbafcfcdcc48ae509683afa57ae,
     type: 2}
   scoreText: {fileID: 1622022076}
@@ -1098,7 +1098,7 @@ MonoBehaviour:
     type: 2}
   galaxy: {fileID: 21300000, guid: 994f90ee6ab044c43a2652d678875c94, type: 3}
   ocean: {fileID: 21300000, guid: b92d29dbe3cf90a43a8273669e9ff8a7, type: 3}
-  gameMusic: {fileID: 8300000, guid: 9915e93a57209ce4e818d5be3c100b4d, type: 3}
+  gameMusic: {fileID: 8300000, guid: 92a89c8501ef8b64d9601442ff40b5c9, type: 3}
   shootingStarsMusic: {fileID: 8300000, guid: 96a08bc7e058edf41915f625ff9537ec, type: 3}
 --- !u!4 &1115288844
 Transform:

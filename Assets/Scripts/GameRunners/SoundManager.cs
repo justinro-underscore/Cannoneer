@@ -241,7 +241,7 @@ public class SoundManager : MonoBehaviour
     {
         if (!secondaryMusicPlaying) // If the musicSource object is the one playing currently
         {
-            if (secondaryMusicSource.volume < 0.5f)
+            if (secondaryMusicSource.volume < 1f)
             {
                 secondaryMusicSource.volume = secondaryMusicSource.volume + 0.01f; // Increase switched music volume
                 musicSource.volume = musicSource.volume - 0.01f; // Decrease music source volume
@@ -254,7 +254,7 @@ public class SoundManager : MonoBehaviour
         }
         else
         {
-            if (musicSource.volume < 0.5f)
+            if (musicSource.volume < 1f)
             {
                 musicSource.volume = musicSource.volume + 0.01f;
                 secondaryMusicSource.volume = secondaryMusicSource.volume - 0.01f;
