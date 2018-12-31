@@ -7,10 +7,10 @@ public class HighScoreManager : MonoBehaviour
 {
     public static HighScoreManager instance = null; // So we can access this outside
 
-    public Text highScoreText; // The score telling the user they got a high score
-    public Text initialsText; // The text where the user inputs their initials
-
-    private bool running; // Whether or not the high score manager is running
+    public GameObject highScoreObjects; // 
+    private Text highScoreText; // The score telling the user they got a high score
+    private Text initialsText; // The text where the user inputs their initials
+    private Text[] initialsDropdown;
 
     private int[] initials; // The initials of the player
     private int initialIndex; // The index of the current letter being changed
@@ -36,8 +36,6 @@ public class HighScoreManager : MonoBehaviour
         //Sets this to not be destroyed when reloading scene
         DontDestroyOnLoad(gameObject);
 
-        running = false; // Will start running when GameManager calls it
-
         // Initialize the initials to "AAA"
         initials = new int[3];
         initials[0] = 'A';
@@ -45,6 +43,15 @@ public class HighScoreManager : MonoBehaviour
         initials[2] = 'A';
         initialIndex = 0;
         cursorBlink = false;
+
+        highScoreText = highScoreObjects.GetComponentsInChildren<Text>()[1];
+        initialsText = highScoreObjects.GetComponentsInChildren<Text>()[0];
+        initialsDropdown = new Text[3];
+        Dropdown[] dropdowns = highScoreObjects.GetComponentsInChildren<Dropdown>();
+        for (int i = 0; i < dropdowns.Length; i++)
+        {
+            initialsDropdown[i] = dropdowns[i].GetComponentInChildren<Text>();
+        }
     }
 
     /**
@@ -52,31 +59,25 @@ public class HighScoreManager : MonoBehaviour
      */
     public void ShowHighScore(int score)
     {
-        running = true;
+        highScoreObjects.SetActive(true);
         highScoreText.text = "<b>Congratulations! New High Score: " + score + "</b>";
-        InvokeRepeating("CursorBlinkToggle", 0f, 0.5f); // Blinks the current initials
+        initialsText.text = "Enter Initials:               "; // Show the text
+        InvokeRepeating("CursorBlinkToggle", 0.5f, 0.5f);
     }
 
-    /**
-     * Prints the text and moves the cursor
-     */
-    void Update ()
+    public void SetInitial1(int init)
     {
-        if (running)
-        {
-            initialsText.text = "Enter Initials: " + GetInitials(true); // Show the text
+        initials[0] = ((char)'A' + init);
+    }
 
-            // Change the initial
-            if (Input.GetKeyDown("up"))
-                ChangeCharacter(true);
-            else if (Input.GetKeyDown("down"))
-                ChangeCharacter(false);
-            // Change the current initial selected
-            else if (Input.GetKeyDown("right"))
-                MoveCursor(true);
-            else if (Input.GetKeyDown("left"))
-                MoveCursor(false);
-        }
+    public void SetInitial2(int init)
+    {
+        initials[1] = ((char)'A' + init);
+    }
+
+    public void SetInitial3(int init)
+    {
+        initials[2] = ((char)'A' + init);
     }
 
     /**
@@ -85,6 +86,13 @@ public class HighScoreManager : MonoBehaviour
     void CursorBlinkToggle()
     {
         cursorBlink = !cursorBlink; // Shows whether or not the selected letter should be bold
+        for (int i = 0; i < initialsDropdown.Length; i++)
+        {
+            if (cursorBlink)
+                initialsDropdown[i].text = "<b>" + ((char)initials[i]) + "</b>";
+            else
+                initialsDropdown[i].text = "" + ((char)initials[i]);
+        }
     }
 
     /**
@@ -95,34 +103,6 @@ public class HighScoreManager : MonoBehaviour
         CancelInvoke("CursorBlinkToggle"); // So we can reset the invoke
         cursorBlink = true;
         InvokeRepeating("CursorBlinkToggle", 0.5f, 0.5f);
-    }
-
-    /**
-     * Changes the currently selected initial's character
-     * @param up Whether the current initial should change its ascii value up the alphabet or down
-     */
-    void ChangeCharacter(bool up)
-    {
-        initials[initialIndex] = initials[initialIndex] + (up ? -1 : 1); // Changes the initial
-        if (initials[initialIndex] > 'Z') // Wraps
-            initials[initialIndex] = 'A';
-        else if (initials[initialIndex] < 'A') // Wraps
-            initials[initialIndex] = 'Z';
-        SetCursorBlinkTrue(); // Reset the cursor blink
-    }
-
-    /**
-     * Moves the cursor to another character
-     * @param Whether the cursor should go right or left
-     */
-    void MoveCursor(bool right)
-    {
-        initialIndex += (right ? 1 : -1); // Changes the selected initial
-        if (initialIndex > 2) // Wraps
-            initialIndex = 0;
-        else if (initialIndex < 0) // Wraps
-            initialIndex = 2;
-        SetCursorBlinkTrue(); // Reset the cursor blink
     }
 
     /**
@@ -167,9 +147,9 @@ public class HighScoreManager : MonoBehaviour
      */
     public void Reset()
     {
-        running = false;
         CancelInvoke("CursorBlinkToggle");
         highScoreText.text = "";
         initialsText.text = "";
+        highScoreObjects.SetActive(false);
     }
 }

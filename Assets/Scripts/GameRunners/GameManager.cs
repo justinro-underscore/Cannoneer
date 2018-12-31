@@ -97,7 +97,6 @@ public class GameManager : MonoBehaviour
 
         // Show the menu
         ShowMenu();
-        //Settings();
     }
 
     /**
@@ -144,8 +143,6 @@ public class GameManager : MonoBehaviour
 
         if (currState == State.MAIN_MENU && Input.GetMouseButtonDown(0))
             Invoke("InitGame", 0.3f);
-        else if (currState == State.INITIALS && Input.GetMouseButtonDown(0))
-            SubmitInitials();
         else if (currState == State.LEADERBOARD && Input.GetMouseButtonDown(0))
             ShowCredits();
         else if (currState == State.CREDITS && Input.GetMouseButtonDown(0))
@@ -387,7 +384,7 @@ public class GameManager : MonoBehaviour
         currState = State.ENDGAME;
         levelOverText.text = "Game Over";
         scoreText.text = "";
-        (player.GetComponent<PlayerController>() as PlayerController).MovePlayer(new Vector2(0, -2)); // Put the player underneath the text
+        (player.GetComponent<PlayerController>() as PlayerController).MovePlayer(new Vector2(0, -3.5f)); // Put the player underneath the text
         Destroy(LevelManager.instance.gameObject); // Get rid of the level manager
         Invoke("ShowInitials", 4f);
     }
@@ -422,7 +419,7 @@ public class GameManager : MonoBehaviour
     /**
      * Runs when the user finishes entering their initials (if they achieve a high score)
      */
-    void SubmitInitials()
+    public void SubmitInitials()
     {
         playerName = HighScoreManager.instance.GetInitials(false);
         HighScoreManager.instance.Reset();
