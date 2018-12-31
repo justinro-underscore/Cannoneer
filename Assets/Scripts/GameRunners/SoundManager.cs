@@ -5,13 +5,16 @@ using UnityEngine;
 public class SoundManager : MonoBehaviour
 {
     public static SoundManager instance = null; // Creates an instance of the Sound Manager
+    public float maxAudioVol; // Maximum volume of the audio [0, 1]
     public AudioSource efxSource; //Drag a reference to the audio source which will play the sound effects.
     public AudioSource secondaryEfxSource; // If the primary efxSource is busy
     public AudioSource tertiaryEfxSource; // If the secondary efxSource is busy
     public AudioSource quaternaryEfxSource; // If the tertiary efxSource is busy
+
+    public float maxMusicVol; // Maximum volume of the music [0, 1]
     public AudioSource musicSource; //Drag a reference to the audio source which will play the music.
     public AudioSource secondaryMusicSource; // The music to be switched to for background music (used for cross-fade)
-    private bool secondaryMusicPlaying;
+    private bool primaryMusicPlaying;
     private bool waitForMusic;
 
     public AudioClip cannonPlayerSound;
@@ -51,7 +54,10 @@ public class SoundManager : MonoBehaviour
         //Sets this to not be destroyed when reloading scene
         DontDestroyOnLoad(gameObject);
 
-        secondaryMusicPlaying = false;
+        maxAudioVol = 0.4f;
+        maxMusicVol = 1f;
+
+        primaryMusicPlaying = true;
 
         soundEffects = new Hashtable();
         soundEffects.Add("cannonPlayerFire", cannonPlayerSound);
@@ -172,7 +178,7 @@ public class SoundManager : MonoBehaviour
     {
         if(musicSource.isPlaying) // If the musicSource object is the one currently making sound
         {
-            secondaryMusicPlaying = false;
+            primaryMusicPlaying = false;
 
             // Set the background music
             secondaryMusicSource.clip = music;
@@ -196,7 +202,7 @@ public class SoundManager : MonoBehaviour
         }
         else
         {
-            secondaryMusicPlaying = true;
+            primaryMusicPlaying = true;
 
             // Set the background music
             musicSource.clip = music;
@@ -227,23 +233,23 @@ public class SoundManager : MonoBehaviour
     {
         if(waitForMusic) // If the audio source should be waiting for the music to end
         {
-            (secondaryMusicPlaying ? secondaryMusicSource : musicSource).loop = false; // Stop looping so it can end
-            if(!(secondaryMusicPlaying ? secondaryMusicSource.isPlaying : musicSource.isPlaying)) // If it has stopped
+            (primaryMusicPlaying ? secondaryMusicSource : musicSource).loop = false; // Stop looping so it can end
+            if(!(primaryMusicPlaying ? secondaryMusicSource.isPlaying : musicSource.isPlaying)) // If it has stopped
             {
                 // Start playing
-                if (!secondaryMusicPlaying)
+                if (!primaryMusicPlaying)
                 {
-                    secondaryMusicSource.volume = 1f;
+                    secondaryMusicSource.volume = maxMusicVol;
                     secondaryMusicSource.Play();
                 }
                 else
                 {
-                    musicSource.volume = 1f;
+                    musicSource.volume = maxMusicVol;
                     musicSource.Play();
                 }
                 
                 waitForMusic = false;
-                (secondaryMusicPlaying ? secondaryMusicSource : musicSource).loop = true; // Set the loop to true for the next song
+                (primaryMusicPlaying ? secondaryMusicSource : musicSource).loop = true; // Set the loop to true for the next song
             }
         }
     }
@@ -253,9 +259,9 @@ public class SoundManager : MonoBehaviour
      */
     void SwitchMusic()
     {
-        if (!secondaryMusicPlaying) // If the musicSource object is the one playing currently
+        if (!primaryMusicPlaying) // If the musicSource object is the one playing currently
         {
-            if (secondaryMusicSource.volume < 1f)
+            if (secondaryMusicSource.volume < maxMusicVol)
             {
                 secondaryMusicSource.volume = secondaryMusicSource.volume + 0.01f; // Increase switched music volume
                 musicSource.volume = musicSource.volume - 0.01f; // Decrease music source volume
@@ -268,7 +274,7 @@ public class SoundManager : MonoBehaviour
         }
         else
         {
-            if (musicSource.volume < 1f)
+            if (musicSource.volume < maxMusicVol)
             {
                 musicSource.volume = musicSource.volume + 0.01f;
                 secondaryMusicSource.volume = secondaryMusicSource.volume - 0.01f;
@@ -279,5 +285,41 @@ public class SoundManager : MonoBehaviour
                 secondaryMusicSource.Stop();
             }
         }
+    }
+
+    /**
+     * Sets the maximum volume for the music
+     * @param volume The volume to set the max music to
+     */
+    public void SetMaxMusicVol(float volume)
+    {
+        volume = volume / 5; // Change the volume's range
+        // Set the volume
+        if (primaryMusicPlaying)
+            musicSource.volume = volume;
+        else
+            secondaryMusicSource.volume = volume;
+
+        maxMusicVol = volume;
+    }
+
+    /**
+     * Sets the maximum volume for the audio
+     * @param volume The volume to set the max audio to
+     */
+    public void SetMaxAudioVol(float volume)
+    {
+        volume = volume / 7.5f; // Change the volume's range
+        // Set the volume
+        efxSource.volume = volume;
+        secondaryEfxSource.volume = volume;
+        tertiaryEfxSource.volume = volume;
+        quaternaryEfxSource.volume = volume;
+
+        // Test the audio
+        efxSource.clip = (AudioClip) soundEffects["cannonPlayerFire"];
+        efxSource.Play();
+
+        maxAudioVol = volume;
     }
 }

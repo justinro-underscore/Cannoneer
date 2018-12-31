@@ -11,6 +11,7 @@ public class GameManager : MonoBehaviour
     public enum State
     {
         MAIN_MENU, // The main menu (splash screen)
+        SETTINGS, // The settings
         GAME, // The game, running
         ENDSCREEN, // When the player finishes the level
         ENDGAME, // When the player loses
@@ -45,7 +46,9 @@ public class GameManager : MonoBehaviour
     public Text levelOverText; // Text showing level over text
     public Text leaderboardText; // Text showing the leaderboard
     public Image levelStartImage; // The starting image
+    public Image settingsImage; // The settings image
     public Image creditsImage; // The credits image
+    public GameObject settingsMenu; // The Settings Menu GameObject
 
     // Handles showing stats at the end of the level
     public Text levelText;
@@ -94,24 +97,43 @@ public class GameManager : MonoBehaviour
 
         // Show the menu
         ShowMenu();
+        //Settings();
     }
 
     /**
      * Shows the main menu of the game
      */
-    void ShowMenu()
+    public void ShowMenu()
     {
         CancelInvoke("ShowMenu");
-        currState = State.MAIN_MENU;
 
-        SoundManager.instance.SetBackgroundMusic(menuMusic, true, true);
+        if (currState != State.SETTINGS) // If coming from the settings menu, don't restart the music
+            SoundManager.instance.SetBackgroundMusic(menuMusic, true, true);
+        currState = State.MAIN_MENU;
 
         leaderboardText.text = ""; // Just make sure this is empty
         levelOverText.text = "";
+        settingsMenu.SetActive(false); // Just make sure
         creditsImage.enabled = false;
         levelStartImage.enabled = true;
+        settingsImage.enabled = true;
     }
 
+    public void Settings()
+    {
+        CancelInvoke("InitGame");
+        currState = State.SETTINGS;
+        settingsMenu.SetActive(true);
+        Slider[] sliders = settingsMenu.GetComponentsInChildren<Slider>();
+        sliders[0].value = SoundManager.instance.maxMusicVol * 5;
+        sliders[1].value = SoundManager.instance.maxAudioVol * 7.5f;
+
+        leaderboardText.text = ""; // Just make sure this is empty
+        levelOverText.text = "";
+        levelStartImage.enabled = false;
+        settingsImage.enabled = false;
+    }
+    
     /**
      * Check to see when to start the game
      */
@@ -120,13 +142,13 @@ public class GameManager : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.Escape))
             Application.Quit();
 
-        if (currState == State.MAIN_MENU && Input.GetKeyDown(KeyCode.Return))
-            InitGame();
-        else if (currState == State.INITIALS && Input.GetKeyDown(KeyCode.Return))
+        if (currState == State.MAIN_MENU && Input.GetMouseButtonDown(0))
+            Invoke("InitGame", 0.3f);
+        else if (currState == State.INITIALS && Input.GetMouseButtonDown(0))
             SubmitInitials();
-        else if (currState == State.LEADERBOARD && Input.GetKeyDown(KeyCode.Return))
+        else if (currState == State.LEADERBOARD && Input.GetMouseButtonDown(0))
             ShowCredits();
-        else if (currState == State.CREDITS && Input.GetKeyDown(KeyCode.Return))
+        else if (currState == State.CREDITS && Input.GetMouseButtonDown(0))
             ShowMenu();
     }
 
@@ -136,6 +158,7 @@ public class GameManager : MonoBehaviour
     void InitGame()
     {
         levelStartImage.enabled = false;
+        settingsImage.enabled = false;
 
         // Set the starting values
         playerScore = 0;
