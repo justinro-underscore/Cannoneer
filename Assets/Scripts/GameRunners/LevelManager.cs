@@ -140,7 +140,7 @@ public class LevelManager : MonoBehaviour
         levelSpawningRates = GameManager.instance.GetSpawningRates();
 
         // Equation to calculate the amount of ships needed to destroy to move on to next level
-        levelProgressObjective = 16; // TODO Might wanna change this to something scaling
+        levelProgressObjective = 1; // TODO Might wanna change this to something scaling
         progressAmt = PROGRESS_BAR_FULL_WIDTH / levelProgressObjective; // Set the amount each ship destroyed should increase the progress bar
 
         // Begins to spawn objects

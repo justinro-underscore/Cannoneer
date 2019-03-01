@@ -12,6 +12,7 @@ public class PlayerController : Character
     public Image cannonDown; // The down cannon UI
     private Sprite[] cannonGraphics; // The sprites that the cannon UIs will change to
 
+    public PlayerInput pInput; // Handles all player input
     public Image life1; // The first life lost
     public Image life2; // The second life lost
     private int livesLeft = 0; // The amount of lives the player has left
@@ -59,22 +60,26 @@ public class PlayerController : Character
         if(gameObject.activeSelf && !isDead) // If player is dead, stop moving
         {
             Move();
-
-            // Shoot the cannons
-		    if (Input.GetKeyDown ("o"))
-			    ShootCannonBall (true);
-		    else if (Input.GetKeyDown ("l"))
-			    ShootCannonBall (false);
+            CheckShoot();
         }
-	}
+    }
 
     /**
      * Moves the player
      */
     void Move()
     {
-        Vector2 move = new Vector2(Input.GetAxis("Horizontal"), Input.GetAxis("Vertical"));
-        rb2d.velocity = move * speed;
+        rb2d.velocity = pInput.GetMovement() * speed;
+    }
+
+    /**
+     * Checks to see if we should fire the cannons
+     */
+    void CheckShoot()
+    {
+        Vector2Int inputData = pInput.GetFireCannonball();
+        if (inputData.x == 1)
+            ShootCannonBall(inputData.y == 1);
     }
 
     /**

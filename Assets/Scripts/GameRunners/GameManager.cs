@@ -46,9 +46,11 @@ public class GameManager : MonoBehaviour
     public Text levelOverText; // Text showing level over text
     public Text leaderboardText; // Text showing the leaderboard
     public Image levelStartImage; // The starting image
+    public Image gameStartImage; // The button to start the game
     public Image settingsImage; // The settings image
     public Image creditsImage; // The credits image
     public GameObject settingsMenu; // The Settings Menu GameObject
+    public PlayerInput pInput; // The input of the player
 
     // Handles showing stats at the end of the level
     public Text levelText;
@@ -90,6 +92,8 @@ public class GameManager : MonoBehaviour
         player = GameObject.FindGameObjectWithTag("Player");
         player.SetActive(false);
 
+        SetupSettings();
+
         // Populate the leaderboard
         leaderboardNames = new string[10];
         leaderboardScores = new int[10];
@@ -97,6 +101,30 @@ public class GameManager : MonoBehaviour
 
         // Show the menu
         ShowMenu();
+    }
+
+    public void SetupSettings()
+    {
+        string inputTypeStr = "";
+        switch(pInput.inputType)
+        {
+            case PlayerInput.InputType.PHONE_TILT:
+                inputTypeStr = "Tilt";
+                break;
+            case PlayerInput.InputType.PHONE_JOYSTICK:
+                inputTypeStr = "Joystick";
+                break;
+            case PlayerInput.InputType.KEYBOARD:
+            case PlayerInput.InputType.JOYSTICK:
+            default:
+                break;
+        }
+        Button[] settingsBtns = settingsMenu.GetComponentsInChildren<Button>();
+        for(int i = 0; i < settingsBtns.Length; i++)
+        {
+            if (settingsBtns[i].name == inputTypeStr)
+                settingsBtns[i].onClick.Invoke();
+        }
     }
 
     /**
@@ -115,12 +143,12 @@ public class GameManager : MonoBehaviour
         settingsMenu.SetActive(false); // Just make sure
         creditsImage.enabled = false;
         levelStartImage.enabled = true;
+        gameStartImage.enabled = true;
         settingsImage.enabled = true;
     }
 
     public void Settings()
     {
-        CancelInvoke("InitGame");
         currState = State.SETTINGS;
         settingsMenu.SetActive(true);
         Slider[] sliders = settingsMenu.GetComponentsInChildren<Slider>();
@@ -130,9 +158,21 @@ public class GameManager : MonoBehaviour
         leaderboardText.text = ""; // Just make sure this is empty
         levelOverText.text = "";
         levelStartImage.enabled = false;
+        gameStartImage.enabled = false;
         settingsImage.enabled = false;
     }
-    
+
+    public void SetInputType(int type)
+    {
+        pInput.inputType = (PlayerInput.InputType)type;
+    }
+
+    public void SetInputCalibration()
+    {
+        if (pInput.inputType == PlayerInput.InputType.PHONE_TILT)
+            pInput.tiltCalibration = new Vector2(Input.acceleration.x, Input.acceleration.y);
+    }
+
     /**
      * Check to see when to start the game
      */
@@ -140,10 +180,8 @@ public class GameManager : MonoBehaviour
     {
         if (Input.GetKeyDown(KeyCode.Escape))
             Application.Quit();
-
-        if (currState == State.MAIN_MENU && Input.GetMouseButtonDown(0))
-            Invoke("InitGame", 0.3f);
-        else if (currState == State.LEADERBOARD && Input.GetMouseButtonDown(0))
+        
+        if (currState == State.LEADERBOARD && Input.GetMouseButtonDown(0))
             ShowCredits();
         else if (currState == State.CREDITS && Input.GetMouseButtonDown(0))
             ShowMenu();
@@ -152,9 +190,10 @@ public class GameManager : MonoBehaviour
     /**
      * Initialize the new game
      */
-    void InitGame()
+    public void InitGame()
     {
         levelStartImage.enabled = false;
+        gameStartImage.enabled = false;
         settingsImage.enabled = false;
 
         // Set the starting values
@@ -187,6 +226,7 @@ public class GameManager : MonoBehaviour
 
         // Reset the player
         player.SetActive(true);
+        pInput.SetRunning(true);
         (player.GetComponent<PlayerController>() as PlayerController).Restart();
 
         // Set initial values
@@ -268,6 +308,7 @@ public class GameManager : MonoBehaviour
         Destroy(LevelManager.instance.gameObject); // End the level
         (player.GetComponent<PlayerController>() as PlayerController).ToggleIsDead(); // Makes it so that the player cannot move or shoot
         (player.GetComponent<PlayerController>() as PlayerController).MovePlayer(new Vector2(-8, 0)); // Move the player
+        pInput.SetRunning(false);
 
         IncreaseScore(200 * level, ""); // Level complete score
         levelText.text = "Stage " + level + " Complete!";
@@ -384,6 +425,7 @@ public class GameManager : MonoBehaviour
         currState = State.ENDGAME;
         levelOverText.text = "Game Over";
         scoreText.text = "";
+        pInput.SetRunning(false);
         (player.GetComponent<PlayerController>() as PlayerController).MovePlayer(new Vector2(0, -3.5f)); // Put the player underneath the text
         Destroy(LevelManager.instance.gameObject); // Get rid of the level manager
         Invoke("ShowInitials", 4f);
