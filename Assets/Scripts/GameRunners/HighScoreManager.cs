@@ -7,10 +7,11 @@ public class HighScoreManager : MonoBehaviour
 {
     public static HighScoreManager instance = null; // So we can access this outside
 
-    public GameObject highScoreObjects; // 
+    public GameObject highScoreObjects; // References to all the text and continue button
+    public GameObject initialsBtns; // References to all the initials buttons
     private Text highScoreText; // The score telling the user they got a high score
     private Text initialsText; // The text where the user inputs their initials
-    private Text[] initialsDropdown;
+    private Text[] initialsObj;
 
     private int[] initials; // The initials of the player
     private int initialIndex; // The index of the current letter being changed
@@ -44,13 +45,13 @@ public class HighScoreManager : MonoBehaviour
         initialIndex = 0;
         cursorBlink = false;
 
+        // Set up the references to game objects
         highScoreText = highScoreObjects.GetComponentsInChildren<Text>()[1];
         initialsText = highScoreObjects.GetComponentsInChildren<Text>()[0];
-        initialsDropdown = new Text[3];
-        Dropdown[] dropdowns = highScoreObjects.GetComponentsInChildren<Dropdown>();
-        for (int i = 0; i < dropdowns.Length; i++)
+        initialsObj = new Text[3];
+        for (int i = 0; i < initialsObj.Length; i++)
         {
-            initialsDropdown[i] = dropdowns[i].GetComponentInChildren<Text>();
+            initialsObj[i] = highScoreObjects.GetComponentsInChildren<Text>()[2 + i];
         }
     }
 
@@ -60,24 +61,33 @@ public class HighScoreManager : MonoBehaviour
     public void ShowHighScore(int score)
     {
         highScoreObjects.SetActive(true);
+        initialsBtns.SetActive(true);
         highScoreText.text = "<b>Congratulations! New High Score: " + score + "</b>";
-        initialsText.text = "Enter Initials:               "; // Show the text
+        initialsText.text = "Enter Initials:"; // Show the text
         InvokeRepeating("CursorBlinkToggle", 0.5f, 0.5f);
     }
 
-    public void SetInitial1(int init)
+    /**
+     * Updates the initial from the initials buttons
+     * @param str Index and up boolean in string form ("index true/false")
+     *   Index tells which initial to update
+     *   Up boolean tells, if true, to change the letter forward, backward otherwise
+     */
+    public void UpdateInitial(string str)
     {
-        initials[0] = ((char)'A' + init);
-    }
+        int index = int.Parse(str.Substring(0, 1));
+        bool up = bool.Parse(str.Substring(2));
+        initials[index] += (up ? 1 : -1);
+        if (up && initials[index] > 'Z') // Wrap down
+            initials[index] = 'A';
+        else if (!up && initials[index] < 'A') // Wrap up
+            initials[index] = 'Z';
 
-    public void SetInitial2(int init)
-    {
-        initials[1] = ((char)'A' + init);
-    }
-
-    public void SetInitial3(int init)
-    {
-        initials[2] = ((char)'A' + init);
+        // Update the UI
+        if (cursorBlink)
+            initialsObj[index].text = "<b>" + ((char)initials[index]) + "</b>";
+        else
+            initialsObj[index].text = "" + ((char)initials[index]);
     }
 
     /**
@@ -86,12 +96,12 @@ public class HighScoreManager : MonoBehaviour
     void CursorBlinkToggle()
     {
         cursorBlink = !cursorBlink; // Shows whether or not the selected letter should be bold
-        for (int i = 0; i < initialsDropdown.Length; i++)
+        for (int i = 0; i < initialsObj.Length; i++)
         {
             if (cursorBlink)
-                initialsDropdown[i].text = "<b>" + ((char)initials[i]) + "</b>";
+                initialsObj[i].text = "<b>" + ((char)initials[i]) + "</b>";
             else
-                initialsDropdown[i].text = "" + ((char)initials[i]);
+                initialsObj[i].text = "" + ((char)initials[i]);
         }
     }
 
@@ -151,5 +161,6 @@ public class HighScoreManager : MonoBehaviour
         highScoreText.text = "";
         initialsText.text = "";
         highScoreObjects.SetActive(false);
+        initialsBtns.SetActive(false);
     }
 }

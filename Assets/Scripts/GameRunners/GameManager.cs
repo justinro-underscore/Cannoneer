@@ -180,7 +180,7 @@ public class GameManager : MonoBehaviour
     {
         if (Input.GetKeyDown(KeyCode.Escape))
             Application.Quit();
-        
+
         if (currState == State.LEADERBOARD && Input.GetMouseButtonDown(0))
             ShowCredits();
         else if (currState == State.CREDITS && Input.GetMouseButtonDown(0))
@@ -448,6 +448,10 @@ public class GameManager : MonoBehaviour
      */
     void ShowInitials()
     {
+        // Adapted from https://answers.unity.com/questions/958370/how-to-change-alpha-of-a-sprite.html
+        player.GetComponent<SpriteRenderer>().color = new Color(1f, 1f, 1f, 0f); // Make player transparent
+        player.SetActive(false);
+
         if (playerScore > leaderboardScores[9]) // If the player gets a higher score than the last high score
         {
             levelOverText.text = "";
@@ -471,13 +475,9 @@ public class GameManager : MonoBehaviour
     /**
      * Shows the leaderboard of the game, after the player has lost
      */
-    void ShowLeaderboard()
+    public void ShowLeaderboard()
     {
         currState = State.LEADERBOARD;
-
-        // Adapted from https://answers.unity.com/questions/958370/how-to-change-alpha-of-a-sprite.html
-        player.GetComponent<SpriteRenderer>().color = new Color(1f, 1f, 1f, 0f); // Make player transparent
-        player.SetActive(false);
 
         levelOverText.text = "Your score: " + playerScore + "\n\n\n\n\n"; // All of the new lines are to format the score
         int currScore = playerScore;
@@ -512,7 +512,7 @@ public class GameManager : MonoBehaviour
     /**
      * Shows the game credits
      */
-    void ShowCredits()
+    public void ShowCredits()
     {
         CancelInvoke("ShowCredits");
         currState = State.CREDITS;
@@ -536,7 +536,7 @@ public class GameManager : MonoBehaviour
      */
     void SaveLeaderboard()
     { 
-        string path = Application.dataPath + "/Resources/Leaderboard.txt"; // Path where we'll save our file
+        string path = Application.persistentDataPath + "/Leaderboard.txt"; // Path where we'll save our file
         // If the file already exists, delete it
         if (File.Exists(path))
         {
@@ -560,7 +560,7 @@ public class GameManager : MonoBehaviour
      */
     void LoadLeaderboard()
     {
-        string path = Application.dataPath + "/Resources/Leaderboard.txt"; // Path where we'll save our file
+        string path = Application.persistentDataPath + "/Leaderboard.txt"; // Path where we'll save our file
 
         bool defaultLeaderboard = false;
         // If the file already exists, populate leaderboard
